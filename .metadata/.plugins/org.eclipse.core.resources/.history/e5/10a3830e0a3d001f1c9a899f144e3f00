@@ -1,0 +1,78 @@
+package com.ispan.ktv.bean;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name="members")
+public class Members {
+
+	@Id
+	@Column(name = "memberId")
+	private Integer memberId;
+	
+	@Column(name = "idNumber" , length = 10)
+	private String idNumber;
+	
+	@Column(name = "password", columnDefinition = "nvarchar(255)")
+	private String password;
+	
+	@Column(name = "memberName", columnDefinition = "nvarchar(255)")
+	private String memberName;
+	
+	@Column(name = "phone")
+	private Integer phone;
+	
+	@Column(name = "birth" , columnDefinition = "date")
+	private Date birth;
+	
+	@Column(name = "email", columnDefinition = "nvarchar(255)")
+	private String email;
+	
+	@Column(name = "createTime" , columnDefinition = "time")
+	private Date createTime;
+	
+	@Column(name = "status")
+	private Integer status;
+	
+	@Column(name = "createBy")
+	private String createBy;
+	
+	@Column(name = "updateTime" , columnDefinition = "time")
+	private Date updateTime;
+	
+	@Column(name = "updateBy")
+	private String updateBy;
+	
+	@PrePersist
+	public void onCreate() {
+		if (createTime == null) {
+			createTime = new Date();
+		}
+	}
+	
+	
+	//與Orders 的 memberId 欄位 
+	@OneToMany(mappedBy = "member" , cascade = CascadeType.ALL)
+	private List<Orders> member = new ArrayList<>();
+	
+}
