@@ -29,54 +29,50 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name="orderMenus")
+@Table(name = "orderMenus")
 public class OrderMenus {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer id;
 
+	@Id
 	@Column(name = "itemId")
 	private String itemId;
-	
-	@Column(name = "itemName" , columnDefinition = "nvarchar(255)")
+
+	@Column(name = "itemName", columnDefinition = "nvarchar(255)")
 	private String itemName;
-	
+
 	@Column(name = "category")
 	private String category;
-	
+
 	@Column(name = "price")
 	private Double price;
-	
+
 	@Column(name = "status")
 	private String status;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createTime")
 	private Date createTime;
-	
+
 	@Column(name = "createBy")
 	private String createBy;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updateTime")
 	private Date updateTime;
-	
+
 	@Column(name = "updateBy")
 	private String updateBy;
-	
+
 	@PrePersist
 	public void onCreate() {
 		if (createTime == null) {
 			createTime = new Date();
 		}
 	}
-	
-	//與OrderDetails 的 item 欄位 
-	@OneToMany(mappedBy = "item" , cascade = CascadeType.ALL)
+
+	// 與OrderDetails 的 item 欄位
+	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
 	private List<OrderDetails> orderDetails = new ArrayList<>();
-	
+
 }

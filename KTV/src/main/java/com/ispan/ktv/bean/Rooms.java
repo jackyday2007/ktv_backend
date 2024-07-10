@@ -29,54 +29,51 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name="rooms")
+@Table(name = "rooms")
 public class Rooms {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "roomId")
 	private Integer roomId;
-	
-	@Column(name = "roomNumber")
-	private Integer roomNumber;
 
 	@Column(name = "size")
 	private String size;
-	
+
 	@Column(name = "price")
 	private Double price;
-	
+
 	@Column(name = "status")
 	private String status;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createTime")
 	private Date createTime;
-	
+
 	@Column(name = "createBy")
 	private String createBy;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updateTime")
 	private Date updateTime;
-	
+
 	@Column(name = "updateBy")
 	private String updateBy;
-	
+
 	@PrePersist
 	public void onCreate() {
 		if (createTime == null) {
 			createTime = new Date();
 		}
 	}
-	
-	//與Orders 的 room 欄位 
-	@OneToMany(mappedBy = "room" , cascade = CascadeType.ALL)
+
+	// 與Orders 的 room 欄位
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
 	private List<Orders> roomOrders = new ArrayList<>();
-	
-	//與Problems 的 room 欄位 
-	@OneToMany(mappedBy = "room" , cascade = CascadeType.ALL)
-	private List<Problems> problems = new ArrayList<>();	
+
+	// 與Problems 的 room 欄位
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+	private List<Problems> problems = new ArrayList<>();
 }
