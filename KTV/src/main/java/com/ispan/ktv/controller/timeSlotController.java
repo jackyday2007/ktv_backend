@@ -28,17 +28,18 @@ public class timeSlotController {
     private TimeSlotService ts;
 
 	@GetMapping("/find/time")
-    public List<TimeSlot> putMethodName(@RequestParam ("wst")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date wantedStartTime, @RequestParam ("wet")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date wantedEndTime) throws ParseException {
+    public List<TimeSlot> putMethodName(@RequestParam String wst  , @RequestParam String wet  ) throws ParseException {
     	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
+    	Date wantedStartTime =formatter.parse(wst);
+    	Date wantedEndTime =formatter.parse(wet);
         
     	
-    	if(wantedStartTime == null ) {
+    	if(wst == null ) {
     		wantedStartTime= new Date();
     		System.out.println(wantedStartTime );
     		return ts.findByTime(wantedStartTime , wantedEndTime);
     	}
-    	if(wantedEndTime == null ) {
+    	if(wet == null ) {
     		wantedEndTime = formatter.parse("2099-12-12");
     		System.out.println(wantedStartTime );
     		return ts.findByTime(wantedStartTime , wantedEndTime);
