@@ -1,15 +1,17 @@
 package com.ispan.ktv.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.TimeSlot;
@@ -19,38 +21,56 @@ import com.ispan.ktv.service.TimeSlotService;
 
 
 @RestController
-@RequestMapping("/timeslot")
+//@RequestMapping("/timeslot")
+//@CrossOrigin
 public class timeSlotController {
     @Autowired
     private TimeSlotService ts;
 
-    @PutMapping("path")
-    public String putMethodName( @RequestBody String entity) throws Exception{
-    	JSONObject responseBody = new JSONObject();
-    	JSONArray array = new JSONArray();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	@GetMapping("/find/time")
+    public List<TimeSlot> putMethodName(@RequestParam ("wst")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date wantedStartTime, @RequestParam ("wet")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date wantedEndTime) throws ParseException {
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
         
-        JSONObject obj = new JSONObject(entity);
-        String wst = obj.isNull("wst") ? null : obj.getString("wst");
-        String wet = obj.isNull("wet") ? null : obj.getString("wet");
-        Date wantedStartTime = formatter.parse(wst);
-        Date wantedEndTime = formatter.parse(wet);
-        List<TimeSlot> result = ts.findByTime(wantedStartTime, wantedEndTime);
-        if (result != null && !result.isEmpty()) {
-            for (TimeSlot bean : result) {
-                
-                JSONObject item = new JSONObject()
-                .put("id",bean.getTimeSlotId())
-                .put("StartTime",bean.getStartTime())                                       
-                .put("EndTime", bean.getEndTime())                         
-                .put("Date", bean.getDate());                        
-                array = array.put(item);
-            }
-        }
-//        long count = ts.count(entity);
-//        responseBody.put("count", count);
-        responseBody.put("list", array);
-        return responseBody.toString();
-    }
+    	
+    	if(wantedStartTime == null ) {
+    		wantedStartTime= new Date();
+    		System.out.println(wantedStartTime );
+    		return ts.findByTime(wantedStartTime , wantedEndTime);
+    	}
+    	if(wantedEndTime == null ) {
+    		wantedEndTime = formatter.parse("2099-12-12");
+    		System.out.println(wantedStartTime );
+    		return ts.findByTime(wantedStartTime , wantedEndTime);
+    	}
+    	
+    	System.out.println(wantedStartTime );
+    	return ts.findByTime(wantedStartTime , wantedEndTime);
+    	
+    	
+    	}
+    	
+    	//    	JSONObject responseBody = new JSONObject();
+//    	JSONArray array = new JSONArray();
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");              
+//        Date wantedStartTime = formatter.parse(wst);
+//        Date wantedEndTime = formatter.parse(wet);
+//        List<TimeSlot> result = ts.findByTime(entity, wantedEndTime, wantedStartTime);
+////        List<TimeSlot> result = ts.findByTime(entity);
+//        if (result != null && !result.isEmpty()) {
+//            for (TimeSlot bean : result) {               
+//                JSONObject item = new JSONObject()
+//                .put("id",bean.getTimeSlotId())
+//                .put("StartTime",bean.getStartTime())                                       
+//                .put("EndTime", bean.getEndTime())                         
+//                .put("Date", bean.getDate());                        
+//                array = array.put(item);
+//            }
+//        }
+////        long count = ts.count(entity);
+////        responseBody.put("count", count);
+//        responseBody.put("list", array);
+//        return responseBody.toString();
+//    }
 
 }
