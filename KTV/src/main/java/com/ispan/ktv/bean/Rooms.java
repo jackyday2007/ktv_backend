@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -45,6 +46,10 @@ public class Rooms {
 
 	@Column(name = "status")
 	private String status;
+	
+	@Lob
+	@Column(name="photoFile")
+	private byte[] photoFile;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
