@@ -27,14 +27,13 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name="orders")
 public class Orders {
 	
 	@Id
 	@Column(name = "orderId")
-	private Integer orderId; 
+	private Long orderId; 
 	
 	
 	//此為多方 與 Customers 的 customerId 欄位
@@ -85,6 +84,26 @@ public class Orders {
 	
 	@Column(name = "updateBy")
 	private String updateBy;
+	
+	@Override
+	public String toString() {
+		return "Orders ["
+				+ orderId + ","
+				+ (customerId != null ? customerId.getCustomerId() : "null" ) + ","
+				+ (memberId != null ?  memberId.getMemberId() : "null") + ","
+				+ room.getRoomId() + ","
+				+ numberOfPersons + ","
+				+ hours + ","
+				+ orderDate + ","
+				+ startTime + ","
+				+ endTime + ","
+				+ subTotal + ","
+				+ createTime + ","
+				+ createBy + ","
+				+ updateTime + ","
+				+ updateBy +
+				"]";
+	}
 	
 	@PrePersist
 	public void onCreate() {
