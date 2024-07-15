@@ -1,6 +1,5 @@
 package com.ispan.ktv.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.RoomService;
 
-
 @RestController
 public class RoomsController {
 
 	@Autowired
 	private RoomService roomService;
 
-//	新增
+	// 新增
 	@PostMapping("/rooms/create")
 	public String create(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
@@ -57,14 +55,13 @@ public class RoomsController {
 		return responseBody.toString();
 	}
 
-//	RoomId單筆查詢
+	// RoomId單筆查詢
 	@GetMapping("/rooms/findByRoomId/{pk}")
 	public String findByRoomId(@PathVariable(name = "pk") Integer roomId) {
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
 		try {
 			Rooms room = roomService.findByRoomId(roomId);
-			System.out.println("room=" + room);
 			if (room != null) {
 				JSONObject item = new JSONObject()
 						.put("roomId", room.getRoomId())
@@ -80,12 +77,13 @@ public class RoomsController {
 		}
 		return responseBody.toString();
 	}
-	
+
+	// 修改資料
 	@PutMapping("/rooms/modify/{roomId}")
-	public String modify(@PathVariable Integer roomId , @RequestBody String body) {
+	public String modify(@PathVariable Integer roomId, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 		try {
-			if(roomId == null) {
+			if (roomId == null) {
 				responseBody.put("success", false);
 				responseBody.put("message", "roomId是必要欄位");
 			} else {
@@ -108,29 +106,31 @@ public class RoomsController {
 		}
 		return responseBody.toString();
 	}
-	
+
+	// 查詢全部
 	@PostMapping("/rooms/findAll")
 	public String findAll(@RequestBody String body) throws JSONException {
 		JSONObject responseBody = new JSONObject();
 
-        JSONArray array = new JSONArray();
+		JSONArray array = new JSONArray();
 
-        List<Rooms> rooms = roomService.findAllRoom();
-        if(rooms != null && !rooms.isEmpty()) {
-        	for(Rooms room : rooms) {
-        		JSONObject item = new JSONObject()
+		List<Rooms> rooms = roomService.findAll(body);
+		if (rooms != null && !rooms.isEmpty()) {
+			for (Rooms room : rooms) {
+				JSONObject item = new JSONObject()
 						.put("roomId", room.getRoomId())
 						.put("size", room.getSize())
 						.put("price", room.getPrice())
 						.put("status", room.getStatus())
 						.put("photoFile", room.getPhotoFile());
-				array.put(item);    		
-        	}      
-            responseBody.put("list", array);
-        	return responseBody.toString();
-        }
-        return responseBody.toString();
+				array.put(item);
+			}
+			long count = roomService.count(body);
+			responseBody.put("count", count);
+			responseBody.put("list", array);
+			return responseBody.toString();
+		}
+		return responseBody.toString();
 	}
 
-	
 }
