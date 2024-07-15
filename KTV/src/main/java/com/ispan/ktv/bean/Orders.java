@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,7 +22,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -30,7 +30,7 @@ import lombok.ToString;
 @Entity
 @Table(name="orders")
 public class Orders {
-	
+
 	@Id
 	@Column(name = "orderId")
 	private Long orderId; 
@@ -88,20 +88,20 @@ public class Orders {
 	@Override
 	public String toString() {
 		return "Orders ["
-				+ orderId + ","
-				+ (customerId != null ? customerId.getCustomerId() : "null" ) + ","
-				+ (memberId != null ?  memberId.getMemberId() : "null") + ","
-				+ room.getRoomId() + ","
-				+ numberOfPersons + ","
-				+ hours + ","
-				+ orderDate + ","
-				+ startTime + ","
-				+ endTime + ","
-				+ subTotal + ","
-				+ createTime + ","
-				+ createBy + ","
-				+ updateTime + ","
-				+ updateBy +
+				+ ( orderId != null ? orderId : "null" ) + ","
+				+ ( customerId != null ? customerId.getCustomerId() : "null" ) + ","
+				+ ( memberId != null ?  memberId.getMemberId() : "null" ) + ","
+				+ ( room != null ? room.getRoomId() : "null" ) + ","
+				+ ( numberOfPersons != null ? numberOfPersons : "null" ) + ","
+				+ ( hours != null ? hours : "null" ) + ","
+				+ ( orderDate != null ? orderDate : "null" ) + ","
+				+ ( startTime != null ? startTime : "null" ) + ","
+				+ ( endTime != null ? endTime : "null" ) + ","
+				+ ( subTotal != null ? subTotal : "null" ) + ","
+				+ ( createTime != null ? createTime : "null" ) + ","
+				+ ( createBy != null ? createBy : "null" ) + ","
+				+ ( updateTime != null ? updateTime : "null" ) + ","
+				+ ( updateBy != null ? updateBy : "null" ) +
 				"]";
 	}
 	
@@ -113,10 +113,12 @@ public class Orders {
 	}
 	
 	//與OrderDetails 的 orderId 欄位 
-	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<OrderDetails> orderDetails = new ArrayList<>();
 	
 	//與OrdersStatusHistory 的 orderId 欄位 
-	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<OrdersStatusHistory> ordersStatusHistory = new ArrayList<>();
+
+	
 }

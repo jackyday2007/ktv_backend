@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
@@ -67,10 +68,10 @@ public class Rooms {
 	}
 
 	// 與Orders 的 room 欄位
-	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Orders> roomOrders = new ArrayList<>();
 
 	// 與Problems 的 room 欄位
-	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Problems> problems = new ArrayList<>();
 }
