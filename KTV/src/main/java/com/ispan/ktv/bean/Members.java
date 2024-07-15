@@ -35,52 +35,59 @@ public class Members {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "memberId")
-    private Integer memberId;
+    private Integer memberId;  // 會員ID
     
     @Column(name = "idNumber", length = 10)
-    private String idNumber;
+    private String idNumber;  // 會員ID號碼
     
     @Column(name = "password", columnDefinition = "nvarchar(255)")
-    private String password;
+    private String password;  // 密碼
     
     @Column(name = "memberName", columnDefinition = "nvarchar(255)")
-    private String memberName;
+    private String memberName;  // 會員名字
     
     @Column(name = "phone", length = 15)
-    private String phone;
+    private String phone;  // 會員電話
     
     @Column(name = "birth", columnDefinition = "date")
-    private Date birth;
+    private Date birth;  // 會員出生日期
     
     @Column(name = "email", columnDefinition = "nvarchar(255)")
-    private String email;
+    private String email;  // 會員電子郵件
     
     @Column(name = "status")
-    private Integer status;
+    private Integer status;  // 會員狀態
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "createTime")
-    private Date createTime;
+    private Date createTime;  // 創建時間
     
     @Column(name = "createBy")
-    private String createBy;
+    private String createBy;  // 創建者
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updateTime")
-    private Date updateTime;
+    private Date updateTime;  // 更新時間
     
     @Column(name = "updateBy")
-    private String updateBy;
+    private String updateBy;  // 更新者
+    
+    @Column(name = "resetPasswordToken")
+    private String resetPasswordToken;  // 用來儲存重設密碼的 token
+    
+    @Column(name = "resetPasswordTokenExpiry")
+    private Date resetPasswordTokenExpiry;  // 用來儲存 token 的過期時間
     
     @PrePersist
     public void onCreate() {
+        // 在新實體被儲存到資料庫之前，設定 createTime 為當前時間
         if (createTime == null) {
             createTime = new Date();
         }
     }
     
     @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
-    private List<Orders> memberOrders = new ArrayList<>();
+    private List<Orders> memberOrders = new ArrayList<>();  // 會員的訂單列表
 }
