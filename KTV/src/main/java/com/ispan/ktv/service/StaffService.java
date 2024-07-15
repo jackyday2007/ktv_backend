@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
+// import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +41,7 @@ public class StaffService {
 			String name = obj.isNull("name") ? null : obj.getString("name");
 			Integer account = obj.isNull("account") ? null : obj.getInt("account");
 			String password = obj.isNull("password") ? null : obj.getString("password");
-			Integer status = obj.isNull("status") ? null : obj.getInt("status");
+			String status = obj.isNull("status") ? null : obj.getString("status");
 			String createBy = obj.isNull("createBy") ? null : obj.getString("createBy");
 			String createTime = obj.isNull("createTime") ? null : obj.getString("createTime");
 			//			String updateBy = obj.isNull("updateBy") ? null : obj.getString("updateBy");
@@ -82,7 +82,7 @@ public class StaffService {
 			String name = obj.isNull("name") ? null : obj.getString("name");
 			Integer account = obj.isNull("account") ? null : obj.getInt("account");
 			String password = obj.isNull("password") ? null : obj.getString("password");
-			Integer status = obj.isNull("status") ? null : obj.getInt("status");
+			String status = obj.isNull("status") ? null : obj.getString("status");
 			// String createBy = obj.isNull("createBy") ? null : obj.getString("createBy");
 			// String createTime = obj.isNull("createTime") ? null : obj.getString("createTime");
 			String createBy = bean.getCreateBy();
