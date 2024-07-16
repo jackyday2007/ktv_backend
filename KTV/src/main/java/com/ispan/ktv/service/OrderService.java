@@ -58,13 +58,23 @@ public class OrderService {
 	@Transactional
 	public Orders updateOrders(String body) {
 		JSONObject obj = new JSONObject(body);
+		Customers customerId = null;
+		Members memberId = null;
 		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
 		Integer findCustomerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
-		Optional<Customers> checkCustomerId = customersRepository.findById(findCustomerId);
-		Customers customerId = checkCustomerId.get();
+		Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId) : Optional.empty();
+		if (checkCustomerId.isPresent()) {
+			customerId = checkCustomerId.get();
+		} else {
+			customerId = null;
+		}
 		Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
-		Optional<Members> checkMemberId = membersRepository.findById(findMemberId);
-		Members memberId = checkMemberId.get();
+		Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
+		if ( checkMemberId.isPresent() ) {
+			memberId = checkMemberId.get();
+		} else {
+			memberId = null;
+		}
 		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
 		String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
 		Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
