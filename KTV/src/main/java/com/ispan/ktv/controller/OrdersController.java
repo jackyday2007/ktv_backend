@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.Orders;
-import com.ispan.ktv.bean.Rooms;
+import com.ispan.ktv.service.CustomerService;
 import com.ispan.ktv.service.OrderService;
 import com.ispan.ktv.service.RoomService;
 import com.ispan.ktv.util.DatetimeConverter;
@@ -30,6 +30,9 @@ public class OrdersController {
 
 	@Autowired
 	RoomService roomService;
+	
+	@Autowired
+	CustomerService customerService;
 
 	// @PostMapping("/orders/find")
 	// public String ordersFind( @RequestBody JSONObject body ) {
@@ -95,9 +98,17 @@ public class OrdersController {
 		responseBody.put("list", array);
 		return responseBody.toString();
 	}
+	
+	
+	@PostMapping("/orders/createOrderId")
+	public Orders newOrderId() {
+		String newOrderId = orderService.generateOrderId();
+		Long orderId = Long.valueOf(newOrderId);
+		return orderService.createOrderId(orderId);
+	}
 
-	@PostMapping("/orders/newOrder")
-	public String newOrders(@RequestBody String body) {
+	@PostMapping("/orders/newOrder/{id}")
+	public String newOrders(@PathVariable Long id, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 		JSONObject obj = new JSONObject(body);
 		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
@@ -120,17 +131,8 @@ public class OrdersController {
 						responseBody.put("success", false);
 						responseBody.put("message", "請填寫開始時間");
 					} else {
-						String newOrderId = orderService.generateOrderId();
-						Long orderId = Long.valueOf(newOrderId);
-						Orders order = new Orders();
-						order.setOrderId(orderId);
-						order.setNumberOfPersons(numberOfPersons);
-						order.setHours(hours);
-						order.setOrderDate(DatetimeConverter.parse(obj.getString("orderDate"), "yyyy-MM-dd"));
-						order.setStartTime(DatetimeConverter.parse(obj.getString("startTime"), "HH:mm"));
-						order.setEndTime(DatetimeConverter.parse(obj.getString("endTime"), "HH:mm"));
-						order.setSubTotal(Double.valueOf("0.0"));
-						Orders result = orderService.createOrders(order);
+						
+						Orders result = orderService.updateOrders(body);
 						if (result == null) {
 							responseBody.put("success", false);
 							responseBody.put("message", "預定失敗");
@@ -142,7 +144,6 @@ public class OrdersController {
 				}
 			}
 		}
-
 		return responseBody.toString();
 	}
 
