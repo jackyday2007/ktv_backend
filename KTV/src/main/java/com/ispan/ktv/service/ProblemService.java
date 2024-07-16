@@ -41,7 +41,7 @@ public class ProblemService {
 			Optional<Rooms> roomOptional = roomsRepository.findById(roomId);
 			if (roomOptional.isEmpty()) {
 				// 如果 roomId 無效，可以選擇拋出例外或傳回 null
-				throw new IllegalArgumentException("Invalid roomId: " + roomId);
+				throw new IllegalArgumentException("沒有" + roomId);
 			}
 			Rooms room = roomOptional.get();
 
@@ -50,10 +50,8 @@ public class ProblemService {
 			insert.setRoom(room);
 			insert.setContent(content);
 			// 看有無需要 (時分秒)
-			insert.setEventDate(
-					eventDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(eventDate) : null);
-			insert.setCloseDate(
-					closeDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(closeDate) : null);
+			insert.setEventDate(eventDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(eventDate) : null);
+			insert.setCloseDate(closeDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(closeDate) : null);
 			insert.setStatus(status);
 
 			return problemsRepository.save(insert);
@@ -110,10 +108,8 @@ public class ProblemService {
 			update.setRoom(room);
 			update.setContent(content);
 			// 看有無需要 (時分秒)
-			update.setEventDate(
-					eventDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(eventDate) : null);
-			update.setCloseDate(
-					closeDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(closeDate) : null);
+			update.setEventDate(eventDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(eventDate) : null);
+			update.setCloseDate(closeDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(closeDate) : null);
 			update.setStatus(status);
 			update.setCreateTime(createTime);
 			update.setUpdateTime(new Date());
