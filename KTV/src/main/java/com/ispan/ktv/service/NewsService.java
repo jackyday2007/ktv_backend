@@ -1,6 +1,8 @@
 package com.ispan.ktv.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,15 +31,32 @@ public class NewsService {
      */
     @Transactional
     public void insertNews(News news) {
-    	
-    	 // 設置創建時間和更新時間為當前時間
+        // 設置創建時間和更新時間為當前時間
         Date currentDateTime = new Date();
         news.setCreateTime(currentDateTime);
         news.setUpdateTime(currentDateTime);
-    	
+
+        // 檢查結束時間不能比當前時間早
+        LocalDate currentLocalDate = currentDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endLocalDate = news.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if (endLocalDate.isBefore(currentLocalDate) && !endLocalDate.equals(currentLocalDate)) {
+            throw new IllegalArgumentException("結束日期不能比當前日期早");
+        }
+
+        // 檢查結束時間不能比開始時間早
+        if (news.getStartDate() != null) {
+            LocalDate startLocalDate = news.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (endLocalDate.isBefore(startLocalDate) && !endLocalDate.equals(startLocalDate)) {
+                throw new IllegalArgumentException("結束日期不能比開始日期早");
+            }
+        }
+
+        // 保存新聞
         newsRepo.save(news);
     }
+
     
+
     /**
      * 更新消息。
      */
@@ -48,7 +68,7 @@ public class NewsService {
         if (optionalNews.isPresent()) {
             News updateData = optionalNews.get();
             
-            // 更新需要修改的属性
+            // 更新需要修改的屬性
             updateData.setTitle(updatedNews.getTitle());
             updateData.setContent(updatedNews.getContent());
             updateData.setUrl(updatedNews.getUrl());
@@ -59,8 +79,23 @@ public class NewsService {
             
             // 更新更新時間
             updateData.setUpdateTime(new Date());
+            Date currentDateTime = new Date();
+            // 檢查結束時間不能比當前時間早
+            LocalDate currentLocalDate = currentDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate endLocalDate = updatedNews.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (endLocalDate.isBefore(currentLocalDate) && !endLocalDate.equals(currentLocalDate)) {
+                throw new IllegalArgumentException("結束日期不能比當前日期早");
+            }
+
+            // 檢查結束時間不能比開始時間早
+            if (updatedNews.getStartDate() != null) {
+                LocalDate startLocalDate = updatedNews.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (endLocalDate.isBefore(startLocalDate) && !endLocalDate.equals(startLocalDate)) {
+                    throw new IllegalArgumentException("結束日期不能比開始日期早");
+                }
+            }
             
-            // 保存更新后的 News 对象到数据库
+            // 保存更新
             newsRepo.save(updateData);
         } else {
             throw new RuntimeException("News with ID " + newsId + " not found");
@@ -158,5 +193,59 @@ public class NewsService {
         // 保存新聞對象到資料庫
         newsRepo.save(news);
     }
-}
 
+    public byte[] getImageByNewsId(Integer newsId) {
+        News news = newsRepo.findById(newsId).orElse(null);
+        if (news != null) {
+            return news.getImage();
+        }
+        return null;
+    }
+    
+    
+    
+    
+//        @Scheduled(cron = "0 0/30 * * * *") // 每30分鐘點執行一次
+
+    @Scheduled(cron = "0 * * * * *") // 每分钟执行一次
+    public void checkNewsExpiration() {
+        System.out.println("定时任务执行时间: " + new Date());
+
+        List<News> allNews = newsRepo.findAll();
+        Date currentDateTime = new Date();
+
+        for (News news : allNews) {
+            System.out.println("处理新闻 ID: " + news.getNewsId());
+
+            LocalDate currentLocalDate = currentDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate startDate = news.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate endDate = news.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            System.out.println("当前日期: " + currentLocalDate);
+            System.out.println("开始日期: " + startDate);
+            System.out.println("结束日期: " + endDate);
+
+            if (currentLocalDate.equals(startDate) || currentLocalDate.isAfter(startDate)) {
+                System.out.println("当前日期等于或晚于开始日期，将状态设置为 active");
+                news.setStatus("active");
+            }
+
+            if (currentLocalDate.equals(endDate) || currentLocalDate.isAfter(endDate)) {
+                System.out.println("当前日期等于或晚于结束日期，将状态设置为 notuse");
+                news.setStatus("notuse");
+            }
+
+            news.setUpdateTime(currentDateTime);
+            newsRepo.save(news);
+
+            System.out.println("处理完毕，更新后状态为: " + news.getStatus());
+        }
+    }
+    
+    @Scheduled(cron = "0/10 * * * * *")
+    public void printHello() {
+        System.out.println("hello");
+    }
+
+    
+    }

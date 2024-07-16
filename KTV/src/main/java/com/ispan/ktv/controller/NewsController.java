@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +48,7 @@ public class NewsController {
     /**
      * 處理新增News的請求。
      */
-    @PostMapping("/news")
+    @PostMapping("/addNews")
     	    public String insertNews(@RequestBody News news) {
     	        newsService.insertNews(news);
     	        return "新增成功！";
@@ -54,7 +57,7 @@ public class NewsController {
     /**
      * PUT映射，處理更新News的請求。
      */
-    @PutMapping("/news/{id}")
+    @PutMapping("/updateNews/{id}")
     public String updateNews(@PathVariable Integer id, @RequestBody News news) {
 
         news.setNewsId(id);
@@ -112,5 +115,19 @@ public class NewsController {
     public String uploadImage(@PathVariable Integer id, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
         newsService.uploadImage(id, imageFile);
         return "圖片上傳成功！";
+    }
+    /**
+     * 根據 newsId 查詢圖片。
+     */
+    @GetMapping("/news/image/{newsId}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("newsId") Integer newsId) {
+        byte[] imageData = newsService.getImageByNewsId(newsId); // 使用NewsService來取得圖片的二進位數據
+        if (imageData != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG); // 設置圖片類型，這裡假設是JPEG格式
+            return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
