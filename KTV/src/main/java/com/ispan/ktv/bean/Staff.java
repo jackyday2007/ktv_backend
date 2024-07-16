@@ -9,6 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
@@ -19,18 +21,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+// import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+// @ToString
 @Entity
 @Table(name="staff")
 public class Staff {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "accountId")
 	private Integer accountId;
 
@@ -44,7 +47,7 @@ public class Staff {
 	private String password;
 	
 	@Column(name = "status")
-	private Integer status;
+	private String status;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
