@@ -85,4 +85,8 @@ public class Staff {
 	@OneToMany(mappedBy = "updateBy" , cascade = CascadeType.ALL)
 	private List<News> newUpdateBy = new ArrayList<>();
 	
+	public String toString() {
+		return "model.ProductBean ["+ accountId+ ","+ accountName+ ","+ account+ ","+ password+ ","
+	+ status+ ","+ createTime+ ","+ createBy+ ","+ updateTime + ","+ updateBy+ "]";
+	}
 }
