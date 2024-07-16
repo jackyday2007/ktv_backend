@@ -17,7 +17,7 @@ public class TimeSlotService {
     private TimeSlotRepository tsr;
 
     public List<TimeSlot> findByTime( Date wantedStartTime, Date wantedEndTime ) {
-        return tsr.findByStartTimeAmdEndTime(wantedStartTime, wantedEndTime);
+        return tsr.findByStartTimeAndEndTime(wantedStartTime, wantedEndTime);
         
     }
 //    	try {

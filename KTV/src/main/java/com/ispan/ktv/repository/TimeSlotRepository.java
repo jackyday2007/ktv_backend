@@ -12,7 +12,7 @@ import com.ispan.ktv.bean.TimeSlot;
 @Repository
 public interface TimeSlotRepository extends JpaRepository<TimeSlot, Integer> {
 	@Query("FROM TimeSlot t WHERE (t.startTime BETWEEN :wst AND :wet) OR (t.endTime BETWEEN :wst AND :wet)")// )
-	List<TimeSlot> findByStartTimeAmdEndTime(@Param("wst") Date wantedStartTime ,@Param("wet") Date wantedEndTime);
+	List<TimeSlot> findByStartTimeAndEndTime(@Param("wst") Date wantedStartTime ,@Param("wet") Date wantedEndTime);
 //	List<TimeSlot> findByStartTimeAmdEndTime( JSONObject obj);
 	
 }

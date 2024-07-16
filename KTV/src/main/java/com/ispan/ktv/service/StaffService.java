@@ -20,8 +20,13 @@ public class StaffService {
 	private StaffRepository sr;
 
 	public List<Staff> find() {
-		
+
 		return sr.findAll();
+	}
+
+	
+	public List<Staff> findByName(String name) {
+		return sr.findByName('%'+name+'%');
 	}
 
 	public Staff findById(Integer id) {

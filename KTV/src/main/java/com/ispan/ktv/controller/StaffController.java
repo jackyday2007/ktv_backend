@@ -23,6 +23,41 @@ public class StaffController {
 
 	@Autowired
 	private StaffService ss;
+
+
+	@GetMapping("/staff/findbyname/{name}")
+	public String findByName(@PathVariable(name = "name") String name) {
+		
+		JSONObject responseBody = new JSONObject();
+        JSONArray array = new JSONArray();
+        List<Staff> result = ss.findByName(name);
+        if (result != null && !result.isEmpty()) {
+			for (Staff bean : result) {
+				String createtime = DatetimeConverter.toString(bean.getCreateTime(), "yy-MM-dd");
+				String updateTime = DatetimeConverter.toString(bean.getUpdateTime(), "yy-MM-dd");
+				try {
+					JSONObject item = new JSONObject()
+							.put("Id", bean.getAccountId())
+							.put("name", bean.getAccountName())
+							.put("account", bean.getAccount())
+							.put("password", bean.getPassword())
+							.put("status", bean.getStatus())
+							.put("creater", bean.getCreateBy())
+							.put("createtime", createtime)
+							.put("updateBy", bean.getUpdateBy())
+							.put("updateTime", updateTime);
+					array = array.put(item);
+					responseBody.put("list", array);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		
+		}
+		
+		return  responseBody.toString();
+	}
+
 	@GetMapping("/staff/findall")
 	public String findall() {
 		JSONObject responseBody = new JSONObject();
