@@ -68,7 +68,11 @@ public class RoomsController {
 						.put("size", room.getSize())
 						.put("price", room.getPrice())
 						.put("status", room.getStatus())
-						.put("photoFile", room.getPhotoFile());
+						.put("photoFile", room.getPhotoFile())
+						.put("createTime", room.getCreateTime())
+	                    .put("createBy", room.getCreateBy())
+	                    .put("updateTime", room.getUpdateTime())
+	                    .put("updateBy", room.getUpdateBy());
 				array.put(item);
 			}
 			responseBody.put("list", array);
@@ -111,9 +115,7 @@ public class RoomsController {
 	@PostMapping("/rooms/findAll")
 	public String findAll(@RequestBody String body) throws JSONException {
 		JSONObject responseBody = new JSONObject();
-
 		JSONArray array = new JSONArray();
-
 		List<Rooms> rooms = roomService.findAll(body);
 		if (rooms != null && !rooms.isEmpty()) {
 			for (Rooms room : rooms) {
@@ -122,7 +124,11 @@ public class RoomsController {
 						.put("size", room.getSize())
 						.put("price", room.getPrice())
 						.put("status", room.getStatus())
-						.put("photoFile", room.getPhotoFile());
+						.put("photoFile", room.getPhotoFile())
+						.put("createTime", room.getCreateTime())
+	                    .put("createBy", room.getCreateBy())
+	                    .put("updateTime", room.getUpdateTime())
+	                    .put("updateBy", room.getUpdateBy());
 				array.put(item);
 			}
 			long count = roomService.count(body);
