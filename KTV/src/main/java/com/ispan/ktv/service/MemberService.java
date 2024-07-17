@@ -64,16 +64,12 @@ public class MemberService {
         mailSender.send(message);
     }
 
-    public boolean resetPassword(String token, String oldPassword, String newPassword) {
+    public boolean resetPassword(String token, String newPassword) {
         // 根據 token 查找會員
         Members member = memberRepository.findByResetPasswordToken(token);
         // 檢查 token 是否有效
         if (member == null || member.getResetPasswordTokenExpiry().before(new Date())) {
             return false;  // token 無效
-        }
-        // 檢查舊密碼是否正確
-        if (!passwordEncoder.matches(oldPassword, member.getPassword())) {
-            return false;  // 舊密碼錯誤
         }
         // 對新密碼進行加密
         member.setPassword(passwordEncoder.encode(newPassword));
