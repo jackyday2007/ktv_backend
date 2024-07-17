@@ -573,3 +573,588 @@
 2024-07-08 17:55:48,373 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
 2024-07-08 17:55:48,376 [Worker-44: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\KTV\ktv\target\classes
 2024-07-08 17:55:48,507 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\KTV\ktv\src\test\resources
+2024-07-10 11:39:49,353 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2024-07-10 11:43:16,259 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2024-07-10 11:43:54,968 [Worker-9: Update Maven projects configuration] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2024-07-10 11:43:57,572 [Worker-9: Update Maven projects configuration] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.ispan.ktv:ktv:0.0.1-SNAPSHOT @ C:\Users\User\Desktop\ktv_backend\KTV\pom.xml.
+2024-07-10 11:43:59,248 [Worker-9: Update Maven projects configuration] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /KTV/src/main/java
+2024-07-10 11:43:59,250 [Worker-9: Update Maven projects configuration] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /KTV/src/main/resources
+2024-07-10 11:43:59,258 [Worker-9: Update Maven projects configuration] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /KTV/src/main/resources
+2024-07-10 11:43:59,278 [Worker-9: Update Maven projects configuration] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /KTV/src/test/java
+2024-07-10 11:43:59,279 [Worker-9: Update Maven projects configuration] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /KTV/src/test/resources
+2024-07-10 11:44:00,853 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-data-jpa/3.2.7/spring-boot-starter-data-jpa-3.2.7-sources.jar
+2024-07-10 11:44:01,183 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-data-jpa/3.2.7/spring-boot-starter-data-jpa-3.2.7-sources.jar
+2024-07-10 11:44:01,188 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter-data-jpa:3.2.7
+2024-07-10 11:44:01,331 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-aop/3.2.7/spring-boot-starter-aop-3.2.7-sources.jar
+2024-07-10 11:44:01,951 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-aop/3.2.7/spring-boot-starter-aop-3.2.7-sources.jar
+2024-07-10 11:44:01,955 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter-aop:3.2.7
+2024-07-10 11:44:02,070 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-aop/6.1.10/spring-aop-6.1.10-sources.jar
+2024-07-10 11:44:03,172 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-aop/6.1.10/spring-aop-6.1.10-sources.jar
+2024-07-10 11:44:03,175 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-aop:6.1.10
+2024-07-10 11:44:03,299 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-jdbc/3.2.7/spring-boot-starter-jdbc-3.2.7-sources.jar
+2024-07-10 11:44:03,876 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-jdbc/3.2.7/spring-boot-starter-jdbc-3.2.7-sources.jar
+2024-07-10 11:44:03,879 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter-jdbc:3.2.7
+2024-07-10 11:44:03,898 [Worker-9: Update Maven projects configuration] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed for 1 poms: local refresh takes 0.00 sec, refresh facades takes 3.00 sec, update config takes 5.00 sec 
+2024-07-10 11:44:04,001 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-jdbc/6.1.10/spring-jdbc-6.1.10-sources.jar
+2024-07-10 11:44:04,589 [Worker-6: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-10 11:44:04,613 [Worker-6: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-10 11:44:04,711 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-jdbc/6.1.10/spring-jdbc-6.1.10-sources.jar
+2024-07-10 11:44:04,715 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-jdbc:6.1.10
+2024-07-10 11:44:04,833 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/hibernate/orm/hibernate-core/6.4.9.Final/hibernate-core-6.4.9.Final-sources.jar
+2024-07-10 11:44:05,180 [Worker-6: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-10 11:44:06,581 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/hibernate/orm/hibernate-core/6.4.9.Final/hibernate-core-6.4.9.Final-sources.jar
+2024-07-10 11:44:06,585 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.hibernate.orm:hibernate-core:6.4.9.Final
+2024-07-10 11:44:06,698 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy/1.14.17/byte-buddy-1.14.17-sources.jar
+2024-07-10 11:44:06,972 [Worker-6: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-10 11:44:07,840 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy/1.14.17/byte-buddy-1.14.17-sources.jar
+2024-07-10 11:44:07,844 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for net.bytebuddy:byte-buddy:1.14.17
+2024-07-10 11:44:07,961 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/data/spring-data-jpa/3.2.7/spring-data-jpa-3.2.7-sources.jar
+2024-07-10 11:44:08,462 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/data/spring-data-jpa/3.2.7/spring-data-jpa-3.2.7-sources.jar
+2024-07-10 11:44:08,466 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.data:spring-data-jpa:3.2.7
+2024-07-10 11:44:08,581 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/data/spring-data-commons/3.2.7/spring-data-commons-3.2.7-sources.jar
+2024-07-10 11:44:09,239 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/data/spring-data-commons/3.2.7/spring-data-commons-3.2.7-sources.jar
+2024-07-10 11:44:09,243 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.data:spring-data-commons:3.2.7
+2024-07-10 11:44:09,432 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-orm/6.1.10/spring-orm-6.1.10-sources.jar
+2024-07-10 11:44:09,638 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-orm/6.1.10/spring-orm-6.1.10-sources.jar
+2024-07-10 11:44:09,641 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-orm:6.1.10
+2024-07-10 11:44:09,759 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-context/6.1.10/spring-context-6.1.10-sources.jar
+2024-07-10 11:44:10,366 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-context/6.1.10/spring-context-6.1.10-sources.jar
+2024-07-10 11:44:10,371 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-context:6.1.10
+2024-07-10 11:44:10,494 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-tx/6.1.10/spring-tx-6.1.10-sources.jar
+2024-07-10 11:44:10,773 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-tx/6.1.10/spring-tx-6.1.10-sources.jar
+2024-07-10 11:44:10,777 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-tx:6.1.10
+2024-07-10 11:44:10,983 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-beans/6.1.10/spring-beans-6.1.10-sources.jar
+2024-07-10 11:44:11,583 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-beans/6.1.10/spring-beans-6.1.10-sources.jar
+2024-07-10 11:44:11,586 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-beans:6.1.10
+2024-07-10 11:44:11,722 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-aspects/6.1.10/spring-aspects-6.1.10-sources.jar
+2024-07-10 11:44:12,328 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-aspects/6.1.10/spring-aspects-6.1.10-sources.jar
+2024-07-10 11:44:12,332 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-aspects:6.1.10
+2024-07-10 11:44:12,449 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-thymeleaf/3.2.7/spring-boot-starter-thymeleaf-3.2.7-sources.jar
+2024-07-10 11:44:12,500 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-thymeleaf/3.2.7/spring-boot-starter-thymeleaf-3.2.7-sources.jar
+2024-07-10 11:44:12,504 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter-thymeleaf:3.2.7
+2024-07-10 11:44:12,621 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter/3.2.7/spring-boot-starter-3.2.7-sources.jar
+2024-07-10 11:44:12,692 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter/3.2.7/spring-boot-starter-3.2.7-sources.jar
+2024-07-10 11:44:12,696 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter:3.2.7
+2024-07-10 11:44:12,811 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-logging/3.2.7/spring-boot-starter-logging-3.2.7-sources.jar
+2024-07-10 11:44:12,852 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-logging/3.2.7/spring-boot-starter-logging-3.2.7-sources.jar
+2024-07-10 11:44:12,855 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter-logging:3.2.7
+2024-07-10 11:44:13,335 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-web/3.2.7/spring-boot-starter-web-3.2.7-sources.jar
+2024-07-10 11:44:13,387 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-web/3.2.7/spring-boot-starter-web-3.2.7-sources.jar
+2024-07-10 11:44:13,392 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter-web:3.2.7
+2024-07-10 11:44:13,589 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-json/3.2.7/spring-boot-starter-json-3.2.7-sources.jar
+2024-07-10 11:44:13,641 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-json/3.2.7/spring-boot-starter-json-3.2.7-sources.jar
+2024-07-10 11:44:13,646 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter-json:3.2.7
+2024-07-10 11:44:13,769 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-tomcat/3.2.7/spring-boot-starter-tomcat-3.2.7-sources.jar
+2024-07-10 11:44:13,822 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-tomcat/3.2.7/spring-boot-starter-tomcat-3.2.7-sources.jar
+2024-07-10 11:44:13,826 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter-tomcat:3.2.7
+2024-07-10 11:44:13,943 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/apache/tomcat/embed/tomcat-embed-core/10.1.25/tomcat-embed-core-10.1.25-sources.jar
+2024-07-10 11:44:15,389 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/apache/tomcat/embed/tomcat-embed-core/10.1.25/tomcat-embed-core-10.1.25-sources.jar
+2024-07-10 11:44:15,392 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.apache.tomcat.embed:tomcat-embed-core:10.1.25
+2024-07-10 11:44:15,516 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/apache/tomcat/embed/tomcat-embed-el/10.1.25/tomcat-embed-el-10.1.25-sources.jar
+2024-07-10 11:44:15,861 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/apache/tomcat/embed/tomcat-embed-el/10.1.25/tomcat-embed-el-10.1.25-sources.jar
+2024-07-10 11:44:15,864 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.apache.tomcat.embed:tomcat-embed-el:10.1.25
+2024-07-10 11:44:15,979 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.25/tomcat-embed-websocket-10.1.25-sources.jar
+2024-07-10 11:44:16,174 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.25/tomcat-embed-websocket-10.1.25-sources.jar
+2024-07-10 11:44:16,177 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.apache.tomcat.embed:tomcat-embed-websocket:10.1.25
+2024-07-10 11:44:16,299 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-web/6.1.10/spring-web-6.1.10-sources.jar
+2024-07-10 11:44:17,296 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-web/6.1.10/spring-web-6.1.10-sources.jar
+2024-07-10 11:44:17,299 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-web:6.1.10
+2024-07-10 11:44:17,411 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/io/micrometer/micrometer-observation/1.12.7/micrometer-observation-1.12.7-sources.jar
+2024-07-10 11:44:17,486 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/io/micrometer/micrometer-observation/1.12.7/micrometer-observation-1.12.7-sources.jar
+2024-07-10 11:44:17,489 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for io.micrometer:micrometer-observation:1.12.7
+2024-07-10 11:44:17,693 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/io/micrometer/micrometer-commons/1.12.7/micrometer-commons-1.12.7-sources.jar
+2024-07-10 11:44:18,241 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/io/micrometer/micrometer-commons/1.12.7/micrometer-commons-1.12.7-sources.jar
+2024-07-10 11:44:18,246 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for io.micrometer:micrometer-commons:1.12.7
+2024-07-10 11:44:18,412 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-webmvc/6.1.10/spring-webmvc-6.1.10-sources.jar
+2024-07-10 11:44:19,101 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-webmvc/6.1.10/spring-webmvc-6.1.10-sources.jar
+2024-07-10 11:44:19,104 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-webmvc:6.1.10
+2024-07-10 11:44:19,235 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-expression/6.1.10/spring-expression-6.1.10-sources.jar
+2024-07-10 11:44:19,550 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-expression/6.1.10/spring-expression-6.1.10-sources.jar
+2024-07-10 11:44:19,554 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-expression:6.1.10
+2024-07-10 11:44:19,759 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-devtools/3.2.7/spring-boot-devtools-3.2.7-sources.jar
+2024-07-10 11:44:19,973 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-devtools/3.2.7/spring-boot-devtools-3.2.7-sources.jar
+2024-07-10 11:44:19,978 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-devtools:3.2.7
+2024-07-10 11:44:20,104 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot/3.2.7/spring-boot-3.2.7-sources.jar
+2024-07-10 11:44:21,090 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot/3.2.7/spring-boot-3.2.7-sources.jar
+2024-07-10 11:44:21,093 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot:3.2.7
+2024-07-10 11:44:21,207 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-configuration-processor/3.2.7/spring-boot-configuration-processor-3.2.7-sources.jar
+2024-07-10 11:44:21,289 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-configuration-processor/3.2.7/spring-boot-configuration-processor-3.2.7-sources.jar
+2024-07-10 11:44:21,293 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-configuration-processor:3.2.7
+2024-07-10 11:44:21,410 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-test/3.2.7/spring-boot-starter-test-3.2.7-sources.jar
+2024-07-10 11:44:21,442 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-test/3.2.7/spring-boot-starter-test-3.2.7-sources.jar
+2024-07-10 11:44:21,445 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-starter-test:3.2.7
+2024-07-10 11:44:21,656 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-test/3.2.7/spring-boot-test-3.2.7-sources.jar
+2024-07-10 11:44:21,993 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-test/3.2.7/spring-boot-test-3.2.7-sources.jar
+2024-07-10 11:44:21,996 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-test:3.2.7
+2024-07-10 11:44:22,114 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-test-autoconfigure/3.2.7/spring-boot-test-autoconfigure-3.2.7-sources.jar
+2024-07-10 11:44:22,324 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-test-autoconfigure/3.2.7/spring-boot-test-autoconfigure-3.2.7-sources.jar
+2024-07-10 11:44:22,327 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework.boot:spring-boot-test-autoconfigure:3.2.7
+2024-07-10 11:44:22,554 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy-agent/1.14.17/byte-buddy-agent-1.14.17-sources.jar
+2024-07-10 11:44:22,698 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy-agent/1.14.17/byte-buddy-agent-1.14.17-sources.jar
+2024-07-10 11:44:22,701 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for net.bytebuddy:byte-buddy-agent:1.14.17
+2024-07-10 11:44:22,945 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-core/6.1.10/spring-core-6.1.10-sources.jar
+2024-07-10 11:44:23,462 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-core/6.1.10/spring-core-6.1.10-sources.jar
+2024-07-10 11:44:23,465 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-core:6.1.10
+2024-07-10 11:44:23,577 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-jcl/6.1.10/spring-jcl-6.1.10-sources.jar
+2024-07-10 11:44:23,726 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-jcl/6.1.10/spring-jcl-6.1.10-sources.jar
+2024-07-10 11:44:23,730 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-jcl:6.1.10
+2024-07-10 11:44:23,849 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-test/6.1.10/spring-test-6.1.10-sources.jar
+2024-07-10 11:44:24,284 [Worker-3: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/springframework/spring-test/6.1.10/spring-test-6.1.10-sources.jar
+2024-07-10 11:44:24,287 [Worker-3: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.springframework:spring-test:6.1.10
+2024-07-12 09:07:19,955 [Worker-3: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2024-07-12 09:07:28,047 [Worker-8: Updating Maven Dependencies] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.ispan.ktv:ktv:0.0.1-SNAPSHOT @ C:\Users\User\Desktop\ktv_backend\KTV\pom.xml.
+2024-07-12 09:13:41,476 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:13:41,494 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:13:42,420 [Worker-12: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:13:42,973 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:14:05,106 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:14:05,107 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:14:05,114 [Worker-7: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:14:05,170 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:14:17,178 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:14:17,181 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:14:17,188 [Worker-7: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:14:17,228 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:14:21,785 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:14:21,788 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:14:21,795 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:14:21,843 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:14:24,733 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:14:24,776 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:14:24,782 [Worker-14: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:14:24,829 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:14:47,764 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:14:47,768 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:14:47,775 [Worker-14: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:14:47,810 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:14:54,113 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:14:54,116 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:14:54,122 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:14:54,150 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:15:18,819 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:15:18,823 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:15:18,830 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:15:18,860 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:15:22,523 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:15:22,535 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:15:22,541 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:15:22,573 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:18:54,085 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:18:54,094 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:18:54,100 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:18:54,137 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:18:58,205 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:18:58,210 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:18:58,216 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:18:58,250 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:19:12,490 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:19:12,495 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:19:12,500 [Worker-12: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:19:12,535 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:19:15,661 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:19:15,669 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:19:15,676 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:19:15,710 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:23:27,332 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:23:27,335 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:23:27,340 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:23:27,370 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:23:38,512 [Worker-20: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:23:38,515 [Worker-20: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:23:38,520 [Worker-20: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:23:38,549 [Worker-20: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:23:51,684 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 09:23:51,687 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 09:23:51,691 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 09:23:51,720 [Worker-15: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 09:57:26,368 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-12.0.6; built: 2024-01-30T02:43:24.387Z; git: 78ab6e6ba163f89cdd97f2ae0283fbb5e371cfaf; jvm 17.0.11+9
+2024-07-12 09:57:26,418 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started oeje8n.ContextHandler$CoreContextHandler@7fcdbbc8{/help,/help,b=null,a=AVAILABLE,h=oeje8n.ContextHandler$CoreContextHandler$CoreToNestedHandler@11cd618a{STARTED}}
+2024-07-12 09:57:26,419 [Start Help Server] INFO  o.e.j.s.DefaultSessionIdManager - Session workerName=node0
+2024-07-12 09:57:26,440 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@3dcba67a{HTTP/1.1, (http/1.1)}{127.0.0.1:50276}
+2024-07-12 09:57:26,455 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started oejs.Server@2ac01569{STARTING}[12.0.6,sto=0] @3132592ms
+2024-07-12 11:01:38,066 [Worker-40: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:01:38,077 [Worker-40: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:01:38,081 [Worker-40: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:01:38,184 [Worker-40: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 11:01:41,778 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:01:41,786 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:01:41,790 [Worker-36: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:01:41,816 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 11:02:28,281 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:02:28,284 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:02:28,288 [Worker-36: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:02:28,322 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 11:09:34,809 [Worker-46: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:09:34,815 [Worker-46: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:09:34,820 [Worker-46: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:09:34,877 [Worker-46: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 11:16:40,916 [Worker-40: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:16:40,921 [Worker-40: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:16:40,924 [Worker-40: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:16:40,954 [Worker-40: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 11:21:37,194 [Worker-53: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:21:37,198 [Worker-53: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:21:37,203 [Worker-53: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:21:37,228 [Worker-53: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 11:23:02,166 [Worker-53: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:23:02,169 [Worker-53: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:23:02,174 [Worker-53: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:23:02,200 [Worker-53: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 11:30:08,521 [Worker-54: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:30:08,524 [Worker-54: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:30:08,529 [Worker-54: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:30:08,562 [Worker-54: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 11:47:01,444 [Worker-66: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:47:01,448 [Worker-66: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:47:01,470 [Worker-66: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:47:01,499 [Worker-66: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 11:47:15,485 [Worker-65: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 11:47:15,489 [Worker-65: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 11:47:15,493 [Worker-65: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 11:47:15,518 [Worker-65: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:21:00,391 [Worker-74: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:21:00,396 [Worker-74: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:21:00,401 [Worker-74: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:21:00,430 [Worker-74: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:21:29,821 [Worker-73: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:21:29,825 [Worker-73: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:21:29,829 [Worker-73: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:21:29,858 [Worker-73: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:26:38,775 [Worker-65: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:26:38,779 [Worker-65: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:26:38,783 [Worker-65: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:26:38,814 [Worker-65: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:27:25,369 [Worker-73: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:27:25,377 [Worker-73: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:27:25,383 [Worker-73: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:27:25,411 [Worker-73: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:48:01,942 [Worker-83: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:48:01,945 [Worker-83: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:48:01,949 [Worker-83: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:48:01,974 [Worker-83: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:52:29,847 [Worker-86: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:52:29,850 [Worker-86: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:52:29,856 [Worker-86: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:52:29,888 [Worker-86: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:53:52,819 [Worker-87: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:53:52,822 [Worker-87: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:53:52,826 [Worker-87: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:53:52,851 [Worker-87: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:56:59,233 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:56:59,237 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:56:59,241 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:56:59,266 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:57:08,638 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:57:08,642 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:57:08,646 [Worker-89: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:57:08,671 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:57:20,309 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:57:20,312 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:57:20,316 [Worker-89: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:57:20,341 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:57:22,389 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:57:22,392 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:57:22,396 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:57:22,421 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 12:59:40,122 [Worker-94: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 12:59:40,131 [Worker-94: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 12:59:40,137 [Worker-94: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 12:59:40,175 [Worker-94: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:00:58,520 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:00:58,523 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:00:58,528 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:00:58,552 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:01:04,265 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:01:04,271 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:01:04,276 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:01:04,308 [Worker-92: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:01:17,469 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:01:17,471 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:01:17,475 [Worker-89: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:01:17,499 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:13:50,993 [Worker-98: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:13:50,996 [Worker-98: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:13:51,000 [Worker-98: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:13:51,030 [Worker-98: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:14:06,055 [Worker-97: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:14:06,058 [Worker-97: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:14:06,062 [Worker-97: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:14:06,089 [Worker-97: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:16:42,547 [Worker-101: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:16:42,550 [Worker-101: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:16:42,554 [Worker-101: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:16:42,580 [Worker-101: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:19:28,177 [Worker-104: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:19:28,180 [Worker-104: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:19:28,184 [Worker-104: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:19:28,208 [Worker-104: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:29:54,786 [Worker-112: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:29:54,792 [Worker-112: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:29:54,798 [Worker-112: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:29:54,828 [Worker-112: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:30:24,943 [Worker-111: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:30:24,948 [Worker-111: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:30:24,952 [Worker-111: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:30:24,978 [Worker-111: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:33:46,901 [Worker-115: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:33:46,904 [Worker-115: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:33:46,908 [Worker-115: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:33:46,933 [Worker-115: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:33:56,075 [Worker-107: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:33:56,079 [Worker-107: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:33:56,083 [Worker-107: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:33:56,112 [Worker-107: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:39:07,113 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:39:07,116 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:39:07,121 [Worker-118: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:39:07,146 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:39:17,933 [Worker-117: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:39:17,936 [Worker-117: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:39:17,942 [Worker-117: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:39:17,991 [Worker-117: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:40:16,114 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:40:16,118 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:40:16,122 [Worker-118: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:40:16,154 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:42:35,368 [Worker-120: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:42:35,373 [Worker-120: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:42:35,377 [Worker-120: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:42:35,420 [Worker-120: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:46:27,717 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:46:27,722 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:46:27,726 [Worker-118: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:46:27,760 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:50:29,017 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:50:29,020 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:50:29,023 [Worker-118: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:50:29,049 [Worker-118: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 13:50:33,864 [Worker-124: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 13:50:33,867 [Worker-124: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 13:50:33,872 [Worker-124: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 13:50:33,896 [Worker-124: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 14:36:24,440 [Worker-139: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 14:36:24,445 [Worker-139: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 14:36:24,451 [Worker-139: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 14:36:24,491 [Worker-139: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 14:37:17,692 [Worker-135: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 14:37:17,695 [Worker-135: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 14:37:17,699 [Worker-135: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 14:37:17,745 [Worker-135: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 14:37:44,055 [Worker-138: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 14:37:44,060 [Worker-138: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 14:37:44,064 [Worker-138: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 14:37:44,090 [Worker-138: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 14:43:05,192 [Worker-143: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 14:43:05,197 [Worker-143: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 14:43:05,201 [Worker-143: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 14:43:05,226 [Worker-143: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 14:44:18,503 [Worker-141: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 14:44:18,509 [Worker-141: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 14:44:18,512 [Worker-141: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 14:44:18,536 [Worker-141: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 14:47:56,144 [Worker-147: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 14:47:56,148 [Worker-147: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 14:47:56,154 [Worker-147: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 14:47:56,202 [Worker-147: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:02:33,198 [Worker-154: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:02:33,203 [Worker-154: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:02:33,208 [Worker-154: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:02:33,235 [Worker-154: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:02:36,299 [Worker-153: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:02:36,302 [Worker-153: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:02:36,306 [Worker-153: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:02:36,333 [Worker-153: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:03:35,203 [Worker-157: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:03:35,206 [Worker-157: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:03:35,210 [Worker-157: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:03:35,234 [Worker-157: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:06:37,382 [Worker-155: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:06:37,388 [Worker-155: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:06:37,393 [Worker-155: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:06:37,419 [Worker-155: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:07:43,047 [Worker-155: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:07:43,052 [Worker-155: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:07:43,059 [Worker-155: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:07:43,086 [Worker-155: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:07:44,907 [Worker-159: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:07:44,910 [Worker-159: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:07:44,915 [Worker-159: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:07:44,948 [Worker-159: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:07:55,217 [Worker-159: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:07:55,222 [Worker-159: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:07:55,227 [Worker-159: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:07:55,255 [Worker-159: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:08:09,124 [Worker-159: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:08:09,128 [Worker-159: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:08:09,132 [Worker-159: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:08:09,159 [Worker-159: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:26:17,097 [Worker-179: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:26:17,102 [Worker-179: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:26:17,107 [Worker-179: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:26:17,153 [Worker-179: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:35:50,274 [Worker-185: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:35:50,279 [Worker-185: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:35:50,283 [Worker-185: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:35:50,328 [Worker-185: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:49:39,763 [Worker-195: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:49:39,767 [Worker-195: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:49:39,771 [Worker-195: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:49:39,794 [Worker-195: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:49:41,004 [Worker-184: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:49:41,008 [Worker-184: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:49:41,013 [Worker-184: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:49:41,042 [Worker-184: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:49:48,589 [Worker-184: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:49:48,593 [Worker-184: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:49:48,597 [Worker-184: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:49:48,624 [Worker-184: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:49:57,349 [Worker-195: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:49:57,352 [Worker-195: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:49:57,355 [Worker-195: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:49:57,421 [Worker-195: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:51:04,750 [Worker-195: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:51:04,754 [Worker-195: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:51:04,757 [Worker-195: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:51:04,781 [Worker-195: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 15:53:51,925 [Worker-199: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 15:53:51,933 [Worker-199: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 15:53:51,937 [Worker-199: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 15:53:51,970 [Worker-199: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:02:06,401 [Worker-204: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:02:06,405 [Worker-204: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:02:06,409 [Worker-204: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:02:06,433 [Worker-204: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:03:37,192 [Worker-205: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:03:37,195 [Worker-205: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:03:37,199 [Worker-205: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:03:37,223 [Worker-205: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:03:43,419 [Worker-206: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:03:43,423 [Worker-206: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:03:43,428 [Worker-206: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:03:43,455 [Worker-206: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:04:29,584 [Worker-205: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:04:29,588 [Worker-205: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:04:29,592 [Worker-205: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:04:29,617 [Worker-205: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:06:32,387 [Worker-207: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:06:32,391 [Worker-207: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:06:32,394 [Worker-207: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:06:32,419 [Worker-207: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:07:19,852 [Worker-206: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:07:19,860 [Worker-206: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:07:19,864 [Worker-206: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:07:19,890 [Worker-206: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:08:38,771 [Worker-207: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:08:38,775 [Worker-207: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:08:38,779 [Worker-207: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:08:38,840 [Worker-207: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:35:39,131 [Worker-215: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:35:39,137 [Worker-215: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:35:39,142 [Worker-215: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:35:39,170 [Worker-215: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:52:35,178 [Worker-220: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:52:35,186 [Worker-220: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:52:35,190 [Worker-220: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:52:35,219 [Worker-220: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 16:58:35,428 [Worker-221: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 16:58:35,432 [Worker-221: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 16:58:35,437 [Worker-221: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 16:58:35,464 [Worker-221: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:00:02,952 [Worker-224: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:00:02,957 [Worker-224: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:00:02,960 [Worker-224: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:00:02,983 [Worker-224: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:09:05,904 [Worker-224: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:09:05,908 [Worker-224: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:09:05,913 [Worker-224: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:09:05,946 [Worker-224: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:23:00,462 [Worker-231: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:23:00,468 [Worker-231: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:23:00,472 [Worker-231: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:23:00,498 [Worker-231: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:25:11,584 [Worker-234: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:25:11,589 [Worker-234: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:25:11,592 [Worker-234: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:25:11,615 [Worker-234: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:25:12,672 [Worker-236: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:25:12,674 [Worker-236: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:25:12,678 [Worker-236: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:25:12,701 [Worker-236: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:25:51,834 [Worker-235: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:25:51,840 [Worker-235: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:25:51,844 [Worker-235: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:25:51,867 [Worker-235: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:30:11,889 [Worker-239: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:30:11,893 [Worker-239: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:30:11,897 [Worker-239: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:30:11,920 [Worker-239: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:31:11,268 [Worker-235: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:31:11,273 [Worker-235: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:31:11,277 [Worker-235: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:31:11,300 [Worker-235: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:32:33,786 [Worker-245: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:32:33,788 [Worker-245: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:32:33,793 [Worker-245: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:32:33,818 [Worker-245: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:33:35,746 [Worker-237: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:33:35,749 [Worker-237: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:33:35,753 [Worker-237: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:33:35,777 [Worker-237: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:33:37,024 [Worker-237: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:33:37,027 [Worker-237: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:33:37,031 [Worker-237: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:33:37,062 [Worker-237: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:33:43,729 [Worker-246: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:33:43,731 [Worker-246: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:33:43,735 [Worker-246: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:33:43,760 [Worker-246: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:33:51,515 [Worker-246: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:33:51,518 [Worker-246: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:33:51,522 [Worker-246: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:33:51,569 [Worker-246: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:33:59,408 [Worker-247: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:33:59,410 [Worker-247: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:33:59,414 [Worker-247: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:33:59,437 [Worker-247: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:36:21,589 [Worker-249: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:36:21,592 [Worker-249: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:36:21,596 [Worker-249: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:36:21,624 [Worker-249: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:37:14,739 [Worker-249: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:37:14,742 [Worker-249: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:37:14,745 [Worker-249: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:37:14,771 [Worker-249: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:37:41,642 [Worker-250: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:37:41,645 [Worker-250: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:37:41,648 [Worker-250: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:37:41,677 [Worker-250: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:38:09,736 [Worker-249: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:38:09,758 [Worker-249: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:38:09,774 [Worker-249: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:38:09,807 [Worker-249: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:40:44,436 [Worker-253: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:40:44,439 [Worker-253: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:40:44,443 [Worker-253: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:40:44,467 [Worker-253: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:40:49,383 [Worker-253: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:40:49,392 [Worker-253: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:40:49,398 [Worker-253: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:40:49,431 [Worker-253: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:40:53,335 [Worker-255: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:40:53,337 [Worker-255: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:40:53,341 [Worker-255: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:40:53,364 [Worker-255: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 17:41:09,854 [Worker-248: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 17:41:09,857 [Worker-248: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 17:41:09,861 [Worker-248: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 17:41:09,885 [Worker-248: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 18:12:22,989 [Worker-255: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-12 18:12:22,994 [Worker-255: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 18:12:22,999 [Worker-255: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 18:12:23,068 [Worker-255: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 18:20:09,747 [Worker-264: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 18:20:09,748 [Worker-264: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-12 18:20:09,752 [Worker-264: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-12 18:20:09,786 [Worker-264: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-12 18:20:18,529 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@2ac01569{STOPPING}[12.0.6,sto=0]
+2024-07-12 18:20:18,533 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@3dcba67a{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
