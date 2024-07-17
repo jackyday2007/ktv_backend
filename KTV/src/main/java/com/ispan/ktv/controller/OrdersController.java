@@ -92,6 +92,7 @@ public class OrdersController {
 				String orderDate = DatetimeConverter.toString(orders.getOrderDate(), "yyyy-MM-dd");
 				String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm");
 				String endTime = DatetimeConverter.toString(orders.getEndTime(), "HH:mm");
+				OrdersStatusHistory status = oshService.findNewHistory(orders.getOrderId());
 				JSONObject item = new JSONObject();
 				item.put("orderId", orderId);
 				item.put("memberId", orders.getMemberId() != null ? orders.getMemberId().getMemberId() : "");
@@ -101,7 +102,7 @@ public class OrdersController {
 				item.put("hours", orders.getHours());
 				item.put("startTime", startTime);
 				item.put("endTime", endTime);
-//				item.put("status", status);
+				item.put("status", status.getStatus());
 				array.put(item);
 			}
 		}
