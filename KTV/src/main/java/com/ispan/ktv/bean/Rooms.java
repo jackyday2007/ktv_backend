@@ -11,8 +11,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -44,6 +46,10 @@ public class Rooms {
 	@Column(name = "status")
 	private String status;
 
+	@Lob
+	@Column(name = "photoFile")
+	private byte[] photoFile;
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createTime")
@@ -65,6 +71,11 @@ public class Rooms {
 		if (createTime == null) {
 			createTime = new Date();
 		}
+	}
+
+	@PreUpdate
+	public void onUpdate() {
+		this.updateTime = new Date();
 	}
 
 	// 與Orders 的 room 欄位
