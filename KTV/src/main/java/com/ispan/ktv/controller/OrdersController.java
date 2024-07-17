@@ -26,7 +26,7 @@ import com.ispan.ktv.util.DatetimeConverter;
 
 @RestController
 @RequestMapping("/ktvbackend/")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 public class OrdersController {
 
 	@Autowired
@@ -40,11 +40,6 @@ public class OrdersController {
 	
 	@Autowired
 	OrdersStatusHistoryService oshService;
-
-	// @PostMapping("/orders/find")
-	// public String ordersFind( @RequestBody JSONObject body ) {
-	// return orderService.findOrders(body);
-	// }
 
 	@GetMapping("/orders/{ordersId}")
 	public Map<String, Object> findByOrdersId(@PathVariable(name = "ordersId") Long ordersId) {
@@ -102,10 +97,13 @@ public class OrdersController {
 				item.put("hours", orders.getHours());
 				item.put("startTime", startTime);
 				item.put("endTime", endTime);
+				item.put("subTotal", orders.getSubTotal() != null ? orders.getSubTotal() : "" );
 				item.put("status", status.getStatus());
 				array.put(item);
 			}
 		}
+		long count = orderService.count(body);
+		responseBody.put("count", count);
 		responseBody.put("list", array);
 		return responseBody.toString();
 	}

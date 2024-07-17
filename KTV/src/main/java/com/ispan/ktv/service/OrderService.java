@@ -52,11 +52,6 @@ public class OrderService {
 	@Autowired
 	OrdersStatusHistoryRepository ordersStatusHistoryRepo;
 	
-	@Autowired
-	OrdersStatusHistoryService oshService;
-	
-	
-
 	public Orders findByOrdersId(Long ordersId) {
 		if (ordersId != null) {
 			Optional<Orders> optional = ordersRepository.findById(ordersId);
@@ -71,6 +66,68 @@ public class OrderService {
 		return ordersRepository.findAll();
 	}
 	
+	public Long count( String json ) {
+		JSONObject body = new JSONObject(json);
+		return ordersRepository.count((root, query, criteriaBuilder) -> {
+			List<Predicate> predicate = new ArrayList<>();
+			
+			if ( !body.isNull("orderId") ) {
+				Long orderId = body.getLong("orderId");
+				predicate.add(criteriaBuilder.equal(root.get("orderId"), orderId));
+			}
+			
+			if ( !body.isNull("memberId") ) {
+				Integer memberId = body.getInt("memberId");
+				predicate.add(criteriaBuilder.equal(root.get("memberId").get("memberId"), memberId));
+			}
+			
+			if ( !body.isNull("customerId") ) {
+				Integer customerId = body.getInt("customerId");
+				predicate.add(criteriaBuilder.equal(root.get("customerId").get("customerId"), customerId));
+			}
+			
+			if ( !body.isNull("room") ) {
+				Integer room = body.getInt("room") ;
+				predicate.add(criteriaBuilder.equal(root.get("room").get("roomId"), room));
+			}
+			
+			if ( !body.isNull("orderDate") ) {
+				String orderDate = body.getString("orderDate") ;
+				predicate.add(criteriaBuilder.equal(root.get("orderDate"), orderDate));
+			}
+			
+			if ( !body.isNull("hours") ) {
+				Integer hours = body.getInt("hours") ;
+				predicate.add(criteriaBuilder.equal(root.get("hours"), hours));
+			}
+			
+			if ( !body.isNull("startTime") ) {
+				String startTime = body.getString("startTime") ;
+				predicate.add(criteriaBuilder.equal(root.get("startTime"), startTime));
+			}
+			
+			if ( !body.isNull("endTime") ) {
+				String endTime = body.getString("endTime") ;
+				predicate.add(criteriaBuilder.equal(root.get("endTime"), endTime));
+			}
+			
+			if ( !body.isNull("subTotal") ) {
+				String subTotal = body.getString("subTotal") ;
+				predicate.add(criteriaBuilder.equal(root.get("subTotal"), subTotal));
+			}
+			
+			if ( !body.isNull("status") ) {
+				String orderStatus = body.getString("status") ;
+				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
+				predicate.add(criteriaBuilder.like(historyJoin.get("status"), "%" + orderStatus + "%"));
+			}
+			query.where(predicate.toArray(new Predicate[0]));
+
+			return criteriaBuilder.and(predicate.toArray(new Predicate[0]));
+		});
+	}
+	
+	
 	
 	public List<Orders> find( String json ) {
 		JSONObject body = new JSONObject(json);
@@ -79,24 +136,15 @@ public class OrderService {
 		int max = body.isNull("max") ? 5 : body.getInt("max");
 		boolean dir = body.isNull("dir") ? false : body.getBoolean("dir");
 		String order = body.isNull("order") ? "orderId" : body.getString("order");
-		String status = body.isNull("status") ? "status" : body.getString("status");
 		Sort sort = dir ? Sort.by(Sort.Direction.DESC, order) : Sort.by(Sort.Direction.ASC, order);
 		Pageable pgb = PageRequest.of(start, max, sort);
-		Long orderId = !body.isNull("orderId") ? body.getLong("orderId") : null;
-		System.out.println("orderId=" + orderId);
-		System.out.println("status=" + status);
 		
 		Specification<Orders> spec = (Root<Orders> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
 			List<Predicate> predicate = new ArrayList<>();
 			
 			if ( !body.isNull("orderId") ) {
-				try {
-					
-					predicate.add(cb.equal(root.get("orderId"), orderId));
-				} catch( JSONException e ) {
-					e.printStackTrace();
-					throw new IllegalArgumentException("Invalid orderId format");
-				}
+				Long orderId = body.getLong("orderId");
+				predicate.add(cb.equal(root.get("orderId"), orderId));
 			}
 			
 			if ( !body.isNull("memberId") ) {
@@ -134,10 +182,15 @@ public class OrderService {
 				predicate.add(cb.equal(root.get("endTime"), endTime));
 			}
 			
+			if ( !body.isNull("subTotal") ) {
+				String subTotal = body.getString("subTotal") ;
+				predicate.add(cb.equal(root.get("subTotal"), subTotal));
+			}
+			
 			if ( !body.isNull("status") ) {
-				String orderStatus = body.getString("status") ;
+				String status = body.getString("status") ;
 				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
-				predicate.add(cb.like(historyJoin.get("status"), "%" + orderStatus + "%"));
+				predicate.add(cb.like(historyJoin.get("status"), "%" + status + "%"));
 			}
 			
 			return cb.and(predicate.toArray(new Predicate[0]));
