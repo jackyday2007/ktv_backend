@@ -19,7 +19,8 @@ import com.ispan.ktv.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@CrossOrigin(origins = "http://localhost:5175") 
+//@CrossOrigin(origins = "http://localhost:5175") 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class MemberController {
@@ -81,11 +82,11 @@ public class MemberController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
-        boolean isSuccess = memberService.resetPassword(request.getToken(), request.getOldPassword(), request.getNewPassword());
+        boolean isSuccess = memberService.resetPassword(request.getToken(), request.getNewPassword());
         if (isSuccess) {
             return ResponseEntity.ok("密碼重設成功");
         } else {
-            return ResponseEntity.badRequest().body("無效的 token 或舊密碼錯誤");
+            return ResponseEntity.badRequest().body("無效的 token");
         }
     }
  // 獲取會員資料
