@@ -22,4 +22,6 @@
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Temporal"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Temporal"/>
     <fullyQualifiedTypeName name="com.ispan.ktv.bean.OrderDetails"/>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.JpaRepository"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 </qualifiedTypeNameHistroy>

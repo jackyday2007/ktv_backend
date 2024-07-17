@@ -9,11 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -29,54 +30,59 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name="rooms")
+@Table(name = "rooms")
 public class Rooms {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "roomId")
 	private Integer roomId;
-	
-	@Column(name = "roomNumber")
-	private Integer roomNumber;
 
 	@Column(name = "size")
 	private String size;
-	
+
 	@Column(name = "price")
 	private Double price;
-	
+
 	@Column(name = "status")
 	private String status;
-	
+
+	@Lob
+	@Column(name = "photoFile")
+	private byte[] photoFile;
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createTime")
 	private Date createTime;
-	
+
 	@Column(name = "createBy")
 	private String createBy;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updateTime")
 	private Date updateTime;
-	
+
 	@Column(name = "updateBy")
 	private String updateBy;
-	
+
 	@PrePersist
 	public void onCreate() {
 		if (createTime == null) {
 			createTime = new Date();
 		}
 	}
-	
-	//與Orders 的 room 欄位 
-	@OneToMany(mappedBy = "room" , cascade = CascadeType.ALL)
+
+	@PreUpdate
+	public void onUpdate() {
+		this.updateTime = new Date();
+	}
+
+	// 與Orders 的 room 欄位
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Orders> roomOrders = new ArrayList<>();
-	
-	//與Problems 的 room 欄位 
-	@OneToMany(mappedBy = "room" , cascade = CascadeType.ALL)
-	private List<Problems> problems = new ArrayList<>();	
+
+	// 與Problems 的 room 欄位
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Problems> problems = new ArrayList<>();
 }
