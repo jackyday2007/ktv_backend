@@ -38,13 +38,13 @@ public class Members {
     private Integer memberId;  // 會員ID
     
     @Column(name = "idNumber", length = 10)
-    private String idNumber;  // 會員ID號碼
+    private String idNumber;  // 帳號
     
     @Column(name = "password", columnDefinition = "nvarchar(255)")
     private String password;  // 密碼
     
     @Column(name = "memberName", columnDefinition = "nvarchar(255)")
-    private String memberName;  // 會員名字
+    private String memberName;  // 姓名
     
     @Column(name = "phone", length = 15)
     private String phone;  // 會員電話

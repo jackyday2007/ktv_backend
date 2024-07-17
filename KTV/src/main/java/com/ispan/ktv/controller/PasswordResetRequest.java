@@ -1,14 +1,28 @@
 package com.ispan.ktv.controller;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class PasswordResetRequest {
-    private String idNumber;  // 會員ID號碼
-    private String email;  // 會員電子郵件
+    private String idNumber;
+    private String email;
 
+    // Getters 和 Setters
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
-

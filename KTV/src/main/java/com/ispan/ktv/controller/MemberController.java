@@ -5,7 +5,10 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ispan.ktv.bean.Members;
 import com.ispan.ktv.service.MemberService;
 
-@CrossOrigin
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@CrossOrigin(origins = "http://localhost:5175") 
 @RestController
 @RequestMapping("/api")
 public class MemberController {
@@ -36,14 +42,22 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Members member) {
+    public ResponseEntity<Members> login(@RequestBody Members member) {
         // 認證會員的 ID 和密碼
         boolean isAuthenticated = memberService.authenticate(member.getIdNumber(), member.getPassword());
         if (isAuthenticated) {
-            return ResponseEntity.ok("登入成功!");
+            Members authenticatedMember = memberService.findByIdNumber(member.getIdNumber());
+            return ResponseEntity.ok(authenticatedMember);
         } else {
-            return ResponseEntity.badRequest().body("帳號或密碼有誤");
+            return ResponseEntity.badRequest().body(null);
         }
+    }
+    
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        // 清除 session 或 token
+        // 具體實作根據您的需求
+        return ResponseEntity.ok("Logout successful");
     }
 
     @PostMapping("/forgot-password")
@@ -56,7 +70,8 @@ public class MemberController {
 
         // 生成重設密碼的 token 和連結
         String token = memberService.createPasswordResetToken(member);
-        String resetLink = "http://localhost:8080/ktv-app/reset-password?token=" + token;
+        String resetLink = "http://localhost:5175/reset-password?token=" + token;
+
 
         // 發送包含重設密碼連結的郵件
         memberService.sendPasswordResetEmail(member.getEmail(), resetLink);
@@ -66,13 +81,48 @@ public class MemberController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
-        // 使用 token 重設密碼
-        boolean isSuccess = memberService.resetPassword(request.getToken(), request.getNewPassword());
+        boolean isSuccess = memberService.resetPassword(request.getToken(), request.getOldPassword(), request.getNewPassword());
         if (isSuccess) {
             return ResponseEntity.ok("密碼重設成功");
         } else {
-            return ResponseEntity.badRequest().body("無效的 token");
+            return ResponseEntity.badRequest().body("無效的 token 或舊密碼錯誤");
         }
     }
-}
+ // 獲取會員資料
+    @GetMapping("/members/{idNumber}")
+    public ResponseEntity<Members> getMemberByIdNumber(@PathVariable String idNumber) {
+        Members member = memberService.findByIdNumber(idNumber);
+        if (member != null) {
+            return ResponseEntity.ok(member);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+//更新會員資料
+    @PutMapping("/members/{idNumber}")
+    public ResponseEntity<String> updateMember(@PathVariable String idNumber, @RequestBody Members member) {
+        Members existingMember = memberService.findByIdNumber(idNumber);
+        if (existingMember != null) {
+            existingMember.setMemberName(member.getMemberName());
+            existingMember.setPhone(member.getPhone());
+            existingMember.setBirth(member.getBirth());
+            existingMember.setEmail(member.getEmail());
+            existingMember.setUpdateTime(new Date());  // 更新時間
+            memberService.save(existingMember);
+            return ResponseEntity.ok("會員資料更新成功");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+// // 查詢所有會員
+//    @GetMapping("/members")
+//    public ResponseEntity<List<Members>> getAllMembers() {
+//        List<Members> membersList = memberService.findAllMembers();
+//        if (membersList.isEmpty()) {
+//            return ResponseEntity.noContent().build();
+//        } else {
+//            return ResponseEntity.ok(membersList);
+//        }
+//    }
 
+}
