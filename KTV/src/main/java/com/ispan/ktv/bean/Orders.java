@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,20 +22,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name="orders")
 public class Orders {
-	
+
 	@Id
 	@Column(name = "orderId")
-	private Integer orderId; 
+	private Long orderId; 
 	
 	
 	//此為多方 與 Customers 的 customerId 欄位
@@ -86,6 +85,26 @@ public class Orders {
 	@Column(name = "updateBy")
 	private String updateBy;
 	
+	@Override
+	public String toString() {
+		return "Orders ["
+				+ ( orderId != null ? orderId : "null" ) + ","
+				+ ( customerId != null ? customerId.getCustomerId() : "null" ) + ","
+				+ ( memberId != null ?  memberId.getMemberId() : "null" ) + ","
+				+ ( room != null ? room.getRoomId() : "null" ) + ","
+				+ ( numberOfPersons != null ? numberOfPersons : "null" ) + ","
+				+ ( hours != null ? hours : "null" ) + ","
+				+ ( orderDate != null ? orderDate : "null" ) + ","
+				+ ( startTime != null ? startTime : "null" ) + ","
+				+ ( endTime != null ? endTime : "null" ) + ","
+				+ ( subTotal != null ? subTotal : "null" ) + ","
+				+ ( createTime != null ? createTime : "null" ) + ","
+				+ ( createBy != null ? createBy : "null" ) + ","
+				+ ( updateTime != null ? updateTime : "null" ) + ","
+				+ ( updateBy != null ? updateBy : "null" ) +
+				"]";
+	}
+	
 	@PrePersist
 	public void onCreate() {
 		if (createTime == null) {
@@ -94,10 +113,12 @@ public class Orders {
 	}
 	
 	//與OrderDetails 的 orderId 欄位 
-	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<OrderDetails> orderDetails = new ArrayList<>();
 	
 	//與OrdersStatusHistory 的 orderId 欄位 
-	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<OrdersStatusHistory> ordersStatusHistory = new ArrayList<>();
+
+	
 }
