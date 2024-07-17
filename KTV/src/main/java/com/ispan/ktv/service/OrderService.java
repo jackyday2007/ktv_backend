@@ -28,6 +28,8 @@ import com.ispan.ktv.util.DatetimeConverter;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
@@ -49,6 +51,10 @@ public class OrderService {
 	
 	@Autowired
 	OrdersStatusHistoryRepository ordersStatusHistoryRepo;
+	
+	@Autowired
+	OrdersStatusHistoryService oshService;
+	
 	
 
 	public Orders findByOrdersId(Long ordersId) {
@@ -73,16 +79,19 @@ public class OrderService {
 		int max = body.isNull("max") ? 5 : body.getInt("max");
 		boolean dir = body.isNull("dir") ? false : body.getBoolean("dir");
 		String order = body.isNull("order") ? "orderId" : body.getString("order");
-		
+		String status = body.isNull("status") ? "status" : body.getString("status");
 		Sort sort = dir ? Sort.by(Sort.Direction.DESC, order) : Sort.by(Sort.Direction.ASC, order);
 		Pageable pgb = PageRequest.of(start, max, sort);
+		Long orderId = !body.isNull("orderId") ? body.getLong("orderId") : null;
+		System.out.println("orderId=" + orderId);
+		System.out.println("status=" + status);
 		
 		Specification<Orders> spec = (Root<Orders> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
 			List<Predicate> predicate = new ArrayList<>();
 			
 			if ( !body.isNull("orderId") ) {
 				try {
-					Long orderId = body.getLong("orderId");
+					
 					predicate.add(cb.equal(root.get("orderId"), orderId));
 				} catch( JSONException e ) {
 					e.printStackTrace();
@@ -125,8 +134,13 @@ public class OrderService {
 				predicate.add(cb.equal(root.get("endTime"), endTime));
 			}
 			
-			return cb.and(predicate.toArray(new Predicate[0]));
+			if ( !body.isNull("status") ) {
+				String orderStatus = body.getString("status") ;
+				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
+				predicate.add(cb.like(historyJoin.get("status"), "%" + orderStatus + "%"));
+			}
 			
+			return cb.and(predicate.toArray(new Predicate[0]));
 		};
 		return ordersRepository.findAll(spec, pgb).getContent();
 	}
