@@ -71,7 +71,7 @@ public class MemberController {
 
         // 生成重設密碼的 token 和連結
         String token = memberService.createPasswordResetToken(member);
-        String resetLink = "http://localhost:5175/reset-password?token=" + token;
+        String resetLink = "http://localhost:5173/reset-password?token=" + token;
 
 
         // 發送包含重設密碼連結的郵件
