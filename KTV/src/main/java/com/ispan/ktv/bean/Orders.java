@@ -1,5 +1,6 @@
 package com.ispan.ktv.bean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -69,9 +70,9 @@ public class Orders {
 	@Column(name = "subTotal")
 	private Double subTotal;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "createTime")
+	@Column(name = "createTime", columnDefinition = "date")
 	private Date createTime;
 	
 	@Column(name = "createBy")
@@ -105,12 +106,23 @@ public class Orders {
 				"]";
 	}
 	
-	@PrePersist
-	public void onCreate() {
-		if (createTime == null) {
-			createTime = new Date();
-		}
-	}
+    @PrePersist
+    public void onCreate() {
+        if (createTime == null) {
+            createTime = formatDate(new Date());
+        }
+    }
+
+    private Date formatDate(Date date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = sdf.format(date);
+            return sdf.parse(formattedDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 	
 	//與OrderDetails 的 orderId 欄位 
 	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)

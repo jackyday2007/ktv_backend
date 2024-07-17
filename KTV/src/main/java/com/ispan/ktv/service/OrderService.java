@@ -1,8 +1,10 @@
 package com.ispan.ktv.service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 
 import com.ispan.ktv.bean.Customers;
@@ -35,6 +38,7 @@ import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class OrderService {
 
 	@Autowired
@@ -61,13 +65,11 @@ public class OrderService {
 		}
 		return null;
 	}
-
-	public List<Orders> findAll(String orders) {
-		return ordersRepository.findAll();
-	}
 	
+	// 算總筆數
 	public Long count( String json ) {
 		JSONObject body = new JSONObject(json);
+		System.out.println(body);
 		return ordersRepository.count((root, query, criteriaBuilder) -> {
 			List<Predicate> predicate = new ArrayList<>();
 			
@@ -94,6 +96,8 @@ public class OrderService {
 			if ( !body.isNull("orderDate") ) {
 				String orderDate = body.getString("orderDate") ;
 				predicate.add(criteriaBuilder.equal(root.get("orderDate"), orderDate));
+			} else {
+				predicate.add(criteriaBuilder.isNull(root.get("orderDate")));
 			}
 			
 			if ( !body.isNull("hours") ) {
@@ -128,7 +132,7 @@ public class OrderService {
 	}
 	
 	
-	
+	// 即時查詢
 	public List<Orders> find( String json ) {
 		JSONObject body = new JSONObject(json);
 		System.out.println("body=" + body);
@@ -139,6 +143,7 @@ public class OrderService {
 		Sort sort = dir ? Sort.by(Sort.Direction.DESC, order) : Sort.by(Sort.Direction.ASC, order);
 		Pageable pgb = PageRequest.of(start, max, sort);
 		
+	
 		Specification<Orders> spec = (Root<Orders> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
 			List<Predicate> predicate = new ArrayList<>();
 			
@@ -192,15 +197,15 @@ public class OrderService {
 				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
 				predicate.add(cb.like(historyJoin.get("status"), "%" + status + "%"));
 			}
-			
 			return cb.and(predicate.toArray(new Predicate[0]));
 		};
+		
 		return ordersRepository.findAll(spec, pgb).getContent();
 	}
 	
 	
 	
-	@Transactional
+	
 	public Orders updateOrders(String body) {
 		JSONObject obj = new JSONObject(body);
 		Customers customerId = null;
@@ -249,9 +254,10 @@ public class OrderService {
 	
 	@Transactional
 	public Orders createOrderId( Long id ) {
-		Orders orderId = new Orders();
-		orderId.setOrderId(id);
-		return ordersRepository.save(orderId);
+		Orders order = new Orders();
+		order.setOrderId(id);
+//		order.setOrderDate(( Date.from(Instant.now()), "yyyy-MM-dd" ));
+		return ordersRepository.save(order);
 	}
 	
 
@@ -277,7 +283,7 @@ public class OrderService {
 
 	// 計算今日訂單數量
 	private long getTodayOrderCount() {
-		return ordersRepository.countByOrderDate(java.sql.Date.valueOf((LocalDate.now())));
+		return ordersRepository.countByCreateTime(java.sql.Date.valueOf((LocalDate.now())));
 	}
 
 }

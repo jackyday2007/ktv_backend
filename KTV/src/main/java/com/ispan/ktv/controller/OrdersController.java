@@ -26,7 +26,7 @@ import com.ispan.ktv.util.DatetimeConverter;
 
 @RestController
 @RequestMapping("/ktvbackend/")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class OrdersController {
 
 	@Autowired
@@ -79,66 +79,36 @@ public class OrdersController {
 	public String findAllTesst(@RequestBody(required = false) String body) {
 		JSONObject responseBody = new JSONObject();
 		List<Orders> result = orderService.find(body);
+		long count = orderService.count(body);
 		System.out.println("result="+result);
 		JSONArray array = new JSONArray();
 		if ( result != null && !result.isEmpty() ) {
 			for ( Orders orders : result ) {
-				Long orderId = Long.valueOf(orders.getOrderId());
-				String orderDate = DatetimeConverter.toString(orders.getOrderDate(), "yyyy-MM-dd");
-				String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm");
-				String endTime = DatetimeConverter.toString(orders.getEndTime(), "HH:mm");
-				OrdersStatusHistory status = oshService.findNewHistory(orders.getOrderId());
-				JSONObject item = new JSONObject();
-				item.put("orderId", orderId);
-				item.put("memberId", orders.getMemberId() != null ? orders.getMemberId().getMemberId() : "");
-				item.put("customerId", orders.getCustomerId() != null ? orders.getCustomerId().getCustomerId() : "" );
-				item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "");
-				item.put("orderDate", orderDate);
-				item.put("hours", orders.getHours());
-				item.put("startTime", startTime);
-				item.put("endTime", endTime);
-				item.put("subTotal", orders.getSubTotal() != null ? orders.getSubTotal() : "" );
-				item.put("status", status.getStatus());
-				array.put(item);
+				if ( orders.getOrderDate() != null ) {
+					Long orderId = Long.valueOf(orders.getOrderId());
+					String orderDate = DatetimeConverter.toString(orders.getOrderDate(), "yyyy-MM-dd");
+					String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm");
+					String endTime = DatetimeConverter.toString(orders.getEndTime(), "HH:mm");
+					OrdersStatusHistory status = oshService.findNewHistory(orders.getOrderId());
+					JSONObject item = new JSONObject();
+					item.put("orderId", orderId);
+					item.put("memberId", orders.getMemberId() != null ? orders.getMemberId().getMemberId() : "");
+					item.put("customerId", orders.getCustomerId() != null ? orders.getCustomerId().getCustomerId() : "" );
+					item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "");
+					item.put("orderDate", orderDate);
+					item.put("hours", orders.getHours());
+					item.put("startTime", startTime);
+					item.put("endTime", endTime);
+					item.put("subTotal", orders.getSubTotal() != null ? orders.getSubTotal() : "" );
+					item.put("status", status != null ?  status.getStatus() : null );
+					array.put(item);
+				}
 			}
 		}
-		long count = orderService.count(body);
 		responseBody.put("count", count);
 		responseBody.put("list", array);
 		return responseBody.toString();
 	}
-	
-
-	@PostMapping("/orders/allOrders")
-	public String findAll(@RequestBody(required = false) String body) {
-		JSONObject responseBody = new JSONObject();
-		List<Orders> result = orderService.findAll(body);
-		JSONArray array = new JSONArray();
-		if (result != null && !result.isEmpty()) {
-			for (Orders orders : result) {
-				String orderDate = DatetimeConverter.toString(orders.getOrderDate(), "yyyy-MM-dd");
-				String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm");
-				String endTime = DatetimeConverter.toString(orders.getEndTime(), "HH:mm");
-				OrdersStatusHistory status = oshService.findNewHistory(orders.getOrderId());
-				JSONObject item = new JSONObject();
-				item.put("orderId", orders.getOrderId());
-				item.put("customerId", (orders.getCustomerId() != null ? orders.getCustomerId().getCustomerId() : ""));
-				item.put("memberId", (orders.getMemberId() != null ? orders.getMemberId().getMemberId() : ""));
-				item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "" );
-				item.put("numberOfPersons", orders.getNumberOfPersons());
-				item.put("hours", orders.getHours());
-				item.put("orderDate", orderDate);
-				item.put("startTime", startTime);
-				item.put("endTime", endTime);
-				item.put("subTotal", orders.getSubTotal());
-				item.put("status", status != null ? status.getStatus() : "");
-				array.put(item);
-			}
-		}
-		responseBody.put("list", array);
-		return responseBody.toString();
-	}
-	
 	
 	@PostMapping("/orders/createOrderId")
 	public Orders newOrderId() {

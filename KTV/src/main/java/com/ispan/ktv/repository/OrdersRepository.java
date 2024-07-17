@@ -10,7 +10,7 @@ import com.ispan.ktv.dao.OrdersDAO;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long>, JpaSpecificationExecutor<Orders> {
 	
-   long countByOrderDate( Date orderDate);
+   long countByCreateTime( Date CreateTime);
    boolean existsByOrderId(Long orderId);
 
 }
