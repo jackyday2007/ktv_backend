@@ -42,30 +42,21 @@ public class StaffService {
 	public Staff create(String json) {
 		try {
 			JSONObject obj = new JSONObject(json);
-			// Integer id = obj.isNull("id") ? null : obj.getInt("id");
 			String name = obj.isNull("name") ? null : obj.getString("name");
 			Integer account = obj.isNull("account") ? null : obj.getInt("account");
 			String password = obj.isNull("password") ? null : obj.getString("password");
 			String status = obj.isNull("status") ? null : obj.getString("status");
 			String createBy = obj.isNull("createBy") ? null : obj.getString("createBy");
 			String createTime = obj.isNull("createTime") ? null : obj.getString("createTime");
-			//			String updateBy = obj.isNull("updateBy") ? null : obj.getString("updateBy");
-			//			String updateTime = obj.isNull("updateTime") ? null : obj.getString("updateTime");
-
-			Optional<Staff> optional = sr.findById(account);
-			if (optional.isEmpty()) {
-				Staff insert = new Staff();
-				// insert.setAccountId(id);
-				insert.setAccountName(name);
-				insert.setAccount(account);
-				insert.setPassword(password);
-				insert.setStatus(status);
-				insert.setCreateBy(createBy);
-				insert.setCreateTime(null);
-				insert.setCreateTime(DatetimeConverter.parse(createTime, "yyyy-MM-dd"));
-
-				return sr.save(insert);
-			}
+			Staff insert = new Staff();
+			insert.setAccountName(name);
+			insert.setAccount(account);
+			insert.setPassword(password);
+			insert.setStatus(status);
+			insert.setCreateBy(createBy);
+			insert.setCreateTime(null);
+			insert.setCreateTime(DatetimeConverter.parse(createTime, "yyyy-MM-dd"));
+			return sr.save(insert);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
