@@ -1,5 +1,6 @@
 package com.ispan.ktv.service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +25,8 @@ public class StaffService {
 		return sr.findAll();
 	}
 
-	
 	public List<Staff> findByName(String name) {
-		return sr.findByName('%'+name+'%');
+		return sr.findByName('%' + name + '%');
 	}
 
 	public Staff findById(Integer id) {
@@ -85,9 +85,9 @@ public class StaffService {
 			Date createTime = bean.getCreateTime();
 			String updateBy = obj.isNull("updateBy") ? null : obj.getString("updateBy");
 			Date updateTime = new Date();
-			
+
 			Optional<Staff> optional = sr.findById(id);
-			if(optional.isPresent()) {
+			if (optional.isPresent()) {
 				Staff update = new Staff();
 				update.setAccountId(id);
 				update.setAccountName(name);
@@ -100,8 +100,27 @@ public class StaffService {
 				update.setUpdateTime(updateTime);
 				return sr.save(update);
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Staff login(String account, String password) {
+		if (account != null && account.length() != 0) {
+			Optional<Staff> optional = sr.findByAccount(account);
+
+			if (optional.isPresent()) {
+				if (password != null && password.length() != 0) {
+					Staff bean = optional.get();
+					byte[] pass = bean.getPassword().getBytes();
+					byte[] temp = password.getBytes();
+					if (Arrays.equals(pass, temp)) {
+						return bean;
+					}
+				}
+			}
+			
 		}
 		return null;
 	}
