@@ -28,16 +28,21 @@ public class ProblemsController {
 //	新增
 	@PostMapping("/problems/create")
 	public String create(@RequestBody String body) throws JSONException {
-		JSONObject responseBody = new JSONObject();
-		Problems problem = problemService.create(body);
-		if (problem == null) {
-			responseBody.put("success", false);
-			responseBody.put("message", "新增失敗");
-		} else {
-			responseBody.put("success", true);
-			responseBody.put("message", "新增成功");
-		}
-		return responseBody.toString();
+	    JSONObject responseBody = new JSONObject();
+	    try {
+	        Problems problem = problemService.create(body);
+	        if (problem == null) {
+	            responseBody.put("success", false);
+	            responseBody.put("message", "包廂問題新增失敗");
+	        } else {
+	            responseBody.put("success", true);
+	            responseBody.put("message", "包廂問題新增成功");
+	        }
+	    } catch (IllegalArgumentException e) {
+	        responseBody.put("success", false);
+	        responseBody.put("message", "新增失敗!"+e.getMessage()+"包廂號碼");
+	    }
+	    return responseBody.toString();
 	}
 
 //	RoomId單筆查詢
@@ -48,11 +53,18 @@ public class ProblemsController {
 		Problems problem = problemService.findProblemById(problemId);
 		if (problemId != null) {
 			Rooms room = problem.getRoom();
-			JSONObject item = new JSONObject().put("problemId", problem.getProblemId())
-					.put("eventCase", problem.getEventCase()).put("roomId", room.getRoomId())
-					.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
-					.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus());
-
+			JSONObject item = new JSONObject()
+					.put("problemId", problem.getProblemId())
+					.put("eventCase", problem.getEventCase())
+					.put("roomId", room.getRoomId())
+					.put("content", problem.getContent())
+					.put("eventDate", problem.getEventDate())
+					.put("closeDate", problem.getCloseDate())
+					.put("status", problem.getStatus())
+                    .put("createTime", problem.getCreateTime())
+                    .put("createBy", problem.getCreateBy())
+                    .put("updateTime", problem.getUpdateTime())
+                    .put("updateBy", problem.getUpdateBy());
 			array.put(item);
 		}
 		responseBody.put("list", array);
@@ -70,19 +82,19 @@ public class ProblemsController {
 		// 檢查路徑中的 problemId 和請求體中的 problemId 是否一致
 		if (problemId == null || !problemId.equals(bodyProblemId)) {
 			responseBody.put("success", false);
-			responseBody.put("message", "problemId 不一致");
+			responseBody.put("message", "包廂號碼不一致");
 		} else {
 			if (!problemService.exists(problemId)) {
 				responseBody.put("success", false);
-				responseBody.put("message", "problemId 不存在");
+				responseBody.put("message", "包廂號碼不存在");
 			} else {
 				Problems problem = problemService.modify(body);
 				if (problem == null) {
 					responseBody.put("success", false);
-					responseBody.put("message", "修改失敗");
+					responseBody.put("message", "包廂問題修改失敗");
 				} else {
 					responseBody.put("success", true);
-					responseBody.put("message", "修改成功");
+					responseBody.put("message", "包廂問題修改成功");
 				}
 			}
 		}
@@ -91,27 +103,41 @@ public class ProblemsController {
 
 // 	查詢全部
 	@PostMapping("/problems/findAll")
-	public String findAll(@RequestBody String body) throws JSONException {
-		JSONObject responseBody = new JSONObject();
-		JSONArray array = new JSONArray();
-		List<Problems> problems = problemService.findAll(body);
-		if(problems != null && !problems.isEmpty()) {
-			for(Problems problem : problems) {
-				JSONObject item = new JSONObject()
-						.put("problemId", problem.getProblemId())
-						.put("eventCase", problem.getEventCase())
-						.put("room", problem.getRoom())
-						.put("content", problem.getContent())
-						.put("eventDate", problem.getEventDate())
-						.put("closeDate", problem.getCloseDate())
-						.put("status", problem.getStatus());
-				array.put(item);
-			}
-			long count = problemService.count(body);
-			responseBody.put("count",count);
-			responseBody.put("list", array);
-			return responseBody.toString();
-		}
-		return responseBody.toString();
+	public String findAll(@RequestBody(required = false) String body) throws JSONException {
+	    JSONObject responseBody = new JSONObject();
+	    JSONArray array = new JSONArray();
+	    // 檢查 body 是否為空，為空時設置為默認值或處理為空查詢
+	    if (body == null || body.isEmpty()) {
+	        body = "{}"; // 或者設置為其他合理的默認值
+	    }
+	    List<Problems> problems = problemService.findAll(body);
+	    if (problems != null && !problems.isEmpty()) {
+	        for (Problems problem : problems) {
+	             Integer roomId = null;
+	             if (problem.getRoom() != null) {
+	                 roomId = problem.getRoom().getRoomId();
+	             }
+	            JSONObject item = new JSONObject()
+	                    .put("problemId", problem.getProblemId())
+	                    .put("eventCase", problem.getEventCase())
+	                    .put("room", roomId) // 將 roomId 放入
+	                    .put("content", problem.getContent())
+	                    .put("eventDate", problem.getEventDate())
+	                    .put("closeDate", problem.getCloseDate())
+	                    .put("status", problem.getStatus())
+	                    .put("createTime", problem.getCreateTime())
+	                    .put("createBy", problem.getCreateBy())
+	                    .put("updateTime", problem.getUpdateTime())
+	                    .put("updateBy", problem.getUpdateBy());
+	            array.put(item);
+	        }
+	        long count = problemService.count(body);
+	        responseBody.put("count", count);
+	        responseBody.put("list", array);
+	        return responseBody.toString();
+	    }
+	    responseBody.put("list", array); // 即使 problems 為空，也返回空的 list
+	    return responseBody.toString();
 	}
+
 }
