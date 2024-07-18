@@ -1,17 +1,18 @@
 package com.ispan.ktv.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.Members;
@@ -22,29 +23,35 @@ import com.ispan.ktv.util.ResetPasswordRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-//@CrossOrigin(origins = "http://localhost:5175") 
-@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class MemberController {
 
     @Autowired
-    private MemberService memberService;  // 注入 MemberService 以使用其方法
+    private MemberService memberService;
 
+    @CrossOrigin
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Members member) {
         // 檢查 ID 是否已存在
         if (memberService.findByIdNumber(member.getIdNumber()) != null) {
             return ResponseEntity.badRequest().body("ID Number已被使用");
         }
+        
         // 設定密碼和其他屬性
         member.setStatus(1);  // 設定狀態為啟用
         member.setCreateTime(new Date());  // 設定創建時間
+        
+        // 將密碼加密後再存入資料庫
+        String encryptedPassword = memberService.encryptPassword(member.getPassword());
+        member.setPassword(encryptedPassword);
+        
         memberService.save(member);  // 儲存會員
 
         return ResponseEntity.ok("註冊成功!");
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<Members> login(@RequestBody Members member) {
         // 認證會員的 ID 和密碼
@@ -57,7 +64,7 @@ public class MemberController {
         }
     }
 
-    
+    @CrossOrigin
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         // 清除 session 或 token
@@ -65,6 +72,7 @@ public class MemberController {
         return ResponseEntity.ok("Logout successful");
     }
 
+    @CrossOrigin
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody PasswordResetRequest request) {
         // 根據 ID 查找會員
@@ -77,13 +85,13 @@ public class MemberController {
         String token = memberService.createPasswordResetToken(member);
         String resetLink = "http://localhost:5173/reset-password?token=" + token;
 
-
         // 發送包含重設密碼連結的郵件
         memberService.sendPasswordResetEmail(member.getEmail(), resetLink);
 
-        return ResponseEntity.ok("重設密碼的連結已發送至您的郵箱");
+        return ResponseEntity.ok("重設密碼的連結已發送至您的信箱!");
     }
-//重設密碼
+
+    @CrossOrigin
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
         boolean isSuccess = memberService.resetPassword(request.getToken(), request.getNewPassword());
@@ -93,7 +101,8 @@ public class MemberController {
             return ResponseEntity.badRequest().body("無效的 token");
         }
     }
- // 獲取會員資料
+
+    @CrossOrigin
     @GetMapping("/members/{idNumber}")
     public ResponseEntity<Members> getMemberByIdNumber(@PathVariable String idNumber) {
         Members member = memberService.findByIdNumber(idNumber);
@@ -103,7 +112,15 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
-//更新會員資料
+
+    @CrossOrigin
+    @GetMapping("/members")
+    public ResponseEntity<List<Members>> getAllMembers() {
+        List<Members> members = memberService.findAllMembers();
+        return ResponseEntity.ok(members);
+    }
+
+    @CrossOrigin
     @PutMapping("/members/{idNumber}")
     public ResponseEntity<String> updateMember(@PathVariable String idNumber, @RequestBody Members member) {
         Members existingMember = memberService.findByIdNumber(idNumber);
@@ -119,4 +136,17 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @CrossOrigin
+    @DeleteMapping("/members/{idNumber}")
+    public ResponseEntity<String> deleteMember(@PathVariable String idNumber) {
+        Members existingMember = memberService.findByIdNumber(idNumber);
+        if (existingMember != null) {
+            memberService.delete(existingMember);
+            return ResponseEntity.ok("會員資料刪除成功");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
