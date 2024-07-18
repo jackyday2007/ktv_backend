@@ -25,7 +25,7 @@ public class NewsService {
 
     @Autowired
     private NewsRepository newsRepo;
-    
+
     /**
      * 新增最新消息
      */
@@ -55,8 +55,6 @@ public class NewsService {
         newsRepo.save(news);
     }
 
-    
-
     /**
      * 更新消息。
      */
@@ -64,10 +62,10 @@ public class NewsService {
     public void updateNews(Integer newsId, News updatedNews) {
 
         Optional<News> optionalNews = newsRepo.findById(newsId);
-        
+
         if (optionalNews.isPresent()) {
             News updateData = optionalNews.get();
-            
+
             // 更新需要修改的屬性
             updateData.setTitle(updatedNews.getTitle());
             updateData.setContent(updatedNews.getContent());
@@ -76,7 +74,7 @@ public class NewsService {
             updateData.setEndDate(updatedNews.getEndDate());
             updateData.setStatus(updatedNews.getStatus());
             updateData.setImage(updatedNews.getImage());
-            
+
             // 更新更新時間
             updateData.setUpdateTime(new Date());
             Date currentDateTime = new Date();
@@ -89,35 +87,36 @@ public class NewsService {
 
             // 檢查結束時間不能比開始時間早
             if (updatedNews.getStartDate() != null) {
-                LocalDate startLocalDate = updatedNews.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate startLocalDate = updatedNews.getStartDate().toInstant().atZone(ZoneId.systemDefault())
+                        .toLocalDate();
                 if (endLocalDate.isBefore(startLocalDate) && !endLocalDate.equals(startLocalDate)) {
                     throw new IllegalArgumentException("結束日期不能比開始日期早");
                 }
             }
-            
+
             // 保存更新
             newsRepo.save(updateData);
         } else {
             throw new RuntimeException("News with ID " + newsId + " not found");
         }
     }
-    
+
     /**
      * 根據新聞ID查詢最新消息。
      * 
-     *  newsId 新聞ID。
-     *  return 如果找到則返回對應的最新消息，否則返回null。
+     * newsId 新聞ID。
+     * return 如果找到則返回對應的最新消息，否則返回null。
      */
     @Transactional
     public News findNewsById(Integer newsId) {
         Optional<News> optional = newsRepo.findById(newsId);
-        
+
         if (optional.isPresent()) {
             return optional.get();
         }
         return null;
     }
-    
+
     /**
      * 檢索資料庫中所有最新消息。
      * 
@@ -127,7 +126,7 @@ public class NewsService {
     public List<News> findAllNews() {
         return newsRepo.findAll();
     }
-    
+
     /**
      * 根據標題關鍵字模糊查詢最新消息。
      * 
@@ -138,7 +137,7 @@ public class NewsService {
     public List<News> findNewsByTitle(String keyword) {
         return newsRepo.findByTitleContaining(keyword);
     }
-    
+
     /**
      * 根據頁碼進行分頁查詢最新消息。
      * 
@@ -148,14 +147,15 @@ public class NewsService {
     public Page<News> findByPage(Integer pageNumber) {
         // 設置分頁參數，每頁顯示15條數據，按照startDate降序排序
         Pageable pageable = PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "startDate");
-        
+
         // 使用NewsRepository查詢分頁數據
         Page<News> page = newsRepo.findAll(pageable);
-        
+
         return page; // 返回分頁結果
     }
+
     @Transactional
-    public void uploadImage(MultipartFile file) throws IOException {
+    public void uploadImageForNews(MultipartFile file) throws IOException {
         // 讀取文件內容
         byte[] imageData = file.getBytes();
 
@@ -166,23 +166,25 @@ public class NewsService {
         // 保存 News 對象到資料庫
         newsRepo.save(news);
     }
+
     @Transactional
     public void removeNews(Integer newsId, String status) {
         Optional<News> optionalNews = newsRepo.findById(newsId);
         if (optionalNews.isPresent()) {
             News news = optionalNews.get();
-            news.setStatus("notuse");  // 將狀態設置為 "notuse"
-            news.setUpdateTime(new Date());  // 更新更新時間為當前時間
-            newsRepo.save(news);  // 保存更新後的新聞對象到資料庫
+            news.setStatus("notuse"); // 將狀態設置為 "notuse"
+            news.setUpdateTime(new Date()); // 更新更新時間為當前時間
+            newsRepo.save(news); // 保存更新後的新聞對象到資料庫
         } else {
             throw new RuntimeException("News with ID " + newsId + " not found");
         }
     }
+
     @Transactional
     public void uploadImage(Integer newsId, MultipartFile imageFile) throws IOException {
         // 根據newsId查找新聞
         News news = newsRepo.findById(newsId)
-                                  .orElseThrow(() -> new RuntimeException("找不到新聞，ID: " + newsId));
+                .orElseThrow(() -> new RuntimeException("找不到新聞，ID: " + newsId));
 
         // 讀取文件內容
         byte[] imageData = imageFile.getBytes();
@@ -201,11 +203,8 @@ public class NewsService {
         }
         return null;
     }
-    
-    
-    
-    
-//        @Scheduled(cron = "0 0/30 * * * *") // 每30分鐘點執行一次
+
+    // @Scheduled(cron = "0 0/30 * * * *") // 每30分鐘點執行一次
 
     @Scheduled(cron = "0 * * * * *") // 每分钟执行一次
     public void checkNewsExpiration() {
@@ -241,11 +240,10 @@ public class NewsService {
             System.out.println("处理完毕，更新后状态为: " + news.getStatus());
         }
     }
-    
+
     @Scheduled(cron = "0/10 * * * * *")
     public void printHello() {
         System.out.println("hello");
     }
 
-    
-    }
+}
