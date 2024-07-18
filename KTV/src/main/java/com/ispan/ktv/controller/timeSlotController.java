@@ -21,6 +21,7 @@ import com.ispan.ktv.service.TimeSlotService;
 
 @RestController
 public class TimeSlotController {
+
 	@Autowired
 	private TimeSlotService ts;
 
