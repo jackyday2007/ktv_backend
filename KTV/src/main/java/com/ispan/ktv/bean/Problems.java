@@ -46,13 +46,13 @@ public class Problems {
 	@Column(name = "content" , columnDefinition = "nvarchar(255)")
 	private String content;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
 	@Column(name = "eventDate")
 	private Date eventDate;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
 	@Column(name = "closeDate")
 	private Date closeDate;
 	
