@@ -80,6 +80,8 @@ public class OrdersController {
 		JSONObject responseBody = new JSONObject();
 		List<Orders> result = orderService.find(body);
 		long count = orderService.count(body);
+		long countNull = orderService.countOrderDate(body);
+		long countTotal =count - countNull;
 		System.out.println("result="+result);
 		JSONArray array = new JSONArray();
 		if ( result != null && !result.isEmpty() ) {
@@ -105,7 +107,7 @@ public class OrdersController {
 				}
 			}
 		}
-		responseBody.put("count", count);
+		responseBody.put("count", countTotal);
 		responseBody.put("list", array);
 		return responseBody.toString();
 	}

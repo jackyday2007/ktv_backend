@@ -73,6 +73,14 @@ public class OrderService {
 		return ordersRepository.count((root, query, criteriaBuilder) -> {
 			List<Predicate> predicate = new ArrayList<>();
 			
+//			if ( !body.isNull("orderDate") ) {
+//				String orderDate = body.getString("orderDate") ;
+//				predicate.add(criteriaBuilder.equal(root.get("orderDate"), orderDate));
+//			} else {
+//				predicate.add(criteriaBuilder.isNull(root.get("orderDate")));
+//			}
+			
+			
 			if ( !body.isNull("orderId") ) {
 				Long orderId = body.getLong("orderId");
 				predicate.add(criteriaBuilder.equal(root.get("orderId"), orderId));
@@ -91,13 +99,6 @@ public class OrderService {
 			if ( !body.isNull("room") ) {
 				Integer room = body.getInt("room") ;
 				predicate.add(criteriaBuilder.equal(root.get("room").get("roomId"), room));
-			}
-			
-			if ( !body.isNull("orderDate") ) {
-				String orderDate = body.getString("orderDate") ;
-				predicate.add(criteriaBuilder.equal(root.get("orderDate"), orderDate));
-			} else {
-				predicate.add(criteriaBuilder.isNull(root.get("orderDate")));
 			}
 			
 			if ( !body.isNull("hours") ) {
@@ -130,6 +131,27 @@ public class OrderService {
 			return criteriaBuilder.and(predicate.toArray(new Predicate[0]));
 		});
 	}
+	
+	// null的總數
+	public Long countOrderDate( String json ) {
+		JSONObject body = new JSONObject(json);
+		System.out.println(body);
+		return ordersRepository.count((root, query, criteriaBuilder) -> {
+			List<Predicate> predicate = new ArrayList<>();
+			
+			if ( !body.isNull("orderDate") ) {
+				String orderDate = body.getString("orderDate") ;
+				predicate.add(criteriaBuilder.equal(root.get("orderDate"), orderDate));
+			} else {
+				predicate.add(criteriaBuilder.isNull(root.get("orderDate")));
+			}
+			query.where(predicate.toArray(new Predicate[0]));
+
+			return criteriaBuilder.and(predicate.toArray(new Predicate[0]));
+		});
+	}
+	
+	
 	
 	
 	// 即時查詢
