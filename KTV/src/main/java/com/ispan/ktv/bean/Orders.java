@@ -1,5 +1,6 @@
 package com.ispan.ktv.bean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,20 +23,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name="orders")
 public class Orders {
-	
+
 	@Id
 	@Column(name = "orderId")
-	private Integer orderId; 
+	private Long orderId; 
 	
 	
 	//此為多方 與 Customers 的 customerId 欄位
@@ -70,9 +70,9 @@ public class Orders {
 	@Column(name = "subTotal")
 	private Double subTotal;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "createTime")
+	@Column(name = "createTime", columnDefinition = "date")
 	private Date createTime;
 	
 	@Column(name = "createBy")
@@ -86,18 +86,51 @@ public class Orders {
 	@Column(name = "updateBy")
 	private String updateBy;
 	
-	@PrePersist
-	public void onCreate() {
-		if (createTime == null) {
-			createTime = new Date();
-		}
+	@Override
+	public String toString() {
+		return "Orders ["
+				+ ( orderId != null ? orderId : "null" ) + ","
+				+ ( customerId != null ? customerId.getCustomerId() : "null" ) + ","
+				+ ( memberId != null ?  memberId.getMemberId() : "null" ) + ","
+				+ ( room != null ? room.getRoomId() : "null" ) + ","
+				+ ( numberOfPersons != null ? numberOfPersons : "null" ) + ","
+				+ ( hours != null ? hours : "null" ) + ","
+				+ ( orderDate != null ? orderDate : "null" ) + ","
+				+ ( startTime != null ? startTime : "null" ) + ","
+				+ ( endTime != null ? endTime : "null" ) + ","
+				+ ( subTotal != null ? subTotal : "null" ) + ","
+				+ ( createTime != null ? createTime : "null" ) + ","
+				+ ( createBy != null ? createBy : "null" ) + ","
+				+ ( updateTime != null ? updateTime : "null" ) + ","
+				+ ( updateBy != null ? updateBy : "null" ) +
+				"]";
 	}
 	
+    @PrePersist
+    public void onCreate() {
+        if (createTime == null) {
+            createTime = formatDate(new Date());
+        }
+    }
+
+    private Date formatDate(Date date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = sdf.format(date);
+            return sdf.parse(formattedDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
 	//與OrderDetails 的 orderId 欄位 
-	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<OrderDetails> orderDetails = new ArrayList<>();
 	
 	//與OrdersStatusHistory 的 orderId 欄位 
-	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<OrdersStatusHistory> ordersStatusHistory = new ArrayList<>();
+
+	
 }

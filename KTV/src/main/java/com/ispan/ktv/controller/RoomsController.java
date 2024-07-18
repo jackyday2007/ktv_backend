@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.RoomService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class RoomsController {
 
 	@Autowired
@@ -70,9 +72,9 @@ public class RoomsController {
 						.put("status", room.getStatus())
 						.put("photoFile", room.getPhotoFile())
 						.put("createTime", room.getCreateTime())
-	                    .put("createBy", room.getCreateBy())
-	                    .put("updateTime", room.getUpdateTime())
-	                    .put("updateBy", room.getUpdateBy());
+						.put("createBy", room.getCreateBy())
+						.put("updateTime", room.getUpdateTime())
+						.put("updateBy", room.getUpdateBy());
 				array.put(item);
 			}
 			responseBody.put("list", array);
@@ -126,9 +128,9 @@ public class RoomsController {
 						.put("status", room.getStatus())
 						.put("photoFile", room.getPhotoFile())
 						.put("createTime", room.getCreateTime())
-	                    .put("createBy", room.getCreateBy())
-	                    .put("updateTime", room.getUpdateTime())
-	                    .put("updateBy", room.getUpdateBy());
+						.put("createBy", room.getCreateBy())
+						.put("updateTime", room.getUpdateTime())
+						.put("updateBy", room.getUpdateBy());
 				array.put(item);
 			}
 			long count = roomService.count(body);

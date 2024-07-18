@@ -19,7 +19,7 @@ public class RoomService {
 	@Autowired
 	private RoomsRepository roomsRepository;
 
-// 	新增
+	// 新增
 	public Rooms create(String json) {
 		try {
 			JSONObject obj = new JSONObject(json);
@@ -47,7 +47,7 @@ public class RoomService {
 		return null;
 	}
 
-//	判斷
+	// 判斷
 	public boolean exists(Integer roomId) {
 		if (roomId != null) {
 			return roomsRepository.existsById(roomId);
@@ -55,7 +55,7 @@ public class RoomService {
 		return false;
 	}
 
-// 	修改
+	// 修改
 	public Rooms modify(String json) {
 		try {
 			JSONObject obj = new JSONObject(json);
@@ -86,7 +86,7 @@ public class RoomService {
 		return null;
 	}
 
-// 	Id查詢
+	// Id查詢
 	public Rooms findByRoomId(Integer roomId) {
 		if (roomId != null) {
 			Optional<Rooms> optional = roomsRepository.findById(roomId);
@@ -97,7 +97,7 @@ public class RoomService {
 		return null;
 	}
 
-//	找尋全部
+	// 找尋全部
 	public List<Rooms> findAll(String json) {
 		try {
 			// JSONObject obj = new JSONObject(json);
@@ -108,7 +108,7 @@ public class RoomService {
 		return null;
 	}
 
-//	總筆數
+	// 總筆數
 	public long count(String json) {
 		try {
 			JSONObject obj = new JSONObject(json);
