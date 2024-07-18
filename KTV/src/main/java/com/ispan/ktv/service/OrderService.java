@@ -255,8 +255,8 @@ public class OrderService {
 	            update.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
 			}
 			Orders result =  ordersRepository.save(update);
+			OrdersStatusHistory history = new OrdersStatusHistory();
 			if ( result.getOrderId() != null ) {
-				OrdersStatusHistory history = new OrdersStatusHistory();
 				history.setOrderId(result);
 				history.setStatus("預約");
 				ordersStatusHistoryRepo.save(history);

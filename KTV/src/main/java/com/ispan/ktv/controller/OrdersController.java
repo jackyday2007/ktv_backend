@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -120,7 +119,7 @@ public class OrdersController {
 		return orderService.createOrderId(orderId);
 	}
 
-	@PutMapping("/orders/newOrder/{id}")
+	@PostMapping("/orders/newOrder/{id}")
 	public String newOrders(@PathVariable Long id, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 		JSONObject obj = new JSONObject(body);
