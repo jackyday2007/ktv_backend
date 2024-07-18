@@ -15,5 +15,5 @@ public interface StaffRepository extends JpaRepository<Staff, Integer> {
     // public long countByName(String name);
     List<Staff> findByName(@Param("name") String name);
     @Query(value="from Staff where account = :username")
-    Optional<Staff> findByAccount(@Param("username") String account);
+    Optional<Staff> findByAccount(@Param("username") Integer account);
 }
