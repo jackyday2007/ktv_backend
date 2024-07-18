@@ -47,7 +47,7 @@ public class ProblemsController {
 		return responseBody.toString();
 	}
 
-	// RoomId單筆查詢
+	// ProblemId單筆查詢
 	@GetMapping("/problems/findByProblemId/{pk}")
 	public String findById(@PathVariable(name = "pk") Integer problemId) throws JSONException {
 		JSONObject responseBody = new JSONObject();
@@ -55,19 +55,60 @@ public class ProblemsController {
 		Problems problem = problemService.findProblemById(problemId);
 		if (problemId != null) {
 			Rooms room = problem.getRoom();
-			JSONObject item = new JSONObject()
-					.put("problemId", problem.getProblemId())
-					.put("eventCase", problem.getEventCase())
-					.put("roomId", room.getRoomId())
-					.put("content", problem.getContent())
-					.put("eventDate", problem.getEventDate())
-					.put("closeDate", problem.getCloseDate())
-					.put("status", problem.getStatus())
-					.put("createTime", problem.getCreateTime())
-					.put("createBy", problem.getCreateBy())
-					.put("updateTime", problem.getUpdateTime())
-					.put("updateBy", problem.getUpdateBy());
+			JSONObject item = new JSONObject().put("problemId", problem.getProblemId())
+					.put("eventCase", problem.getEventCase()).put("roomId", room.getRoomId())
+					.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
+					.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
+					.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy())
+					.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy());
 			array.put(item);
+		}
+		responseBody.put("list", array);
+		return responseBody.toString();
+	}
+
+	// ProblemRoom單筆查詢
+	@GetMapping("/problems/findProblemsByRoom/{room}")
+	public String findProblemsByRoom(@PathVariable(name = "room") Integer room) throws JSONException {
+		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
+
+		List<Problems> problems = problemService.findProblemsByRoom(room);
+		if (problems != null) {
+			for (Problems problem : problems) {
+				Rooms problemRoom = problem.getRoom();
+				JSONObject item = new JSONObject().put("problemId", problem.getProblemId())
+						.put("eventCase", problem.getEventCase()).put("roomId", problemRoom.getRoomId())
+						.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
+						.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
+						.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy())
+						.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy());
+				array.put(item);
+			}
+		}
+
+		responseBody.put("list", array);
+		return responseBody.toString();
+	}
+
+	// ProblemStatus單筆查詢
+	@GetMapping("/problems/findProblemsByStatus/{status}")
+	public String findProblemsByRoom(@PathVariable(name = "status") String status) throws JSONException {
+		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
+
+		List<Problems> problems = problemService.findProblemsByStatus(status);
+		if (problems != null) {
+			for (Problems problem : problems) {
+				Rooms problemRoom = problem.getRoom();
+				JSONObject item = new JSONObject().put("problemId", problem.getProblemId())
+						.put("eventCase", problem.getEventCase()).put("roomId", problemRoom.getRoomId())
+						.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
+						.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
+						.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy())
+						.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy());
+				array.put(item);
+			}
 		}
 		responseBody.put("list", array);
 		return responseBody.toString();
@@ -119,18 +160,12 @@ public class ProblemsController {
 				if (problem.getRoom() != null) {
 					roomId = problem.getRoom().getRoomId();
 				}
-				JSONObject item = new JSONObject()
-						.put("problemId", problem.getProblemId())
-						.put("eventCase", problem.getEventCase())
-						.put("room", roomId) // 將 roomId 放入
-						.put("content", problem.getContent())
-						.put("eventDate", problem.getEventDate())
-						.put("closeDate", problem.getCloseDate())
-						.put("status", problem.getStatus())
-						.put("createTime", problem.getCreateTime())
-						.put("createBy", problem.getCreateBy())
-						.put("updateTime", problem.getUpdateTime())
-						.put("updateBy", problem.getUpdateBy());
+				JSONObject item = new JSONObject().put("problemId", problem.getProblemId())
+						.put("eventCase", problem.getEventCase()).put("room", roomId) // 將 roomId 放入
+						.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
+						.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
+						.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy())
+						.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy());
 				array.put(item);
 			}
 			long count = problemService.count(body);

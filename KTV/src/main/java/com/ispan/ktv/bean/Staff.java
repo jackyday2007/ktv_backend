@@ -47,7 +47,7 @@ public class Staff {
 	private String password;
 	
 	@Column(name = "status")
-	private String status;
+	private Integer status;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
