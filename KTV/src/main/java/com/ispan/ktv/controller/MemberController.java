@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.Members;
 import com.ispan.ktv.service.MemberService;
+import com.ispan.ktv.util.PasswordResetRequest;
+import com.ispan.ktv.util.ResetPasswordRequest;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -53,6 +56,7 @@ public class MemberController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
     
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
@@ -79,7 +83,7 @@ public class MemberController {
 
         return ResponseEntity.ok("重設密碼的連結已發送至您的郵箱");
     }
-
+//重設密碼
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
         boolean isSuccess = memberService.resetPassword(request.getToken(), request.getNewPassword());
@@ -115,15 +119,4 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
-// // 查詢所有會員
-//    @GetMapping("/members")
-//    public ResponseEntity<List<Members>> getAllMembers() {
-//        List<Members> membersList = memberService.findAllMembers();
-//        if (membersList.isEmpty()) {
-//            return ResponseEntity.noContent().build();
-//        } else {
-//            return ResponseEntity.ok(membersList);
-//        }
-//    }
-
 }
