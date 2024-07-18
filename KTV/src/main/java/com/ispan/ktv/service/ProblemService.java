@@ -82,6 +82,22 @@ public class ProblemService {
 		return null;
 	}
 
+//	 room查詢
+	public List<Problems> findProblemsByRoom(Integer room) {
+	    if (room != null) {
+	        return problemsRepository.findProblemsByRoom(room);
+	    }
+	    return null;
+	}
+	
+//	 status查詢
+	public List<Problems> findProblemsByStatus(String status) {
+	    if (status != null) {
+	        return problemsRepository.findProblemsByStatus(status);
+	    }
+	    return null;
+	}
+
 //	 修改
 	public Problems modify(String json) throws JSONException, ParseException {
 
@@ -108,12 +124,13 @@ public class ProblemService {
 			update.setRoom(room);
 			update.setContent(content);
 			// 看有無需要 (時分秒)
-			update.setEventDate(eventDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(eventDate) : null);
-			update.setCloseDate(closeDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(closeDate) : null);
+			update.setEventDate(
+					eventDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(eventDate) : null);
+			update.setCloseDate(
+					closeDate != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(closeDate) : null);
 			update.setStatus(status);
 			update.setCreateTime(createTime);
 			update.setUpdateTime(new Date());
-
 
 			return problemsRepository.save(update);
 		}
@@ -129,12 +146,10 @@ public class ProblemService {
 	public long count(String json) throws JSONException {
 		JSONObject obj = new JSONObject(json);
 		Integer problemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
-	
+
 		return problemsRepository.countProblems(problemId);
 	}
-	
 
-	
 	public void deleteProblemById(Integer problemId) {
 		problemsRepository.deleteById(problemId);
 	}
