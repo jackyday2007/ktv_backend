@@ -19,7 +19,8 @@ import com.ispan.ktv.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@CrossOrigin(origins = "http://localhost:5175")
+//@CrossOrigin(origins = "http://localhost:5175") 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class MemberController {
@@ -70,7 +71,7 @@ public class MemberController {
 
         // 生成重設密碼的 token 和連結
         String token = memberService.createPasswordResetToken(member);
-        String resetLink = "http://localhost:5175/reset-password?token=" + token;
+        String resetLink = "http://localhost:5173/reset-password?token=" + token;
 
         // 發送包含重設密碼連結的郵件
         memberService.sendPasswordResetEmail(member.getEmail(), resetLink);
@@ -78,15 +79,24 @@ public class MemberController {
         return ResponseEntity.ok("重設密碼的連結已發送至您的郵箱");
     }
 
+    // 重設密碼
+
     @PostMapping("/reset-password")
+
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
-        boolean isSuccess = memberService.resetPassword(request.getToken(), request.getOldPassword(),
-                request.getNewPassword());
+
+        boolean isSuccess = memberService.resetPassword(request.getToken(), request.getNewPassword());
+
         if (isSuccess) {
+
             return ResponseEntity.ok("密碼重設成功");
+
         } else {
-            return ResponseEntity.badRequest().body("無效的 token 或舊密碼錯誤");
+
+            return ResponseEntity.badRequest().body("無效的 token");
+
         }
+
     }
 
     // 獲取會員資料

@@ -147,7 +147,7 @@ public class NewsService {
      */
     public Page<News> findByPage(Integer pageNumber) {
         // 設置分頁參數，每頁顯示15條數據，按照startDate降序排序
-        Pageable pageable = PageRequest.of(pageNumber - 1, 15, Sort.Direction.DESC, "startDate");
+        Pageable pageable = PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "startDate");
         
         // 使用NewsRepository查詢分頁數據
         Page<News> page = newsRepo.findAll(pageable);
