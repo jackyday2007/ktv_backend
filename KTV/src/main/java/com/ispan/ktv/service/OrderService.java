@@ -1,8 +1,10 @@
 package com.ispan.ktv.service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 
 import com.ispan.ktv.bean.Customers;
@@ -35,6 +38,7 @@ import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class OrderService {
 
 	@Autowired
@@ -52,11 +56,6 @@ public class OrderService {
 	@Autowired
 	OrdersStatusHistoryRepository ordersStatusHistoryRepo;
 	
-	@Autowired
-	OrdersStatusHistoryService oshService;
-	
-	
-
 	public Orders findByOrdersId(Long ordersId) {
 		if (ordersId != null) {
 			Optional<Orders> optional = ordersRepository.findById(ordersId);
@@ -66,12 +65,96 @@ public class OrderService {
 		}
 		return null;
 	}
+	
+	// 算總筆數
+	public Long count( String json ) {
+		JSONObject body = new JSONObject(json);
+		System.out.println(body);
+		return ordersRepository.count((root, query, criteriaBuilder) -> {
+			List<Predicate> predicate = new ArrayList<>();
+			
+//			if ( !body.isNull("orderDate") ) {
+//				String orderDate = body.getString("orderDate") ;
+//				predicate.add(criteriaBuilder.equal(root.get("orderDate"), orderDate));
+//			} else {
+//				predicate.add(criteriaBuilder.isNull(root.get("orderDate")));
+//			}
+			
+			
+			if ( !body.isNull("orderId") ) {
+				Long orderId = body.getLong("orderId");
+				predicate.add(criteriaBuilder.equal(root.get("orderId"), orderId));
+			}
+			
+			if ( !body.isNull("memberId") ) {
+				Integer memberId = body.getInt("memberId");
+				predicate.add(criteriaBuilder.equal(root.get("memberId").get("memberId"), memberId));
+			}
+			
+			if ( !body.isNull("customerId") ) {
+				Integer customerId = body.getInt("customerId");
+				predicate.add(criteriaBuilder.equal(root.get("customerId").get("customerId"), customerId));
+			}
+			
+			if ( !body.isNull("room") ) {
+				Integer room = body.getInt("room") ;
+				predicate.add(criteriaBuilder.equal(root.get("room").get("roomId"), room));
+			}
+			
+			if ( !body.isNull("hours") ) {
+				Integer hours = body.getInt("hours") ;
+				predicate.add(criteriaBuilder.equal(root.get("hours"), hours));
+			}
+			
+			if ( !body.isNull("startTime") ) {
+				String startTime = body.getString("startTime") ;
+				predicate.add(criteriaBuilder.equal(root.get("startTime"), startTime));
+			}
+			
+			if ( !body.isNull("endTime") ) {
+				String endTime = body.getString("endTime") ;
+				predicate.add(criteriaBuilder.equal(root.get("endTime"), endTime));
+			}
+			
+			if ( !body.isNull("subTotal") ) {
+				String subTotal = body.getString("subTotal") ;
+				predicate.add(criteriaBuilder.equal(root.get("subTotal"), subTotal));
+			}
+			
+			if ( !body.isNull("status") ) {
+				String orderStatus = body.getString("status") ;
+				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
+				predicate.add(criteriaBuilder.like(historyJoin.get("status"), "%" + orderStatus + "%"));
+			}
+			query.where(predicate.toArray(new Predicate[0]));
 
-	public List<Orders> findAll(String orders) {
-		return ordersRepository.findAll();
+			return criteriaBuilder.and(predicate.toArray(new Predicate[0]));
+		});
+	}
+	
+	// null的總數
+	public Long countOrderDate( String json ) {
+		JSONObject body = new JSONObject(json);
+		System.out.println(body);
+		return ordersRepository.count((root, query, criteriaBuilder) -> {
+			List<Predicate> predicate = new ArrayList<>();
+			
+			if ( !body.isNull("orderDate") ) {
+				String orderDate = body.getString("orderDate") ;
+				predicate.add(criteriaBuilder.equal(root.get("orderDate"), orderDate));
+			} else {
+				predicate.add(criteriaBuilder.isNull(root.get("orderDate")));
+			}
+			query.where(predicate.toArray(new Predicate[0]));
+
+			return criteriaBuilder.and(predicate.toArray(new Predicate[0]));
+		});
 	}
 	
 	
+	
+	
+	// 即時查詢
 	public List<Orders> find( String json ) {
 		JSONObject body = new JSONObject(json);
 		System.out.println("body=" + body);
@@ -79,24 +162,16 @@ public class OrderService {
 		int max = body.isNull("max") ? 5 : body.getInt("max");
 		boolean dir = body.isNull("dir") ? false : body.getBoolean("dir");
 		String order = body.isNull("order") ? "orderId" : body.getString("order");
-		String status = body.isNull("status") ? "status" : body.getString("status");
 		Sort sort = dir ? Sort.by(Sort.Direction.DESC, order) : Sort.by(Sort.Direction.ASC, order);
 		Pageable pgb = PageRequest.of(start, max, sort);
-		Long orderId = !body.isNull("orderId") ? body.getLong("orderId") : null;
-		System.out.println("orderId=" + orderId);
-		System.out.println("status=" + status);
 		
+	
 		Specification<Orders> spec = (Root<Orders> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
 			List<Predicate> predicate = new ArrayList<>();
 			
 			if ( !body.isNull("orderId") ) {
-				try {
-					
-					predicate.add(cb.equal(root.get("orderId"), orderId));
-				} catch( JSONException e ) {
-					e.printStackTrace();
-					throw new IllegalArgumentException("Invalid orderId format");
-				}
+				Long orderId = body.getLong("orderId");
+				predicate.add(cb.equal(root.get("orderId"), orderId));
 			}
 			
 			if ( !body.isNull("memberId") ) {
@@ -134,20 +209,25 @@ public class OrderService {
 				predicate.add(cb.equal(root.get("endTime"), endTime));
 			}
 			
-			if ( !body.isNull("status") ) {
-				String orderStatus = body.getString("status") ;
-				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
-				predicate.add(cb.like(historyJoin.get("status"), "%" + orderStatus + "%"));
+			if ( !body.isNull("subTotal") ) {
+				String subTotal = body.getString("subTotal") ;
+				predicate.add(cb.equal(root.get("subTotal"), subTotal));
 			}
 			
+			if ( !body.isNull("status") ) {
+				String status = body.getString("status") ;
+				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
+				predicate.add(cb.like(historyJoin.get("status"), "%" + status + "%"));
+			}
 			return cb.and(predicate.toArray(new Predicate[0]));
 		};
+		
 		return ordersRepository.findAll(spec, pgb).getContent();
 	}
 	
 	
 	
-	@Transactional
+	
 	public Orders updateOrders(String body) {
 		JSONObject obj = new JSONObject(body);
 		Customers customerId = null;
@@ -196,9 +276,10 @@ public class OrderService {
 	
 	@Transactional
 	public Orders createOrderId( Long id ) {
-		Orders orderId = new Orders();
-		orderId.setOrderId(id);
-		return ordersRepository.save(orderId);
+		Orders order = new Orders();
+		order.setOrderId(id);
+//		order.setOrderDate(( Date.from(Instant.now()), "yyyy-MM-dd" ));
+		return ordersRepository.save(order);
 	}
 	
 
@@ -224,7 +305,7 @@ public class OrderService {
 
 	// 計算今日訂單數量
 	private long getTodayOrderCount() {
-		return ordersRepository.countByOrderDate(java.sql.Date.valueOf((LocalDate.now())));
+		return ordersRepository.countByCreateTime(java.sql.Date.valueOf((LocalDate.now())));
 	}
 
 }
