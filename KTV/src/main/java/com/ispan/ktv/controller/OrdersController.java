@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -81,7 +82,14 @@ public class OrdersController {
 		List<Orders> result = orderService.find(body);
 		long count = orderService.count(body);
 		long countNull = orderService.countOrderDate(body);
-		long countTotal =count - countNull;
+		long countTotal = 0;
+		
+		if (count - countNull <= 0) {
+			countTotal = 0;
+		} else {
+			countTotal = count - countNull;
+		}
+		System.out.println("countTotal = " + countTotal);
 		System.out.println("result="+result);
 		JSONArray array = new JSONArray();
 		if ( result != null && !result.isEmpty() ) {
@@ -157,5 +165,47 @@ public class OrdersController {
 		}
 		return responseBody.toString();
 	}
-
+	
+//	@PutMapping("/orders/checkIn/{id}")
+//	public String checkIn(@PathVariable Long id, @RequestBody String body) {
+//		JSONObject responseBody = new JSONObject();
+//		JSONObject obj = new JSONObject(body);
+//		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
+//		Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
+//		String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
+//		String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
+//		if (numberOfPersons == null) {
+//			responseBody.put("success", false);
+//			responseBody.put("message", "請填寫人數");
+//		} else {
+//			if (orderDate == null) {
+//				responseBody.put("success", false);
+//				responseBody.put("message", "請填寫預約日期");
+//			} else {
+//				if (hours == null) {
+//					responseBody.put("success", false);
+//					responseBody.put("message", "請填寫歡唱時數");
+//				} else {
+//					if (startTime == null) {
+//						responseBody.put("success", false);
+//						responseBody.put("message", "請填寫開始時間");
+//					} else {
+//						Orders result = orderService.updateOrders(body);
+//						if (result == null) {
+//							responseBody.put("success", false);
+//							responseBody.put("message", "預定失敗");
+//						} else {
+//							responseBody.put("success", true);
+//							responseBody.put("message", "預定成功");
+//						}
+//					}
+//				}
+//			}
+//		}
+//		return responseBody.toString();
+//	}
+	
+	
+	
+	
 }

@@ -19,6 +19,7 @@ import com.ispan.ktv.bean.Customers;
 import com.ispan.ktv.bean.Members;
 import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.OrdersStatusHistory;
+import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.repository.CustomersRepository;
 import com.ispan.ktv.repository.MembersRepository;
 import com.ispan.ktv.repository.OrdersRepository;
@@ -188,7 +189,7 @@ public class OrderService {
 			
 			if ( !body.isNull("startTime") ) {
 				String startTime = body.getString("startTime") ;
-				predicate.add(cb.equal(root.get("startTime"), startTime));
+				predicate.add(cb.equal(root.get("startTime"), (startTime)));
 			}
 			
 			if ( !body.isNull("endTime") ) {
@@ -213,7 +214,53 @@ public class OrderService {
 	}
 	
 	
+	public Orders watting( String body ) {
+	JSONObject obj = new JSONObject(body);
+	Customers customerId = null;
+	Members memberId = null;
+	Rooms room = null;
+	Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
+	Integer findCustomerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
+	Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId) : Optional.empty();
+	if (checkCustomerId.isPresent()) {
+		customerId = checkCustomerId.get();
+	} else {
+		customerId = null;
+	}
+	Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
+	Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
+	if ( checkMemberId.isPresent() ) {
+		memberId = checkMemberId.get();
+	} else {
+		memberId = null;
+	}
 	
+	Integer findRoom = obj.isNull("room") ? null : obj.getInt("room");
+	Optional<Rooms> checkRoom = findRoom != null ? roomsRepository.findById(findRoom) : Optional.empty();
+	if ( checkRoom.isPresent() ) {
+		room = checkRoom.get();
+	} else {
+		room = null;
+	}
+	Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
+	Optional<Orders> optional = ordersRepository.findById(orderId);
+	if ( optional.isPresent() ) {
+		Orders update = optional.get();
+		update.setCustomerId(customerId);
+		update.setMemberId(memberId);
+		update.setRoom(room);
+		update.setNumberOfPersons(numberOfPersons);
+		Orders result =  ordersRepository.save(update);
+		if (result.getOrderId() != null) {
+			OrdersStatusHistory history = new OrdersStatusHistory();
+			history.setOrderId(result);
+			history.setStatus("報到");
+			ordersStatusHistoryRepo.save(history);
+			return result;
+		}
+	}
+	return null;
+}
 	
 	public Orders updateOrders(String body) {
 		JSONObject obj = new JSONObject(body);
