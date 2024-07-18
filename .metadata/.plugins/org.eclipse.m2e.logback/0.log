@@ -1158,3 +1158,33 @@
 2024-07-12 18:20:09,786 [Worker-264: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
 2024-07-12 18:20:18,529 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@2ac01569{STOPPING}[12.0.6,sto=0]
 2024-07-12 18:20:18,533 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@3dcba67a{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
+2024-07-17 09:22:55,321 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2024-07-17 09:25:19,505 [Worker-6: Updating Maven Dependencies] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.ispan.ktv:ktv:0.0.1-SNAPSHOT @ C:\Users\User\Desktop\ktv_backend\KTV\pom.xml.
+2024-07-17 09:25:20,615 [Worker-8: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.ispan.ktv:ktv:0.0.1-SNAPSHOT @ C:\Users\User\Desktop\ktv_backend\KTV\pom.xml.
+2024-07-17 09:25:22,935 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-17 09:25:22,961 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-17 09:25:23,116 [Worker-8: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-17 09:25:24,473 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-17 09:25:26,190 [Worker-5: Updating Maven Dependencies] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.ispan.ktv:ktv:0.0.1-SNAPSHOT @ C:\Users\User\Desktop\ktv_backend\KTV\pom.xml.
+2024-07-17 09:35:07,184 [Worker-19: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.ispan.ktv:ktv:0.0.1-SNAPSHOT @ C:\Users\User\Desktop\ktv_backend\KTV\pom.xml.
+2024-07-17 09:35:08,277 [Worker-19: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-17 09:35:08,292 [Worker-19: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-17 09:35:08,366 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-17 09:35:09,329 [Worker-19: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-17 12:18:08,936 [Worker-54: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.ispan.ktv:ktv:0.0.1-SNAPSHOT @ C:\Users\User\Desktop\ktv_backend\KTV\pom.xml.
+2024-07-17 12:18:09,906 [Worker-54: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-17 12:18:09,917 [Worker-54: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-17 12:18:10,038 [Worker-54: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-17 12:18:10,872 [Worker-54: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-17 12:18:11,554 [Worker-55: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/json/json/20210307/json-20210307-sources.jar
+2024-07-17 12:18:11,647 [Worker-55: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/json/json/20210307/json-20210307-sources.jar
+2024-07-17 12:18:11,651 [Worker-55: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.json:json:20210307
+2024-07-17 12:18:12,310 [Worker-49: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-17 12:18:12,317 [Worker-49: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-17 12:18:12,322 [Worker-49: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-17 12:18:12,584 [Worker-49: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
+2024-07-18 09:08:13,410 [Worker-3: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2024-07-18 11:17:34,154 [Worker-68: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-07-18 11:17:34,181 [Worker-68: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-07-18 11:17:35,032 [Worker-68: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Starting Hibernate enhancement for classes on C:\Users\User\Desktop\ktv_backend\KTV\target\classes
+2024-07-18 11:17:35,668 [Worker-68: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\User\Desktop\ktv_backend\KTV\src\test\resources
