@@ -1,21 +1,18 @@
 package com.ispan.ktv.service;
 
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 
 import com.ispan.ktv.bean.Customers;
@@ -72,14 +69,6 @@ public class OrderService {
 		System.out.println(body);
 		return ordersRepository.count((root, query, criteriaBuilder) -> {
 			List<Predicate> predicate = new ArrayList<>();
-			
-//			if ( !body.isNull("orderDate") ) {
-//				String orderDate = body.getString("orderDate") ;
-//				predicate.add(criteriaBuilder.equal(root.get("orderDate"), orderDate));
-//			} else {
-//				predicate.add(criteriaBuilder.isNull(root.get("orderDate")));
-//			}
-			
 			
 			if ( !body.isNull("orderId") ) {
 				Long orderId = body.getLong("orderId");
@@ -164,8 +153,6 @@ public class OrderService {
 		String order = body.isNull("order") ? "orderId" : body.getString("order");
 		Sort sort = dir ? Sort.by(Sort.Direction.DESC, order) : Sort.by(Sort.Direction.ASC, order);
 		Pageable pgb = PageRequest.of(start, max, sort);
-		
-	
 		Specification<Orders> spec = (Root<Orders> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
 			List<Predicate> predicate = new ArrayList<>();
 			
@@ -251,7 +238,6 @@ public class OrderService {
 		String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
 		Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
 		String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
-		String endTime = obj.isNull("endTime") ? null : obj.getString("endTime");
 		Optional<Orders> optional = ordersRepository.findById(orderId);
 		if ( optional.isPresent() ) {
 			Orders update = optional.get();
@@ -261,7 +247,13 @@ public class OrderService {
 			update.setOrderDate(DatetimeConverter.parse(orderDate, "yyyy-MM-dd"));
 			update.setHours(hours);
 			update.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
-			update.setEndTime(DatetimeConverter.parse(endTime, "HH:mm"));
+			if ( startTime != null && hours != null ) {	
+				LocalTime start = LocalTime.parse(startTime);
+	            LocalTime end = start.plusHours(hours);
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	            String endTimeString = end.format(formatter);
+	            update.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
+			}
 			Orders result =  ordersRepository.save(update);
 			if ( result.getOrderId() != null ) {
 				OrdersStatusHistory history = new OrdersStatusHistory();
@@ -278,7 +270,6 @@ public class OrderService {
 	public Orders createOrderId( Long id ) {
 		Orders order = new Orders();
 		order.setOrderId(id);
-//		order.setOrderDate(( Date.from(Instant.now()), "yyyy-MM-dd" ));
 		return ordersRepository.save(order);
 	}
 	
