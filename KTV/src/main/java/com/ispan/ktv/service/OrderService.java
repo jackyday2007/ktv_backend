@@ -57,6 +57,7 @@ public class OrderService {
 	public Orders findByOrdersId(Long ordersId) {
 		if (ordersId != null) {
 			Optional<Orders> optional = ordersRepository.findById(ordersId);
+			System.out.println();
 			if (optional.isPresent()) {
 				return optional.get();
 			}
@@ -213,55 +214,56 @@ public class OrderService {
 		return ordersRepository.findAll(spec, pgb).getContent();
 	}
 	
-	
+	// 報到
 	public Orders watting( String body ) {
-	JSONObject obj = new JSONObject(body);
-	Customers customerId = null;
-	Members memberId = null;
-	Rooms room = null;
-	Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
-	Integer findCustomerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
-	Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId) : Optional.empty();
-	if (checkCustomerId.isPresent()) {
-		customerId = checkCustomerId.get();
-	} else {
-		customerId = null;
-	}
-	Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
-	Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
-	if ( checkMemberId.isPresent() ) {
-		memberId = checkMemberId.get();
-	} else {
-		memberId = null;
-	}
-	
-	Integer findRoom = obj.isNull("room") ? null : obj.getInt("room");
-	Optional<Rooms> checkRoom = findRoom != null ? roomsRepository.findById(findRoom) : Optional.empty();
-	if ( checkRoom.isPresent() ) {
-		room = checkRoom.get();
-	} else {
-		room = null;
-	}
-	Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
-	Optional<Orders> optional = ordersRepository.findById(orderId);
-	if ( optional.isPresent() ) {
-		Orders update = optional.get();
-		update.setCustomerId(customerId);
-		update.setMemberId(memberId);
-		update.setRoom(room);
-		update.setNumberOfPersons(numberOfPersons);
-		Orders result =  ordersRepository.save(update);
-		if (result.getOrderId() != null) {
-			OrdersStatusHistory history = new OrdersStatusHistory();
-			history.setOrderId(result);
-			history.setStatus("報到");
-			ordersStatusHistoryRepo.save(history);
-			return result;
+		JSONObject obj = new JSONObject(body);
+		Customers customerId = null;
+		Members memberId = null;
+		Rooms room = null;
+		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
+		Integer findCustomerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
+		Integer findRoom = obj.isNull("room") ? null : obj.getInt("room");
+		Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
+		Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId) : Optional.empty();
+		Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
+		Optional<Rooms> checkRoom = findRoom != null ? roomsRepository.findById(findRoom) : Optional.empty();
+		if ( checkMemberId.isPresent() ) {
+				memberId = checkMemberId.get();
+			} else {
+				memberId = null;
+			}
+		if (checkCustomerId.isPresent()) {
+				customerId = checkCustomerId.get();
+			} else {
+				customerId = null;
+			}
+		if ( checkRoom.isPresent() ) {
+				room = checkRoom.get();
+			} else {
+				room = null;
+			}
+		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
+		Optional<Orders> optional = ordersRepository.findById(orderId);
+		if ( optional.isPresent() ) {
+			Orders update = optional.get();
+			update.setCustomerId(customerId);
+			update.setMemberId(memberId);
+			update.setRoom(room);
+			update.setNumberOfPersons(numberOfPersons);
+			Orders result =  ordersRepository.save(update);
+			if (result.getOrderId() != null) {
+				OrdersStatusHistory history = new OrdersStatusHistory();
+				history.setOrderId(result);
+				history.setStatus("報到");
+				ordersStatusHistoryRepo.save(history);
+				return result;
+			}
 		}
+		return null;
 	}
-	return null;
-}
 	
+	
+	// 新增預約
 	public Orders updateOrders(String body) {
 		JSONObject obj = new JSONObject(body);
 		Customers customerId = null;
@@ -306,6 +308,37 @@ public class OrderService {
 			if ( result.getOrderId() != null ) {
 				history.setOrderId(result);
 				history.setStatus("預約");
+				ordersStatusHistoryRepo.save(history);
+				return result;
+			}
+		}
+		return null;
+	}
+	
+	// 入場
+	public Orders inTheRoom(String body) {
+		JSONObject obj = new JSONObject(body);
+		Members memberId = null;
+		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
+		Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
+		Integer findRoom = obj.isNull("room") ? null : obj.getInt("room");
+		Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
+		Optional<Rooms> room = findRoom != null ? roomsRepository.findById(findRoom) : Optional.empty();
+		if ( checkMemberId.isPresent() ) {
+			memberId = checkMemberId.get();
+		} else {
+			memberId = null;
+		}
+		Optional<Orders> optional = ordersRepository.findById(orderId);
+		if ( optional.isPresent() ) {
+			Orders update = optional.get();
+			update.setMemberId(memberId);
+			update.setRoom(room.get());
+			Orders result =  ordersRepository.save(update);
+			OrdersStatusHistory history = new OrdersStatusHistory();
+			if ( result.getOrderId() != null ) {
+				history.setOrderId(result);
+				history.setStatus("消費中");
 				ordersStatusHistoryRepo.save(history);
 				return result;
 			}
