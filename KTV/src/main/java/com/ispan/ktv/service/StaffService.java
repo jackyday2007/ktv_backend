@@ -29,6 +29,16 @@ public class StaffService {
 		return sr.findByName('%' + name + '%');
 	}
 
+	public Staff findByAccount(Integer account) {
+		if (account != null) {
+			Optional<Staff> optional = sr.findByAccount(account);
+			if (optional.isPresent()) {
+				return optional.get();
+			}
+		}
+		return null;
+	}
+
 	public Staff findById(Integer id) {
 		if (id != null) {
 			Optional<Staff> optional = sr.findById(id);

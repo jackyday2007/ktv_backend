@@ -1,17 +1,17 @@
 package com.ispan.ktv.controller;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.Staff;
 import com.ispan.ktv.service.StaffService;
 
-
 import jakarta.servlet.http.HttpSession;
-import org.json.JSONObject;
 
 @RestController
 @CrossOrigin
@@ -20,7 +20,7 @@ public class StaffLoginController {
     // private JsonWebTokenUtility jsonWebTokenUtility;
     @Autowired
     private StaffService staffService;
-        @PostMapping("/login")
+        @PostMapping("/staff/login")
         public String login(@RequestBody String body, HttpSession hs) {
             JSONObject responseBody = new JSONObject();
 
@@ -45,22 +45,24 @@ public class StaffLoginController {
                 return responseBody.toString();
             } else {
                 hs.setAttribute("user", bean);
+                // hs.setAttribute("pasd", bean);
                 responseBody.put("success", true);
                 responseBody.put("message", "登入成功");
 
-                // String birth = DatetimeConverter.toString(bean.getBirth(), "yyyy-MM-dd");
+                
                 // JSONObject user = new JSONObject()
-                //                         .put("custid", bean.getCustid())
-                //                         .put("email", bean.getEmail())
-                //                         .put("birth", birth);
-
-                // responseBody.put("user", bean.getEmail());
-
+                //                         .put("custid", bean.getAccountName())
+                //         .put("account", bean.getAccount())
+                //                         .put("password", bean.getPassword());
+                                        
+                
+                responseBody.put("user", bean.getAccount());
+                // responseBody.put("pasd", bean.getPassword());
             }
 
             return responseBody.toString();
         }
-        @PostMapping("/staff/updatePassword")
+        @PutMapping("/staff/updatePassword")
         public String updatePassword(@RequestBody String body) {
             JSONObject responseBody = new JSONObject();
             JSONObject obj = new JSONObject(body);
