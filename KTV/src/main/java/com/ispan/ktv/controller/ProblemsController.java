@@ -7,18 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ispan.ktv.bean.Problems;
-import com.ispan.ktv.bean.Rooms;
-import com.ispan.ktv.service.ProblemService;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ispan.ktv.bean.Problems;
+import com.ispan.ktv.bean.Rooms;
+import com.ispan.ktv.service.ProblemService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -42,7 +41,7 @@ public class ProblemsController {
 			}
 		} catch (IllegalArgumentException e) {
 			responseBody.put("success", false);
-			responseBody.put("message", "新增失敗!" + e.getMessage() + "包廂號碼");
+			responseBody.put("message", "新增失敗!!!" + e.getMessage() + "的包廂號碼");
 		}
 		return responseBody.toString();
 	}
@@ -116,30 +115,42 @@ public class ProblemsController {
 
 	// 修改資料
 	@PutMapping("/problems/modify/{problemId}")
-	public String modify(@PathVariable Integer problemId, @RequestBody String body)
-			throws JSONException, ParseException {
+	public String modify(@PathVariable Integer problemId, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
-		JSONObject obj = new JSONObject(body);
-		Integer bodyProblemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
+		try {
+			JSONObject obj = new JSONObject(body);
+			Integer bodyProblemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
+			Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
 
-		// 檢查路徑中的 problemId 和請求體中的 problemId 是否一致
-		if (problemId == null || !problemId.equals(bodyProblemId)) {
-			responseBody.put("success", false);
-			responseBody.put("message", "包廂號碼不一致");
-		} else {
-			if (!problemService.exists(problemId)) {
+			// 檢查路徑中的 problemId 和請求體中的 problemId 是否一致
+			if (problemId == null || !problemId.equals(bodyProblemId)) {
 				responseBody.put("success", false);
-				responseBody.put("message", "包廂號碼不存在");
+				responseBody.put("message", "問題號碼不一致");
 			} else {
-				Problems problem = problemService.modify(body);
-				if (problem == null) {
+				if (!problemService.exists(problemId)) {
 					responseBody.put("success", false);
-					responseBody.put("message", "包廂問題修改失敗");
+					responseBody.put("message", "包廂號碼不存在");
 				} else {
-					responseBody.put("success", true);
-					responseBody.put("message", "包廂問題修改成功");
+					// 檢查 roomId 是否存在
+					if (roomId != null && !problemService.roomExists(roomId)) {
+						responseBody.put("success", false);
+						responseBody.put("message", "包廂號碼不存在。");
+					} else {
+						Problems problem = problemService.modify(body);
+						if (problem == null) {
+							responseBody.put("success", false);
+							responseBody.put("message", "包廂問題修改失敗");
+						} else {
+							responseBody.put("success", true);
+							responseBody.put("message", "包廂問題修改成功");
+						}
+					}
 				}
 			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 		return responseBody.toString();
 	}

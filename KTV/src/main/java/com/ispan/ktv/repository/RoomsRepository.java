@@ -1,12 +1,13 @@
 package com.ispan.ktv.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ispan.ktv.bean.Rooms;
 
-public interface RoomsRepository extends JpaRepository<Rooms, Integer> {
+public interface RoomsRepository extends JpaRepository<Rooms, Integer>, JpaSpecificationExecutor<Rooms> {
 
         @Query("SELECT COUNT(r) FROM Rooms r " +
                         "WHERE (:roomId IS NULL OR r.roomId = :roomId) " +
@@ -17,4 +18,6 @@ public interface RoomsRepository extends JpaRepository<Rooms, Integer> {
                         @Param("size") String size,
                         @Param("price") Double price,
                         @Param("status") String status);
+        
+        boolean existsById(Integer roomId);
 }
