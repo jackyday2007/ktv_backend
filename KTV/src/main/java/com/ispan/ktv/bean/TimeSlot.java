@@ -32,14 +32,14 @@ public class TimeSlot {
 	@Column(name = "timeSlotId")
 	private Integer timeSlotId;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "HH:mm")
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "startTime")
+	@Column(name = "startTime", columnDefinition = "time")
 	private Date startTime;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "HH:mm")
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "endTime")
+	@Column(name = "endTime", columnDefinition = "time")
 	private Date endTime;
 	
 	@Column(name = "date" , columnDefinition = "date")

@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ import org.springframework.stereotype.Service;
 
 import com.ispan.ktv.bean.Customers;
 import com.ispan.ktv.bean.Members;
+import com.ispan.ktv.bean.OrderDetails;
 import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.OrdersStatusHistory;
 import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.repository.CustomersRepository;
 import com.ispan.ktv.repository.MembersRepository;
+import com.ispan.ktv.repository.OrderDetailsRepository;
 import com.ispan.ktv.repository.OrdersRepository;
 import com.ispan.ktv.repository.OrdersStatusHistoryRepository;
 import com.ispan.ktv.repository.RoomsRepository;
@@ -54,10 +57,12 @@ public class OrderService {
 	@Autowired
 	OrdersStatusHistoryRepository ordersStatusHistoryRepo;
 	
+	@Autowired
+	OrderDetailsRepository orderDetailsRepo;
+	
 	public Orders findByOrdersId(Long ordersId) {
 		if (ordersId != null) {
 			Optional<Orders> optional = ordersRepository.findById(ordersId);
-			System.out.println();
 			if (optional.isPresent()) {
 				return optional.get();
 			}
@@ -198,11 +203,6 @@ public class OrderService {
 				predicate.add(cb.equal(root.get("endTime"), endTime));
 			}
 			
-			if ( !body.isNull("subTotal") ) {
-				String subTotal = body.getString("subTotal") ;
-				predicate.add(cb.equal(root.get("subTotal"), subTotal));
-			}
-			
 			if ( !body.isNull("status") ) {
 				String status = body.getString("status") ;
 				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
@@ -335,11 +335,21 @@ public class OrderService {
 			update.setMemberId(memberId);
 			update.setRoom(room.get());
 			Orders result =  ordersRepository.save(update);
-			OrdersStatusHistory history = new OrdersStatusHistory();
 			if ( result.getOrderId() != null ) {
+				String OrderDetailId = randomNumber(6);
+				OrdersStatusHistory history = new OrdersStatusHistory();
+				OrderDetails orderDetails = new OrderDetails();
+				Rooms roomStatus = room.get();
 				history.setOrderId(result);
 				history.setStatus("消費中");
+				orderDetails.setOrderDetailId(Integer.valueOf(OrderDetailId));
+				orderDetails.setOrderId(result);
+				orderDetails.setSubTotal(room.get().getPrice());
+				roomStatus.setStatus("使用中");
+				
 				ordersStatusHistoryRepo.save(history);
+				orderDetailsRepo.save(orderDetails);
+				roomsRepository.save(roomStatus);
 				return result;
 			}
 		}
@@ -378,5 +388,18 @@ public class OrderService {
 	private long getTodayOrderCount() {
 		return ordersRepository.countByCreateTime(java.sql.Date.valueOf((LocalDate.now())));
 	}
+	private static final String NUMBERS = "0123456789";
+    
+	private static String randomNumber(int length) {
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder(length);
+
+        // 循環生成指定長度的隨機數字字符串
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(NUMBERS.length());
+            stringBuilder.append(NUMBERS.charAt(randomIndex));
+        }
+        return stringBuilder.toString();
+    }
 
 }

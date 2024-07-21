@@ -1,9 +1,6 @@
 package com.ispan.ktv.controller;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,6 +18,7 @@ import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.OrdersStatusHistory;
 import com.ispan.ktv.service.CustomerService;
 import com.ispan.ktv.service.MemberService;
+import com.ispan.ktv.service.OrderDetailsService;
 import com.ispan.ktv.service.OrderService;
 import com.ispan.ktv.service.OrdersStatusHistoryService;
 import com.ispan.ktv.service.RoomService;
@@ -45,43 +43,39 @@ public class OrdersController {
 	
 	@Autowired
 	OrdersStatusHistoryService oshService;
+	
+	@Autowired
+	OrderDetailsService orderDetailsService;
+	
 
 	@GetMapping("/orders/{ordersId}")
-//	public Map<String, Object> findByOrdersId(@PathVariable(name = "ordersId") Long ordersId) {
 	public String findByOrdersId(@PathVariable(name = "ordersId") Long ordersId) {
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
 		Orders orders = orderService.findByOrdersId(ordersId);
 		if (orders != null) {
-			
-//			Map<String, Object> order = new HashMap<>();
 			String orderDate = DatetimeConverter.toString(orders.getOrderDate(), "yyyy-MM-dd");
 			String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm:ss");
 			String endTime = DatetimeConverter.toString(orders.getEndTime(), "HH:mm:ss");
 			OrdersStatusHistory status = oshService.findNewHistory(orders.getOrderId());
+			Double subTotal = orderDetailsService.subTotal(ordersId);
 			JSONObject item = new JSONObject();
 			item.put("orderId", orders.getOrderId());
-			item.put("customerId", (orders.getCustomerId() != null ? orders.getCustomerId().getCustomerId() : ""));
-			item.put("memberId", (orders.getMemberId() != null ? orders.getMemberId().getMemberId() : ""));
+			item.put("customerId", (orders.getCustomerId() != null ? String.format("%06d",orders.getCustomerId().getCustomerId()) : ""));
+			item.put("memberId", (orders.getMemberId() != null ? String.format("%06d", orders.getMemberId().getMemberId()) : ""));
 			item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "" );
-			System.out.printf("RoomId = ", orders.getRoom().getRoomId());
 			item.put("numberOfPersons", orders.getNumberOfPersons());
 			item.put("hours", orders.getHours());
 			item.put("orderDate", orderDate);
 			item.put("startTime", startTime);
 			item.put("endTime", endTime);
-			item.put("subTotal", orders.getSubTotal());
+			item.put("subTotal", subTotal != null ? subTotal : "");
 			item.put("status", status != null ? status.getStatus() : "");
 			array.put(item);
-			System.out.println("array"+array);
-
-//			return order;
+			responseBody.put("list", array);
 		}
-		 responseBody.put("list", array);
 		 System.out.println("responseBody.toString() = " + responseBody.toString());
 		 return responseBody.toString();
-//		return Collections.emptyMap();
-//		 return orderService.findByOrdersId(ordersId);
 	}
 	
 	
@@ -109,16 +103,17 @@ public class OrdersController {
 					String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm");
 					String endTime = DatetimeConverter.toString(orders.getEndTime(), "HH:mm");
 					OrdersStatusHistory status = oshService.findNewHistory(orders.getOrderId());
+					Double subTotal = orderDetailsService.subTotal(orders.getOrderId());
 					JSONObject item = new JSONObject();
 					item.put("orderId", orderId);
-					item.put("memberId", orders.getMemberId() != null ? orders.getMemberId().getMemberId() : "");
-					item.put("customerId", orders.getCustomerId() != null ? orders.getCustomerId().getCustomerId() : "" );
+					item.put("memberId", orders.getMemberId() != null ? String.format("%06d",orders.getMemberId().getMemberId()) : "");
+					item.put("customerId", orders.getCustomerId() != null ? String.format("%06d",orders.getCustomerId().getCustomerId()) : "" );
 					item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "");
 					item.put("orderDate", orderDate);
 					item.put("hours", orders.getHours());
 					item.put("startTime", startTime);
 					item.put("endTime", endTime);
-					item.put("subTotal", orders.getSubTotal() != null ? orders.getSubTotal() : "" );
+					item.put("subTotal", subTotal != null ? subTotal : "" );
 					item.put("status", status != null ?  status.getStatus() : null );
 					array.put(item);
 				}
