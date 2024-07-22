@@ -49,7 +49,7 @@ public class StaffService {
 		return null;
 	}
 
-	public Staff create(String json) {
+	public Staff create(String json ) {
 		try {
 			JSONObject obj = new JSONObject(json);
 			String name = obj.isNull("name") ? null : obj.getString("name");
@@ -81,6 +81,7 @@ public class StaffService {
 	}
 
 	public Staff Update(String json) {
+		System.out.println("json"+json);
 		try {
 			JSONObject obj = new JSONObject(json);
 			Integer id = obj.isNull("Id") ? null : obj.getInt("Id");
