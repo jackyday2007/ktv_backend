@@ -18,7 +18,8 @@ import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.RoomService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class RoomsController {
 
 	@Autowired

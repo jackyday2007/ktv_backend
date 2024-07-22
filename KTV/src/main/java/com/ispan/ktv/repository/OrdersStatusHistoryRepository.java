@@ -17,8 +17,8 @@ public interface OrdersStatusHistoryRepository extends JpaRepository<OrdersStatu
 			+ " WHERE osh2.orderId = :orderId ) ")
 	 Optional<OrdersStatusHistory> history(@Param(value = "orderId") Orders orderId);
 	
-	@Query( value = "SELECT status FROM OrdersStatusHistory WHERE orderId = :orderId " )
-	Optional<OrdersStatusHistory> orderId(@Param(value = "orderId") Long orderId );
+	@Query( value = "SELECT osh FROM OrdersStatusHistory osh WHERE osh.orderId = :orderId " )
+	Optional<OrdersStatusHistory> orderId(@Param(value = "orderId") Orders orderId );
 	
 	
 	

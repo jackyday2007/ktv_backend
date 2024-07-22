@@ -3,6 +3,8 @@ package com.ispan.ktv.controller;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,16 +39,16 @@ public class MemberController {
         if (memberService.findByIdNumber(member.getIdNumber()) != null) {
             return ResponseEntity.badRequest().body("ID Number已被使用");
         }
-        
+
         // 設定密碼和其他屬性
-        member.setStatus(1);  // 設定狀態為啟用
-        member.setCreateTime(new Date());  // 設定創建時間
-        
+        member.setStatus(1); // 設定狀態為啟用
+        member.setCreateTime(new Date()); // 設定創建時間
+
         // 將密碼加密後再存入資料庫
         String encryptedPassword = memberService.encryptPassword(member.getPassword());
         member.setPassword(encryptedPassword);
-        
-        memberService.save(member);  // 儲存會員
+
+        memberService.save(member); // 儲存會員
 
         return ResponseEntity.ok("註冊成功!");
     }
@@ -78,7 +80,7 @@ public class MemberController {
         // 根據 ID 查找會員
         Members member = memberService.findByIdNumber(request.getIdNumber());
         if (member == null || !member.getEmail().equals(request.getEmail())) {
-            return ResponseEntity.badRequest().body("查無帳號");  // ID 或 Email 錯誤
+            return ResponseEntity.badRequest().body("查無帳號"); // ID 或 Email 錯誤
         }
 
         // 生成重設密碼的 token 和連結
@@ -129,12 +131,40 @@ public class MemberController {
             existingMember.setPhone(member.getPhone());
             existingMember.setBirth(member.getBirth());
             existingMember.setEmail(member.getEmail());
-            existingMember.setUpdateTime(new Date());  // 更新時間
+            existingMember.setUpdateTime(new Date()); // 更新時間
             memberService.save(existingMember);
             return ResponseEntity.ok("會員資料更新成功");
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    // // 查詢所有會員
+    // @GetMapping("/members")
+    // public ResponseEntity<List<Members>> getAllMembers() {
+    // List<Members> membersList = memberService.findAllMembers();
+    // if (membersList.isEmpty()) {
+    // return ResponseEntity.noContent().build();
+    // } else {
+    // return ResponseEntity.ok(membersList);
+    // }
+    // }
+
+    @GetMapping("/members/findWithPhone/{phone}")
+    public String findMemberWithPhone(@PathVariable(name = "phone") String phone) {
+        JSONObject responseBody = new JSONObject();
+        JSONArray array = new JSONArray();
+        Members members = memberService.findMemberWithPhone(phone);
+        if (members != null) {
+            JSONObject item = new JSONObject();
+            item.put("memberId", String.format("%06d", members.getMemberId()));
+            item.put("phone", phone);
+            array.put(item);
+            responseBody.put("message", "查詢完成");
+            responseBody.put("list", array);
+        } else {
+            responseBody.put("message", "查無此會員");
+        }
+        return responseBody.toString();
     }
 
     @CrossOrigin
