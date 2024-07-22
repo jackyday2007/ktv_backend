@@ -1,9 +1,11 @@
 package com.ispan.ktv.service;
 
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -42,4 +44,17 @@ public class TimeSlotService {
 		}
 		return null;
 	}
+	
+	
+	public List<TimeSlot> findAllTime( String body ) {
+		try {
+			return tsr.findAll();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	
 }

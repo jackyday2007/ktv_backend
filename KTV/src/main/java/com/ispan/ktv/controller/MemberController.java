@@ -2,6 +2,8 @@ package com.ispan.ktv.controller;
 
 import java.util.Date;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -125,5 +127,26 @@ public class MemberController {
 //            return ResponseEntity.ok(membersList);
 //        }
 //    }
+    
+    
+    @GetMapping("/members/findWithPhone/{phone}")
+    public String findMemberWithPhone(@PathVariable(name = "phone") String phone ) {
+		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
+    	Members members = memberService.findMemberWithPhone(phone);
+    	if ( members != null ) {
+    		JSONObject item = new JSONObject();
+    		item.put("memberId", String.format("%06d",members.getMemberId()));
+    		item.put("phone", phone);
+    		array.put(item);
+    		responseBody.put("message", "查詢完成");
+    		responseBody.put("list", array);
+    	} else {
+    		responseBody.put("message", "查無此會員");
+    	}
+    	return responseBody.toString();
+    }
+    
+    
 
 }

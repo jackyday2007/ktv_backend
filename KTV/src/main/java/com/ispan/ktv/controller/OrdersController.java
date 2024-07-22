@@ -174,13 +174,19 @@ public class OrdersController {
 	@PutMapping("/orders/checkIn/{id}")
 	public String checkIn(@PathVariable Long id, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
 		JSONObject obj = new JSONObject(body);
 		Integer customerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
 		Integer memberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
 		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
 		if ( customerId == null && memberId == null ) {
+			JSONObject item = new JSONObject();
+			item.put("customerId", "");
+			item.put("memberId", "");
+			array.put(item);
 			responseBody.put("success", false);
 			responseBody.put("message", "請填寫客戶資料或是會員編號");
+			responseBody.put("list", array);
 		} else {
 			if (numberOfPersons == null) {
 				responseBody.put("success", false);

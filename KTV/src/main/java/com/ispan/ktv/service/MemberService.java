@@ -2,6 +2,7 @@ package com.ispan.ktv.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +86,20 @@ public class MemberService {
         // 查詢所有會員
         return memberRepository.findAll();
     }
+    
+    
+    public Members findMemberWithPhone( String phone ) {
+    	if ( phone != null ) {
+    		Optional<Members> result = memberRepository.findMember(phone);
+    		if ( result.isPresent() ) {
+    			return result.get();
+    		}
+    	}
+    	return null;
+    }
+    
+    
+    
+    
 
 }
