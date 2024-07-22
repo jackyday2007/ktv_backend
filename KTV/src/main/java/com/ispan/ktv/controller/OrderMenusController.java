@@ -23,7 +23,6 @@ public class OrderMenusController {
 	
 	@PostMapping("/orderMenu/allMenu")
 	public String allMenu(@RequestBody(required = false) String body  ) {
-		
 		JSONObject responseBody = new JSONObject();
 		List<OrderMenus> result = orderMenuService.find(body);
 		JSONArray array = new JSONArray();
