@@ -106,6 +106,12 @@
     <artifactId>thumbnailator</artifactId>
     <version>0.4.14</version> <!-- 替換為最新版本 -->
 </dependency>
+<dependency>
+    <groupId>com.github.cage</groupId>
+    <artifactId>cage</artifactId>
+    <version>1.0</version>
+</dependency>
+
 	</dependencies>
 
 	<build>
