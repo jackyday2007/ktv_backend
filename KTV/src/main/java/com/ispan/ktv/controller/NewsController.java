@@ -3,6 +3,7 @@ package com.ispan.ktv.controller;
 import java.io.IOException;
 import java.util.List;
 
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -22,8 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ispan.ktv.bean.News;
+import com.ispan.ktv.repository.NewsRepository;
 import com.ispan.ktv.service.NewsService;
-
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 
 //控制器類，處理與最新消息相關的請求。
@@ -36,6 +42,7 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
     
+
     /**
      * 顯示News頁面。
      */
@@ -128,6 +135,37 @@ public class NewsController {
             return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/news/{newsId}/smallImage")
+    public ResponseEntity<byte[]> getNewsThumbnail(@PathVariable Integer newsId) {
+        // 從資料庫中讀取 News 實體
+        News news = newsService.findNewsById(newsId);
+
+        if (news == null || news.getImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            // 將二進制數據轉換為 BufferedImage
+            ByteArrayInputStream bis = new ByteArrayInputStream(news.getImage());
+            BufferedImage originalImage = ImageIO.read(bis);
+
+            // 生成縮圖
+            BufferedImage thumbnail = Thumbnails.of(originalImage)
+                    .size(100, 100)
+                    .asBufferedImage();
+
+            // 將 BufferedImage 轉換為 byte[]
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(thumbnail, "jpg", baos);
+            byte[] thumbnailBytes = baos.toByteArray();
+
+            // 返回縮圖數據
+            return ResponseEntity.ok().contentType(org.springframework.http.MediaType.IMAGE_JPEG).body(thumbnailBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

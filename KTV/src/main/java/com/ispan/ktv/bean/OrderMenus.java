@@ -9,7 +9,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -31,14 +34,18 @@ import lombok.ToString;
 public class OrderMenus {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "itemId")
-	private String itemId;
+	private Integer itemId;
+	
+	@Column(name = "category")
+	private String category;
 
 	@Column(name = "itemName", columnDefinition = "nvarchar(255)")
 	private String itemName;
-
-	@Column(name = "category")
-	private String category;
+	
+	@JoinColumn(name="capacity")
+	public String capacity;
 
 	@Column(name = "price")
 	private Double price;

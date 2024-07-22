@@ -10,7 +10,7 @@ import com.ispan.ktv.bean.Orders;
 public interface OrdersRepository extends JpaRepository<Orders, Long>, JpaSpecificationExecutor<Orders> {
 
    long countByCreateTime(Date CreateTime);
-
-   boolean existsByOrderId(Long orderId);
+//
+//   boolean existsByOrderId(Long orderId);
 
 }

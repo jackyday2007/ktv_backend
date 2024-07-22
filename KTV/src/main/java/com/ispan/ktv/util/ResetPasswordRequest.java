@@ -1,4 +1,4 @@
-package com.ispan.ktv.controller;
+package com.ispan.ktv.util;
 
 import lombok.Getter;
 import lombok.Setter;

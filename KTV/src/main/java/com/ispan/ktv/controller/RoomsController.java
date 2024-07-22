@@ -84,50 +84,47 @@ public class RoomsController {
 		}
 		return responseBody.toString();
 	}
-	
-		
+
 	// 修改資料
 	@PutMapping("/rooms/modify/{roomId}")
 	public String modify(@PathVariable Integer roomId, @RequestBody String body) {
-	    JSONObject responseBody = new JSONObject();
-	    try {
-	        if (roomId == null) {
-	            responseBody.put("success", false);
-	            responseBody.put("message", "roomId是必要欄位");
-	        } else if (!roomService.exists(roomId)) {
-	            responseBody.put("success", false);
-	            responseBody.put("message", "roomId不存在");
-	        } else {
-	            boolean hasProblem = roomService.checkRoomProblems(roomId);
-	            JSONObject obj = new JSONObject(body);
-	            String newStatus = obj.getString("status");
+		JSONObject responseBody = new JSONObject();
+		try {
+			if (roomId == null) {
+				responseBody.put("success", false);
+				responseBody.put("message", "roomId是必要欄位");
+			} else if (!roomService.exists(roomId)) {
+				responseBody.put("success", false);
+				responseBody.put("message", "roomId不存在");
+			} else {
+				boolean hasProblem = roomService.checkRoomProblems(roomId);
+				JSONObject obj = new JSONObject(body);
+				String newStatus = obj.getString("status");
 
-	            if (hasProblem && !"處理中".equals(newStatus)) {
-	                responseBody.put("success", false);
-	                responseBody.put("message", "包廂有問題且狀態為處理中，無法修改");
-	            } else {
-	                // 更新包廂信息
-	                Rooms updatedRoom = roomService.modify(body);
-	                
-	             // 根據問題狀態更新包廂狀態
-	                roomService.updateRoomStatus(roomId, newStatus);
-	                
-	                if (updatedRoom == null) {
-	                    responseBody.put("success", false);
-	                    responseBody.put("message", "修改失敗");
-	                } else {
-	                    responseBody.put("success", true);
-	                    responseBody.put("message", "修改成功");
-	                }
-	            }
-	        }
-	    } catch (JSONException e) {
-	        e.printStackTrace();
-	    }
-	    return responseBody.toString();
+				if (hasProblem && !"處理中".equals(newStatus)) {
+					responseBody.put("success", false);
+					responseBody.put("message", "包廂有問題且狀態為處理中，無法修改");
+				} else {
+					// 更新包廂信息
+					Rooms updatedRoom = roomService.modify(body);
+
+					// 根據問題狀態更新包廂狀態
+					roomService.updateRoomStatus(roomId, newStatus);
+
+					if (updatedRoom == null) {
+						responseBody.put("success", false);
+						responseBody.put("message", "修改失敗");
+					} else {
+						responseBody.put("success", true);
+						responseBody.put("message", "修改成功");
+					}
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return responseBody.toString();
 	}
-
-
 
 	// 查詢全部
 	@PostMapping("/rooms/findAll")

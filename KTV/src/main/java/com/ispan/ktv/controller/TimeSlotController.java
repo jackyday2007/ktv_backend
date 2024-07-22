@@ -6,18 +6,18 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.TimeSlot;
 import com.ispan.ktv.service.TimeSlotService;
+import com.ispan.ktv.util.DatetimeConverter;
 
 @RestController
 public class TimeSlotController {
@@ -64,5 +64,26 @@ public class TimeSlotController {
 
 		return responseBody.toString();
 	}
-
+	
+	
+	
+	@PostMapping("/timeSlot/allTime")
+	public String findAll(@RequestBody String body  ) throws JSONException {
+		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
+		List<TimeSlot> times = ts.findAllTime(body);
+		System.out.println(times);
+		if ( times != null && !times.isEmpty() ) {
+			for ( TimeSlot timeSolt : times ) {
+				JSONObject item = new JSONObject();
+				item.put("startTime", DatetimeConverter.toString(timeSolt.getStartTime(), "HH:mm"));
+				array.put(item);
+			}
+			responseBody.put("list", array);
+		}
+		return responseBody.toString();
+	}
+	
+	
+	
 }

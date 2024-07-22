@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,13 @@ import org.springframework.stereotype.Service;
 
 import com.ispan.ktv.bean.Customers;
 import com.ispan.ktv.bean.Members;
+import com.ispan.ktv.bean.OrderDetails;
 import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.OrdersStatusHistory;
+import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.repository.CustomersRepository;
 import com.ispan.ktv.repository.MembersRepository;
+import com.ispan.ktv.repository.OrderDetailsRepository;
 import com.ispan.ktv.repository.OrdersRepository;
 import com.ispan.ktv.repository.OrdersStatusHistoryRepository;
 import com.ispan.ktv.repository.RoomsRepository;
@@ -52,6 +56,9 @@ public class OrderService {
 	
 	@Autowired
 	OrdersStatusHistoryRepository ordersStatusHistoryRepo;
+	
+	@Autowired
+	OrderDetailsRepository orderDetailsRepo;
 	
 	public Orders findByOrdersId(Long ordersId) {
 		if (ordersId != null) {
@@ -188,17 +195,12 @@ public class OrderService {
 			
 			if ( !body.isNull("startTime") ) {
 				String startTime = body.getString("startTime") ;
-				predicate.add(cb.equal(root.get("startTime"), startTime));
+				predicate.add(cb.equal(root.get("startTime"), (startTime)));
 			}
 			
 			if ( !body.isNull("endTime") ) {
 				String endTime = body.getString("endTime") ;
 				predicate.add(cb.equal(root.get("endTime"), endTime));
-			}
-			
-			if ( !body.isNull("subTotal") ) {
-				String subTotal = body.getString("subTotal") ;
-				predicate.add(cb.equal(root.get("subTotal"), subTotal));
 			}
 			
 			if ( !body.isNull("status") ) {
@@ -212,9 +214,56 @@ public class OrderService {
 		return ordersRepository.findAll(spec, pgb).getContent();
 	}
 	
+	// 報到
+	public Orders watting( String body ) {
+		JSONObject obj = new JSONObject(body);
+		Customers customerId = null;
+		Members memberId = null;
+		Rooms room = null;
+		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
+		Integer findCustomerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
+		Integer findRoom = obj.isNull("room") ? null : obj.getInt("room");
+		Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
+		Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId) : Optional.empty();
+		Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
+		Optional<Rooms> checkRoom = findRoom != null ? roomsRepository.findById(findRoom) : Optional.empty();
+		if ( checkMemberId.isPresent() ) {
+				memberId = checkMemberId.get();
+			} else {
+				memberId = null;
+			}
+		if (checkCustomerId.isPresent()) {
+				customerId = checkCustomerId.get();
+			} else {
+				customerId = null;
+			}
+		if ( checkRoom.isPresent() ) {
+				room = checkRoom.get();
+			} else {
+				room = null;
+			}
+		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
+		Optional<Orders> optional = ordersRepository.findById(orderId);
+		if ( optional.isPresent() ) {
+			Orders update = optional.get();
+			update.setCustomerId(customerId);
+			update.setMemberId(memberId);
+			update.setRoom(room);
+			update.setNumberOfPersons(numberOfPersons);
+			Orders result =  ordersRepository.save(update);
+			if (result.getOrderId() != null) {
+				OrdersStatusHistory history = new OrdersStatusHistory();
+				history.setOrderId(result);
+				history.setStatus("報到");
+				ordersStatusHistoryRepo.save(history);
+				return result;
+			}
+		}
+		return null;
+	}
 	
 	
-	
+	// 新增預約
 	public Orders updateOrders(String body) {
 		JSONObject obj = new JSONObject(body);
 		Customers customerId = null;
@@ -255,11 +304,52 @@ public class OrderService {
 	            update.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
 			}
 			Orders result =  ordersRepository.save(update);
+			OrdersStatusHistory history = new OrdersStatusHistory();
 			if ( result.getOrderId() != null ) {
-				OrdersStatusHistory history = new OrdersStatusHistory();
 				history.setOrderId(result);
 				history.setStatus("預約");
 				ordersStatusHistoryRepo.save(history);
+				return result;
+			}
+		}
+		return null;
+	}
+	
+	// 入場
+	public Orders inTheRoom(String body) {
+		JSONObject obj = new JSONObject(body);
+		Members memberId = null;
+		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
+		Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
+		Integer findRoom = obj.isNull("room") ? null : obj.getInt("room");
+		Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
+		Optional<Rooms> room = findRoom != null ? roomsRepository.findById(findRoom) : Optional.empty();
+		if ( checkMemberId.isPresent() ) {
+			memberId = checkMemberId.get();
+		} else {
+			memberId = null;
+		}
+		Optional<Orders> optional = ordersRepository.findById(orderId);
+		if ( optional.isPresent() ) {
+			Orders update = optional.get();
+			update.setMemberId(memberId);
+			update.setRoom(room.get());
+			Orders result =  ordersRepository.save(update);
+			if ( result.getOrderId() != null ) {
+				String OrderDetailId = randomNumber(6);
+				OrdersStatusHistory history = new OrdersStatusHistory();
+				OrderDetails orderDetails = new OrderDetails();
+				Rooms roomStatus = room.get();
+				history.setOrderId(result);
+				history.setStatus("消費中");
+				orderDetails.setOrderDetailId(Integer.valueOf(OrderDetailId));
+				orderDetails.setOrderId(result);
+				orderDetails.setSubTotal(room.get().getPrice());
+				roomStatus.setStatus("使用中");
+				
+				ordersStatusHistoryRepo.save(history);
+				orderDetailsRepo.save(orderDetails);
+				roomsRepository.save(roomStatus);
 				return result;
 			}
 		}
@@ -298,5 +388,18 @@ public class OrderService {
 	private long getTodayOrderCount() {
 		return ordersRepository.countByCreateTime(java.sql.Date.valueOf((LocalDate.now())));
 	}
+	private static final String NUMBERS = "0123456789";
+    
+	private static String randomNumber(int length) {
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder(length);
+
+        // 循環生成指定長度的隨機數字字符串
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(NUMBERS.length());
+            stringBuilder.append(NUMBERS.charAt(randomIndex));
+        }
+        return stringBuilder.toString();
+    }
 
 }
