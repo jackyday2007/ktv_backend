@@ -1,5 +1,7 @@
 package com.ispan.ktv.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +22,7 @@ public interface RoomsRepository extends JpaRepository<Rooms, Integer>, JpaSpeci
                         @Param("status") String status);
         
         boolean existsById(Integer roomId);
+
+        @Query("SELECT p FROM Rooms p WHERE p.status = :status")
+   	 	public List<Rooms> findRoomsByStatus(@Param("status") String status);
 }

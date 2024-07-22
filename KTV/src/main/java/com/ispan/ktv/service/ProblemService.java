@@ -109,42 +109,51 @@ public class ProblemService {
 	}
 
 //	 修改
-	public Problems modify(String json) throws JSONException, ParseException {
+	public Problems modifyAndUpdateRoomStatus(String json) throws JSONException, ParseException {
+	    JSONObject obj = new JSONObject(json);
+	    Integer problemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
+	    String eventCase = obj.isNull("eventCase") ? null : obj.getString("eventCase");
+	    Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
+	    String content = obj.isNull("content") ? null : obj.getString("content");
+	    String eventDate = obj.isNull("eventDate") ? null : obj.getString("eventDate");
+	    String closeDate = obj.isNull("closeDate") ? null : obj.getString("closeDate");
+	    String status = obj.isNull("status") ? null : obj.getString("status");
 
-		JSONObject obj = new JSONObject(json);
-		Integer problemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
-		String eventCase = obj.isNull("eventCase") ? null : obj.getString("eventCase");
-		Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
-		String content = obj.isNull("content") ? null : obj.getString("content");
-		String eventDate = obj.isNull("eventDate") ? null : obj.getString("eventDate");
-		String closeDate = obj.isNull("closeDate") ? null : obj.getString("closeDate");
-		String status = obj.isNull("status") ? null : obj.getString("status");
+	    Optional<Rooms> roomOptional = roomsRepository.findById(roomId);
+	    if (roomOptional.isEmpty()) {
+	        throw new IllegalArgumentException("Invalid roomId: " + roomId);
+	    }
+	    Rooms room = roomOptional.get();
+	    Optional<Problems> optional = problemsRepository.findById(problemId);
+	    if (optional.isPresent()) {
+	        Problems update = optional.get();
 
-		Optional<Rooms> roomOptional = roomsRepository.findById(roomId);
-		if (roomOptional.isEmpty()) {
-			// 如果 roomId 無效，可以選擇拋出例外或傳回 null
-			throw new IllegalArgumentException("Invalid roomId: " + roomId);
-		}
-		Rooms room = roomOptional.get();
-		Optional<Problems> optional = problemsRepository.findById(problemId);
-		if (optional.isPresent()) {
-			Problems update = optional.get();
-			Date createTime = update.getCreateTime();
-			update.setEventCase(eventCase);
-			update.setRoom(room);
-			update.setContent(content);
-			// 看有無需要 (時分秒)
-			update.setEventDate(
-					eventDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(eventDate) : null);
-			update.setCloseDate(
-					closeDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(closeDate) : null);
-			update.setStatus(status);
-			update.setCreateTime(createTime);
-			update.setUpdateTime(new Date());
+	        Date createTime = update.getCreateTime();
+	        update.setEventCase(eventCase);
+	        update.setRoom(room);
+	        update.setContent(content);
+	        update.setEventDate(eventDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(eventDate) : null);
+	        update.setCloseDate(closeDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(closeDate) : null);
+	        update.setStatus(status);
+	        update.setCreateTime(createTime);
+	        update.setUpdateTime(new Date()); // 更新時間
 
-			return problemsRepository.save(update);
-		}
-		return null;
+	        Problems updatedProblem = problemsRepository.save(update);
+
+	        // 更新房間狀態
+	        if (room != null) {
+	            String oldStatus = room.getStatus();
+	            if ("處理中".equals(status) && !"處理中".equals(oldStatus)) {
+	                room.setStatus("維護中");
+	            } else if ("結案".equals(status) && !"結案".equals(oldStatus)) {
+	                room.setStatus("可使用");
+	            }
+	            roomsRepository.save(room);
+	        }
+
+	        return updatedProblem;
+	    }
+	    return null;
 	}
 
 //	找尋全部
@@ -222,7 +231,7 @@ public class ProblemService {
 	    }, pageable).getContent();
 	}
 
-	// 算總筆數
+// 	算總筆數
 	public Long count(String json) throws JSONException {
 	    JSONObject body = new JSONObject(json);
 	    System.out.println(body);
@@ -337,7 +346,6 @@ public class ProblemService {
 	    });
 	}
 
-	
 	
 	
 }

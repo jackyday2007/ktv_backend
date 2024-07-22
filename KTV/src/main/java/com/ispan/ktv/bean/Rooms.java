@@ -74,9 +74,11 @@ public class Rooms {
 	}
 
 	@PreUpdate
-	public void onUpdate() {
-		this.updateTime = new Date();
-	}
+    public void onUpdate() {
+        if (!"維護中".equals(this.status)) {
+            this.updateTime = new Date();
+        }
+    }
 
 	// 與Orders 的 room 欄位
 	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -85,4 +87,30 @@ public class Rooms {
 	// 與Problems 的 room 欄位
 	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Problems> problems = new ArrayList<>();
+		
+	// 檢查房間是否處於維護中
+    public boolean isUnderMaintenance() {
+        return "維護中".equals(this.status);
+    }
+
+    // 設定房間狀態方法，若為維護中則禁止修改
+    public void setStatus(String status) {
+        if ("處理中".equals(status)) {
+            this.status = "維護中";
+        } else if ("結案".equals(status)) {
+            this.status = "可使用";
+        } else {
+            this.status = status;
+        }
+    }
+
+
+    public void updateRoomStatus(String problemStatus) {
+        if ("處理中".equals(problemStatus)) {
+            this.status = "維護中";
+        } else if ("結案".equals(problemStatus)) {
+            this.status = "可使用";
+        }
+    }
+
 }
