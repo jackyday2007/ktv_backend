@@ -122,11 +122,11 @@ public class StaffController {
 
 	@GetMapping("/staff/find/{id}")
 	public String findById(@PathVariable(name = "id") Integer id) {
-		System.out.println("id = " + id);
+		// System.out.println("id = " + id);
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
 		Staff bean = ss.findById(id);
-		System.out.println("bean = " + bean);
+		// System.out.println("bean = " + bean);
 		if (id != null) {
 			String createtime = DatetimeConverter.toString(bean.getCreateTime(), "yy-MM-dd");
 			String updateTime = DatetimeConverter.toString(bean.getUpdateTime(), "yy-MM-dd");

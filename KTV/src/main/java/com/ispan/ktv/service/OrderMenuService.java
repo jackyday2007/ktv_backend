@@ -3,6 +3,7 @@ package com.ispan.ktv.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.ispan.ktv.bean.OrderMenus;
+import com.ispan.ktv.bean.Staff;
 import com.ispan.ktv.repository.OrderMenusRepository;
 import com.ispan.ktv.util.DatetimeConverter;
 
@@ -148,15 +151,6 @@ public class OrderMenuService {
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-	
 
 	public OrderMenus Create(String json) {
 		try {
@@ -164,7 +158,7 @@ public class OrderMenuService {
 			String name = obj.isNull("itemName") ? null : obj.getString("itemName");
 			String category = obj.isNull("category") ? null : obj.getString("category");
 			String capacity = obj.isNull("capacity") ? null : obj.getString("capacity");
-			Double  price = obj.isNull("price") ? null : obj.getDouble ("price");
+			Double price = obj.isNull("price") ? null : obj.getDouble("price");
 			String status = obj.isNull("status") ? null : obj.getString("status");
 			String createBy = obj.isNull("createBy") ? null : obj.getString("createBy");
 			String createTime = obj.isNull("createTime") ? null : obj.getString("createTime");
@@ -183,7 +177,16 @@ public class OrderMenuService {
 		}
 		return null;
 	}
-
+	
+	public OrderMenus findById(Integer id) {
+		if (id != null) {
+			Optional<OrderMenus> optional = OrderMenusRepo.findById(id);
+			if (optional.isPresent()) {
+				return optional.get();
+			}
+		}
+		return null;
+	}
 
 
 }

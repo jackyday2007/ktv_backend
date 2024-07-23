@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.OrderMenus;
 import com.ispan.ktv.service.OrderMenuService;
+import com.ispan.ktv.util.DatetimeConverter;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @CrossOrigin
@@ -29,13 +36,17 @@ public class OrderMenusController {
 		JSONArray array = new JSONArray();
 		if ( result != null && !result.isEmpty() ) {
 			for ( OrderMenus orderMenus : result ) {
-				JSONObject item = new JSONObject();
-				item.put("itemId", orderMenus.getItemId());
-				item.put("category", orderMenus.getCategory());
-				item.put("itemName", orderMenus.getItemName());
-				item.put("capacity", orderMenus.getCapacity());
-				item.put("price", orderMenus.getPrice());
-				item.put("status", orderMenus.getStatus());
+				JSONObject item = new JSONObject()
+				.put("itemId", orderMenus.getItemId())
+				.put("category", orderMenus.getCategory())
+				.put("itemName", orderMenus.getItemName())
+				.put("capacity", orderMenus.getCapacity())
+				.put("price", orderMenus.getPrice())
+				.put("status", orderMenus.getStatus())
+				.put("creater", orderMenus.getCreateBy())
+				.put("createtime", orderMenus.getCreateTime())
+				.put("updateBy", orderMenus.getUpdateBy())
+				.put("updateTime", orderMenus.getUpdateTime());
 				array.put(item);
 			}
 		}
@@ -63,6 +74,38 @@ public class OrderMenusController {
 		return responseBody.toString();
 	}
 	
+	@GetMapping("/orderMenu/find/{id}")
+	public String findById(@PathVariable(name = "id") Integer id) {
+
+		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
+		OrderMenus orderMenus = orderMenuService.findById(id);
+		if (id != null) {
+			String createtime = DatetimeConverter.toString(orderMenus.getCreateTime(), "yy-MM-dd");
+			String updateTime = DatetimeConverter.toString(orderMenus.getUpdateTime(), "yy-MM-dd");
+			JSONObject item;
+			
+				item = new JSONObject()
+				.put("itemId", orderMenus.getItemId())
+				.put("category", orderMenus.getCategory())
+				.put("itemName", orderMenus.getItemName())
+				.put("capacity", orderMenus.getCapacity())
+				.put("price", orderMenus.getPrice())
+				.put("status", orderMenus.getStatus())
+				.put("creater", orderMenus.getCreateBy())
+				.put("createtime", createtime)
+				.put("updateBy", orderMenus.getUpdateBy())
+				.put("updateTime", updateTime);
+				array = array.put(item);
+				responseBody.put("list", array);
+			
+		}
+
+
+		return responseBody.toString();
+	}
+	
+
 
 
 }
