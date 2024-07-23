@@ -37,10 +37,8 @@ public class OrderDetails {
 	@JoinColumn(name = "orderId")
 	private Orders orderId;
 
-	// 此為多方 與 OrderMenus 的 itemId 欄位
-	@ManyToOne
-	@JoinColumn(name = "item")
-	private OrderMenus item;
+	@Column(name = "item")
+	private String item;
 
 	@Column(name = "quantity")
 	private Integer quantity;

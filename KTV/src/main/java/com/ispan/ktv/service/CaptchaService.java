@@ -1,4 +1,4 @@
-//package com.ispan.ktv.service;
+package com.ispan.ktv.service;
 //
 //import org.springframework.stereotype.Service;
 //
