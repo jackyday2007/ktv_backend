@@ -2,6 +2,7 @@ package com.ispan.ktv.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.ispan.ktv.bean.OrderMenus;
+import com.ispan.ktv.bean.Staff;
 import com.ispan.ktv.repository.OrderMenusRepository;
 import com.ispan.ktv.util.DatetimeConverter;
 
@@ -149,15 +152,6 @@ public class OrderMenuService {
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-	
 
 	public OrderMenus Create(String json) {
 		try {
@@ -165,7 +159,7 @@ public class OrderMenuService {
 			String name = obj.isNull("itemName") ? null : obj.getString("itemName");
 			String category = obj.isNull("category") ? null : obj.getString("category");
 			String capacity = obj.isNull("capacity") ? null : obj.getString("capacity");
-			Double  price = obj.isNull("price") ? null : obj.getDouble ("price");
+			Double price = obj.isNull("price") ? null : obj.getDouble("price");
 			String status = obj.isNull("status") ? null : obj.getString("status");
 			String createBy = obj.isNull("createBy") ? null : obj.getString("createBy");
 			String createTime = obj.isNull("createTime") ? null : obj.getString("createTime");
@@ -183,6 +177,90 @@ public class OrderMenuService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public OrderMenus findById(Integer id) {
+		if (id != null) {
+			Optional<OrderMenus> optional = OrderMenusRepo.findById(id);
+			if (optional.isPresent()) {
+				return optional.get();
+			}
+		}
+		return null;
+	}
+
+	public boolean exists(Integer id){
+		if (id != null) {
+			return OrderMenusRepo.existsById(id);
+		}
+		return false;
+	}
+
+	public OrderMenus Update(String json) {
+		JSONObject obj = new JSONObject(json);
+		Integer id = obj.isNull("itemId") ? null : obj.getInt("itemId");
+		String name = obj.isNull("itemName") ? null : obj.getString("itemName");
+		String category = obj.isNull("category") ? null : obj.getString("category");
+		String capacity = obj.isNull("capacity") ? null : obj.getString("capacity");
+		Double price = obj.isNull("price") ? null : obj.getDouble("price");
+		String status = obj.isNull("status") ? null : obj.getString("status");
+		Optional<OrderMenus> optional = OrderMenusRepo.findById(id);
+		OrderMenus bean = optional.get();
+		String createBy = bean.getCreateBy();
+		Date createTime = bean.getCreateTime();
+		String updateBy = obj.isNull("updateBy") ? null : obj.getString("updateBy");
+		Date updateTime = new Date();
+		if (optional.isPresent()) {
+			OrderMenus update = new OrderMenus();
+			update.setItemId(id);
+			update.setItemName(name);
+			update.setCategory(category);
+			update.setCapacity(capacity);
+			update.setPrice(price);
+			update.setStatus(status);
+			update.setCreateBy(createBy);
+			update.setCreateTime(createTime);
+			update.setUpdateBy(updateBy);
+			update.setUpdateTime(updateTime);
+			return OrderMenusRepo.save(update);
+		}
+
+		return null;
+	}
+	public OrderMenus changeStatus(String json) {
+		JSONObject obj = new JSONObject(json);
+		Integer id = obj.isNull("itemId") ? null : obj.getInt("itemId");
+		Optional<OrderMenus> optional = OrderMenusRepo.findById(id);
+		OrderMenus bean = optional.get();
+		String name = bean.getItemName();
+		String category = bean.getCategory();
+		String capacity = bean.getCapacity();
+		Double price = bean.getPrice();
+		String status = obj.isNull("status") ? null : obj.getString("status");
+		String createBy = bean.getCreateBy();
+		Date createTime = bean.getCreateTime();
+		String updateBy = obj.isNull("updateBy") ? null : obj.getString("updateBy");
+		Date updateTime = new Date();
+		if (optional.isPresent()) {
+			OrderMenus update = new OrderMenus();
+			update.setItemId(id);
+			update.setItemName(name);
+			update.setCategory(category);
+			update.setCapacity(capacity);
+			update.setPrice(price);
+			update.setStatus(status);
+			update.setCreateBy(createBy);
+			update.setCreateTime(createTime);
+			update.setUpdateBy(updateBy);
+			update.setUpdateTime(updateTime);
+			return OrderMenusRepo.save(update);
+		}
+
+		return null;
+	}
+
+	public List<OrderMenus> findByNameLike(String name) {
+		return OrderMenusRepo.findByNameLike('%' + name + '%');
 	}
 
 

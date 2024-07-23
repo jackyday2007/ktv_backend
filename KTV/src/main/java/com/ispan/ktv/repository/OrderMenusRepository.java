@@ -10,11 +10,10 @@ import org.springframework.data.repository.query.Param;
 import com.ispan.ktv.bean.OrderMenus;
 
 public interface OrderMenusRepository extends JpaRepository<OrderMenus, Integer>, JpaSpecificationExecutor<OrderMenus> {
-	
-	
-	@Query(value = "SELECT category FROM OrderMenus GROUP BY category")
-	List<String> categoryList();
-	
-    @Query(value="from OrderMenus where itemName like :name")
-    List<OrderMenus> findByName(@Param("name") String name);
+
+    @Query(value = "SELECT category FROM OrderMenus GROUP BY category")
+    List<String> categoryList();
+
+    @Query(value = "from OrderMenus where itemName like :name")
+    List<OrderMenus> findByNameLike(@Param("name") String name);
 }

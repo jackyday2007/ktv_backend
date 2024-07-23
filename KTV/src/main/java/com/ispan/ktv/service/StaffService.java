@@ -81,7 +81,7 @@ public class StaffService {
 	}
 
 	public Staff Update(String json) {
-		System.out.println("json"+json);
+		// System.out.println("json"+json);
 		try {
 			JSONObject obj = new JSONObject(json);
 			Integer id = obj.isNull("Id") ? null : obj.getInt("Id");
