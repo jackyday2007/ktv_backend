@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ispan.ktv.bean.OrderMenus;
 import com.ispan.ktv.repository.OrderMenusRepository;
+import com.ispan.ktv.util.DatetimeConverter;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -154,5 +155,34 @@ public class OrderMenuService {
 		
 		
 		
+	
+
+	public OrderMenus Create(String json) {
+		try {
+			JSONObject obj = new JSONObject(json);
+			String name = obj.isNull("itemName") ? null : obj.getString("itemName");
+			String category = obj.isNull("category") ? null : obj.getString("category");
+			String capacity = obj.isNull("capacity") ? null : obj.getString("capacity");
+			Double  price = obj.isNull("price") ? null : obj.getDouble ("price");
+			String status = obj.isNull("status") ? null : obj.getString("status");
+			String createBy = obj.isNull("createBy") ? null : obj.getString("createBy");
+			String createTime = obj.isNull("createTime") ? null : obj.getString("createTime");
+			OrderMenus insert = new OrderMenus();
+			insert.setItemName(name);
+			insert.setCategory(category);
+			insert.setCapacity(capacity);
+			insert.setPrice(price);
+			insert.setStatus(status);
+			insert.setCreateBy(createBy);
+			insert.setCreateTime(null);
+			insert.setCreateTime(DatetimeConverter.parse(createTime, "yyyy-MM-dd"));
+			return OrderMenusRepo.save(insert);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
 
 }

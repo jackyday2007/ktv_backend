@@ -44,6 +44,25 @@ public class OrderMenusController {
 		return responseBody.toString();
 	}
 	
+	@PostMapping("/orderMenu/creat")
+	public String creat(@RequestBody String body) {
+		JSONObject responseBody = new JSONObject();
+		
+		OrderMenus product = orderMenuService.Create(body);
+		if (product == null) {
+			responseBody.put("success", false);
+			responseBody.put("message", "新增失敗");
+		} else {
+			responseBody.put("success", true);
+			responseBody.put("message", "新增成功");
+
+				
+			}
+		
+
+		return responseBody.toString();
+	}
 	
+
 
 }
