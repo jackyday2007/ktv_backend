@@ -21,6 +21,7 @@ import com.ispan.ktv.util.DatetimeConverter;
 
 @RestController
 public class TimeSlotController {
+
 	@Autowired
 	private TimeSlotService ts;
 

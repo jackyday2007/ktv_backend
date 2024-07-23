@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -85,6 +86,31 @@ public class Problems {
 		if (createTime == null) {
 			createTime = new Date();
 		}
+		updateRoomStatus();
 	}
+	
+	@PreUpdate
+	public void onUpdate() {
+	    if (room != null) {
+	        if ("處理中".equals(this.status)) {
+	            room.setStatus("維護中");
+	        } else if ("結案".equals(this.status)) {
+	            room.setStatus("可使用");
+	        }
+	        // 確保房間狀態被更新
+	        room.setStatus(room.getStatus()); // Save the updated room status
+	    }
+	    // 確保 updateTime 被更新
+	    this.updateTime = new Date();
+	}
+	
+	
+    private void updateRoomStatus() {
+        if ("處理中".equals(this.status)) {
+            room.setStatus("維護中");
+        } else if ("結案".equals(this.status)) {
+            room.setStatus("可使用");
+        }
+    }
 	
 }

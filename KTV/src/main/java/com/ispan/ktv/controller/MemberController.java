@@ -30,7 +30,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class MemberController {
 
     @Autowired
-    private MemberService memberService;
+    private MemberService memberService; // 注入 MemberService 以使用其方法
 
     @CrossOrigin
     @PostMapping("/register")
@@ -95,13 +95,21 @@ public class MemberController {
 
     @CrossOrigin
     @PostMapping("/reset-password")
+
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+
         boolean isSuccess = memberService.resetPassword(request.getToken(), request.getNewPassword());
+
         if (isSuccess) {
+
             return ResponseEntity.ok("密碼重設成功");
+
         } else {
+
             return ResponseEntity.badRequest().body("無效的 token");
+
         }
+
     }
 
     @CrossOrigin
