@@ -16,5 +16,10 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Inte
 	@Query(value = " SELECT SUM(od.subTotal) FROM OrderDetails AS od WHERE orderId = :orderId ")
 	Optional<Double> subTotal(@Param(value = "orderId") Orders orders);
 	
-
+	
+	
+	
+	
+	
+	
 }

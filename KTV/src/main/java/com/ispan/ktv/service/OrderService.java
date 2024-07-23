@@ -353,7 +353,6 @@ public class OrderService {
 				orderDetails.setItem("包廂費");
 				orderDetails.setSubTotal(room.get().getPrice());
 				roomStatus.setStatus("使用中");
-				
 				ordersStatusHistoryRepo.save(history);
 				orderDetailsRepo.save(orderDetails);
 				roomsRepository.save(roomStatus);
@@ -395,6 +394,8 @@ public class OrderService {
 	private long getTodayOrderCount() {
 		return ordersRepository.countByCreateTime(java.sql.Date.valueOf((LocalDate.now())));
 	}
+	
+	// 產生亂數編號
 	private static final String NUMBERS = "0123456789";
     
 	private static String randomNumber(int length) {
