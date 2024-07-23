@@ -25,6 +25,7 @@ import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.repository.CustomersRepository;
 import com.ispan.ktv.repository.MembersRepository;
 import com.ispan.ktv.repository.OrderDetailsRepository;
+import com.ispan.ktv.repository.OrderMenusRepository;
 import com.ispan.ktv.repository.OrdersRepository;
 import com.ispan.ktv.repository.OrdersStatusHistoryRepository;
 import com.ispan.ktv.repository.RoomsRepository;
@@ -59,6 +60,11 @@ public class OrderService {
 	
 	@Autowired
 	OrderDetailsRepository orderDetailsRepo;
+	
+	@Autowired
+	OrderMenusRepository orderMenusRepository;
+	
+	
 	
 	public Orders findByOrdersId(Long ordersId) {
 		if (ordersId != null) {
@@ -344,6 +350,7 @@ public class OrderService {
 				history.setStatus("消費中");
 				orderDetails.setOrderDetailId(Integer.valueOf(OrderDetailId));
 				orderDetails.setOrderId(result);
+				orderDetails.setItem("包廂費");
 				orderDetails.setSubTotal(room.get().getPrice());
 				roomStatus.setStatus("使用中");
 				

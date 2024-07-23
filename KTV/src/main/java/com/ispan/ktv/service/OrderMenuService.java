@@ -143,7 +143,9 @@ public class OrderMenuService {
 		
 		
 		
-//		public OrderMenus 
+		public List<String> categoryByList() {
+			return OrderMenusRepo.categoryList();
+		}
 		
 		
 		
