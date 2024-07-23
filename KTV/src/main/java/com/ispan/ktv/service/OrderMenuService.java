@@ -188,5 +188,80 @@ public class OrderMenuService {
 		return null;
 	}
 
+	public boolean exists(Integer id){
+		if (id != null) {
+			return OrderMenusRepo.existsById(id);
+		}
+		return false;
+	}
+
+	public OrderMenus Update(String json) {
+		JSONObject obj = new JSONObject(json);
+		Integer id = obj.isNull("itemId") ? null : obj.getInt("itemId");
+		String name = obj.isNull("itemName") ? null : obj.getString("itemName");
+		String category = obj.isNull("category") ? null : obj.getString("category");
+		String capacity = obj.isNull("capacity") ? null : obj.getString("capacity");
+		Double price = obj.isNull("price") ? null : obj.getDouble("price");
+		String status = obj.isNull("status") ? null : obj.getString("status");
+		Optional<OrderMenus> optional = OrderMenusRepo.findById(id);
+		OrderMenus bean = optional.get();
+		String createBy = bean.getCreateBy();
+		Date createTime = bean.getCreateTime();
+		String updateBy = obj.isNull("updateBy") ? null : obj.getString("updateBy");
+		Date updateTime = new Date();
+		if (optional.isPresent()) {
+			OrderMenus update = new OrderMenus();
+			update.setItemId(id);
+			update.setItemName(name);
+			update.setCategory(category);
+			update.setCapacity(capacity);
+			update.setPrice(price);
+			update.setStatus(status);
+			update.setCreateBy(createBy);
+			update.setCreateTime(createTime);
+			update.setUpdateBy(updateBy);
+			update.setUpdateTime(updateTime);
+			return OrderMenusRepo.save(update);
+		}
+
+		return null;
+	}
+	public OrderMenus changeStatus(String json) {
+		JSONObject obj = new JSONObject(json);
+		Integer id = obj.isNull("itemId") ? null : obj.getInt("itemId");
+		Optional<OrderMenus> optional = OrderMenusRepo.findById(id);
+		OrderMenus bean = optional.get();
+		String name = bean.getItemName();
+		String category = bean.getCategory();
+		String capacity = bean.getCapacity();
+		Double price = bean.getPrice();
+		String status = obj.isNull("status") ? null : obj.getString("status");
+		String createBy = bean.getCreateBy();
+		Date createTime = bean.getCreateTime();
+		String updateBy = obj.isNull("updateBy") ? null : obj.getString("updateBy");
+		Date updateTime = new Date();
+		if (optional.isPresent()) {
+			OrderMenus update = new OrderMenus();
+			update.setItemId(id);
+			update.setItemName(name);
+			update.setCategory(category);
+			update.setCapacity(capacity);
+			update.setPrice(price);
+			update.setStatus(status);
+			update.setCreateBy(createBy);
+			update.setCreateTime(createTime);
+			update.setUpdateBy(updateBy);
+			update.setUpdateTime(updateTime);
+			return OrderMenusRepo.save(update);
+		}
+
+		return null;
+	}
+
+	public List<OrderMenus> findByNameLike(String name) {
+		return OrderMenusRepo.findByNameLike('%' + name + '%');
+	}
+
+
 
 }
