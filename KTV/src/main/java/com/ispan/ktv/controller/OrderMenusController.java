@@ -25,6 +25,7 @@ public class OrderMenusController {
 	public String allMenu(@RequestBody(required = false) String body  ) {
 		JSONObject responseBody = new JSONObject();
 		List<OrderMenus> result = orderMenuService.find(body);
+		Long count = orderMenuService.count(body);
 		JSONArray array = new JSONArray();
 		if ( result != null && !result.isEmpty() ) {
 			for ( OrderMenus orderMenus : result ) {
@@ -38,6 +39,7 @@ public class OrderMenusController {
 				array.put(item);
 			}
 		}
+		responseBody.put("count", count);
 		responseBody.put("list", array);
 		return responseBody.toString();
 	}

@@ -1,6 +1,7 @@
 package com.ispan.ktv.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -24,6 +25,50 @@ public class OrderMenuService {
 	
 	@Autowired
 	OrderMenusRepository OrderMenusRepo;
+	
+	
+	// 算總筆數
+	public Long count( String json ) {
+		JSONObject body = new JSONObject(json);
+		System.out.println(body);
+		return OrderMenusRepo.count((root, query, criteriaBuilder) -> {
+			List<Predicate> predicate = new ArrayList<>();
+			
+			if ( !body.isNull("itemId") ) {
+				Integer itemId = body.getInt("itemId");
+				predicate.add(criteriaBuilder.equal(root.get("itemId"), itemId));
+			}
+			
+			if ( !body.isNull("category") ) {
+				String category = body.getString("category");
+				predicate.add(criteriaBuilder.equal(root.get("category"), category));
+			}
+			
+			if ( !body.isNull("itemName") ) {
+				String itemName = body.getString("itemName");
+				predicate.add(criteriaBuilder.equal(root.get("itemName"), itemName));
+			}
+			
+			if ( !body.isNull("capacity") ) {
+				String capacity = body.getString("capacity") ;
+				predicate.add(criteriaBuilder.equal(root.get("capacity"), capacity));
+			}
+			
+			if ( !body.isNull("price") ) {
+				Double price = body.getDouble("price") ;
+				predicate.add(criteriaBuilder.equal(root.get("price"), price));
+			}
+			
+			if ( !body.isNull("status") ) {
+				String status = body.getString("status") ;
+				predicate.add(criteriaBuilder.equal(root.get("status"), status));
+			}
+			
+			query.where(predicate.toArray(new Predicate[0]));
+
+			return criteriaBuilder.and(predicate.toArray(new Predicate[0]));
+		});
+	}
 	
 	// 即時查詢
 		public List<OrderMenus> find( String json ) {
@@ -68,10 +113,47 @@ public class OrderMenuService {
 					predicate.add(cb.equal(root.get("status"), status));
 				}
 				
+				
+				if ( !body.isNull("createTime") ) {
+					String createTime = body.getString("createTime") ;
+					predicate.add(cb.equal(root.get("createTime"), createTime));
+				}
+				
+				
+				if ( !body.isNull("createBy") ) {
+					String createBy = body.getString("createBy") ;
+					predicate.add(cb.equal(root.get("createBy"), createBy));
+				}
+				
+				if ( !body.isNull("updateTime") ) {
+					String updateTime = body.getString("updateTime") ;
+					predicate.add(cb.equal(root.get("updateTime"), updateTime));
+				}
+				
+				if ( !body.isNull("updateBy") ) {
+					String updateBy = body.getString("updateBy") ;
+					predicate.add(cb.equal(root.get("updateBy"), updateBy));
+				}
+				
 				return cb.and(predicate.toArray(new Predicate[0]));
 			};
 			
 			return OrderMenusRepo.findAll(spec, pgb).getContent();
 		}
+		
+		
+		
+//		public OrderMenus 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 }
