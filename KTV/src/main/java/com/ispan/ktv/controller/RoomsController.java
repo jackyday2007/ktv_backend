@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ispan.ktv.bean.Problems;
 import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.RoomService;
 
