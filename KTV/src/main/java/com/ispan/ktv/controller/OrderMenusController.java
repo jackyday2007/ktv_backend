@@ -5,12 +5,15 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.OrderMenus;
+import com.ispan.ktv.bean.Staff;
 import com.ispan.ktv.service.OrderMenuService;
 
 @RestController
@@ -43,6 +46,25 @@ public class OrderMenusController {
 		return responseBody.toString();
 	}
 	
+	@PostMapping("/orderMenu/creat")
+	public String creat(@RequestBody String body) {
+		JSONObject responseBody = new JSONObject();
+		
+		OrderMenus product = orderMenuService.Create(body);
+		if (product == null) {
+			responseBody.put("success", false);
+			responseBody.put("message", "新增失敗");
+		} else {
+			responseBody.put("success", true);
+			responseBody.put("message", "新增成功");
+
+				
+			}
+		
+
+		return responseBody.toString();
+	}
 	
+
 
 }
