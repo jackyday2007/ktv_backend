@@ -1,11 +1,15 @@
 package com.ispan.ktv.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ispan.ktv.bean.Members;
 import com.ispan.ktv.service.MemberService;
@@ -185,6 +191,42 @@ public class MemberController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @PostMapping("/upload-profile-image/{idNumber}")
+    public ResponseEntity<String> uploadProfileImage(@PathVariable String idNumber, @RequestParam("file") MultipartFile file) {
+        Members member = memberService.findByIdNumber(idNumber);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("會員不存在");
+        }
+
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("沒有上傳檔案");
+        }
+
+        try {
+            byte[] imageBytes = file.getBytes();
+            member.setImage(imageBytes);
+            memberService.save(member);
+
+            return ResponseEntity.ok("圖片上傳成功");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("上傳圖片時發生錯誤");
+        }
+    }
+
+    @GetMapping("/profile-image/{idNumber}")
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable String idNumber) {
+        Members member = memberService.findByIdNumber(idNumber);
+        if (member == null || member.getImage() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG); // 根據實際圖片格式修改
+
+        return new ResponseEntity<>(member.getImage(), headers, HttpStatus.OK);
     }
 
 }
