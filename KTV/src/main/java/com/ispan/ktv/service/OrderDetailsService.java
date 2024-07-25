@@ -64,6 +64,7 @@ public class OrderDetailsService {
 					orderDetails.setOrderDetailId(orderDetailId);
 					orderDetails.setOrderId(order.get());
 					orderDetails.setItem(item.get().getItemName());
+					orderDetails.setPrice(item.get().getPrice());
 					orderDetails.setQuantity(quantity);
 					orderDetails.setSubTotal(item.get().getPrice() * quantity);
 					OrderDetails answer = orderDetailsRepo.save(orderDetails);
@@ -76,6 +77,19 @@ public class OrderDetailsService {
 		return orderDetailsList;
 	}
 	
+	public List<OrderDetails> orderDetailsList( Long orderId ) {
+		if ( orderId != null ) {
+			Optional<Orders> order = OrdersRepo.findById(orderId);
+			if ( order.isPresent() ) {
+				List<OrderDetails> orderDetails = orderDetailsRepo.orderDetailsList(order.get());
+				if ( orderDetails != null ) {
+					List<OrderDetails> list = new ArrayList<>(orderDetails);
+					return list;
+				}
+			}
+		}
+		return null;
+	}
 	
 	
 	

@@ -39,16 +39,27 @@ public class CustomersController {
 			responseBody.put("message", "查詢完成");
 			responseBody.put("list", array);
 		} else {
-			JSONObject item = new JSONObject();
-			item.put("customerId", "");
-			item.put("idNumber", idNumber);
-			item.put("birth", "");
-			item.put("name", "");
-			item.put("phone", "");
-			array.put(item);
-			responseBody.put("success", false);
-			responseBody.put("message", "查無此證訊息");
-			responseBody.put("list", array);
+			if ( idNumber != null) {
+				JSONObject item = new JSONObject();
+				item.put("customerId", "");
+				item.put("idNumber", idNumber);
+				item.put("birth", "");
+				item.put("name", "");
+				item.put("phone", "");
+				array.put(item);
+				responseBody.put("success", false);
+				responseBody.put("message", "查無此證訊息");
+				responseBody.put("list", array);
+			} else {
+				JSONObject item = new JSONObject();
+				item.put("customerId", "");
+				item.put("idNumber", "");
+				array.put(item);
+				responseBody.put("success", false);
+				responseBody.put("message", "請輸入身分證字號");
+				responseBody.put("list", array);
+			}
+
 		}
 		return responseBody.toString();
 	}

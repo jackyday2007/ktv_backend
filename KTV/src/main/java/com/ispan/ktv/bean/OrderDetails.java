@@ -45,6 +45,9 @@ public class OrderDetails {
 
 	@Column(name = "item")
 	private String item;
+	
+	@Column(name = "price")
+	private Double price;
 
 	@Column(name = "quantity")
 	private Integer quantity;

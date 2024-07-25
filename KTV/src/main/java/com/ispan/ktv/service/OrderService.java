@@ -350,7 +350,9 @@ public class OrderService {
 				history.setStatus("消費中");
 				orderDetails.setOrderDetailId(Integer.valueOf(OrderDetailId));
 				orderDetails.setOrderId(result);
-				orderDetails.setItem("包廂費");
+				orderDetails.setPrice(room.get().getPrice());
+				orderDetails.setItem("包廂費("+ room.get().getSize() +")");
+				orderDetails.setQuantity(1);
 				orderDetails.setSubTotal(room.get().getPrice());
 				roomStatus.setStatus("使用中");
 				ordersStatusHistoryRepo.save(history);
@@ -368,6 +370,74 @@ public class OrderService {
 		order.setOrderId(id);
 		return ordersRepository.save(order);
 	}
+	
+	public Orders createNewOrder( String body ) {
+		Long orderId = Long.valueOf(generateOrderId());
+		Orders order = new Orders();
+		order.setOrderId(orderId);
+		Orders result = ordersRepository.save(order);
+		if ( result != null ) {
+			Optional<Orders> optional = ordersRepository.findById(orderId);
+			if ( optional.isPresent() ) {
+				JSONObject obj = new JSONObject(body);
+				Integer findCustomerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
+				Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
+				Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
+				String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
+				Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
+				String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
+				Customers customerId = null;
+				Members memberId = null;
+				Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId) : Optional.empty();
+				if (checkCustomerId.isPresent()) {
+					customerId = checkCustomerId.get();
+				} else {
+					customerId = null;
+				}
+				Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
+				if ( checkMemberId.isPresent() ) {
+					memberId = checkMemberId.get();
+				} else {
+					memberId = null;
+				}
+				Orders orders = optional.get();
+				orders.setCustomerId(customerId);
+				orders.setMemberId(memberId);
+				orders.setNumberOfPersons(numberOfPersons);
+				orders.setOrderDate(DatetimeConverter.parse(orderDate, "yyyy-MM-dd"));
+				orders.setHours(hours);
+				orders.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
+				if ( startTime != null && hours != null ) {	
+					LocalTime start = LocalTime.parse(startTime);
+		            LocalTime end = start.plusHours(hours);
+		            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+		            String endTimeString = end.format(formatter);
+		            orders.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
+				}
+				Orders answer =  ordersRepository.save(orders);
+				OrdersStatusHistory history = new OrdersStatusHistory();
+				if ( answer.getOrderId() != null ) {
+					history.setOrderId(result);
+					history.setStatus("預約");
+					ordersStatusHistoryRepo.save(history);
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	// 產生訂單編號
@@ -396,7 +466,7 @@ public class OrderService {
 	}
 	
 	// 產生亂數編號
-	private static final String NUMBERS = "0123456789";
+	private static final String NUMBERS = "123456789";
     
 	private static String randomNumber(int length) {
         Random random = new Random();
