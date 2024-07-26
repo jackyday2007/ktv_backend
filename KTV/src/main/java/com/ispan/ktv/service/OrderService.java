@@ -1,9 +1,11 @@
 package com.ispan.ktv.service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -271,7 +273,7 @@ public class OrderService {
 		return null;
 	}
 
-	// 新增預約
+	// 修改預約
 	public Orders updateOrders(String body) {
 		JSONObject obj = new JSONObject(body);
 		Customers customerId = null;
@@ -313,14 +315,11 @@ public class OrderService {
 				String endTimeString = end.format(formatter);
 				update.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
 			}
-			Orders result = ordersRepository.save(update);
-			OrdersStatusHistory history = new OrdersStatusHistory();
-			if (result.getOrderId() != null) {
-				history.setOrderId(result);
-				history.setStatus("預約");
-				ordersStatusHistoryRepo.save(history);
-				return result;
+			if ( memberId != null ) {
+				update.setUpdateBy(String.valueOf(memberId.getMemberId()));
+				update.setUpdateTime(Date.from(Instant.now()));
 			}
+			return ordersRepository.save(update);
 		}
 		return null;
 	}
@@ -421,6 +420,9 @@ public class OrderService {
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 					String endTimeString = end.format(formatter);
 					orders.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
+				}
+				if ( memberId != null ) {
+					orders.setCreateBy(String.valueOf(memberId.getMemberId()));
 				}
 				Orders answer = ordersRepository.save(orders);
 				OrdersStatusHistory history = new OrdersStatusHistory();

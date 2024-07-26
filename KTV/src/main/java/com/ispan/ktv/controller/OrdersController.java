@@ -121,6 +121,10 @@ public class OrdersController {
 					item.put("endTime", endTime);
 					item.put("subTotal", subTotal != null ? subTotal : "");
 					item.put("status", status != null ? status.getStatus() : null);
+					item.put("createTime", DatetimeConverter.toString(orders.getCreateTime(), "yyyy-MM-dd HH:mm"));
+					item.put("createBy", orders.getCreateBy());
+					item.put("updateTime", DatetimeConverter.toString(orders.getUpdateTime(), "yyyy-MM-dd HH:mm"));
+					item.put("updateBy", orders.getUpdateBy());
 					array.put(item);
 				}
 			}
@@ -136,7 +140,9 @@ public class OrdersController {
 		Long orderId = Long.valueOf(newOrderId);
 		return orderService.createOrderId(orderId);
 	}
-
+	
+	
+	// 更新
 	@PutMapping("/orders/newOrder/{id}")
 	public String newOrders(@PathVariable Long id, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
@@ -164,10 +170,10 @@ public class OrdersController {
 						Orders result = orderService.updateOrders(body);
 						if (result == null) {
 							responseBody.put("success", false);
-							responseBody.put("message", "預定失敗");
+							responseBody.put("message", "修改訂單失敗");
 						} else {
 							responseBody.put("success", true);
-							responseBody.put("message", "預定成功");
+							responseBody.put("message", "修改訂單成功");
 						}
 					}
 				}
