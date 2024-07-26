@@ -34,19 +34,18 @@ public class OrdersController {
 
 	@Autowired
 	RoomService roomService;
-	
+
 	@Autowired
 	MemberService memberService;
-	
+
 	@Autowired
 	CustomerService customerService;
-	
+
 	@Autowired
 	OrdersStatusHistoryService oshService;
-	
+
 	@Autowired
 	OrderDetailsService orderDetailsService;
-	
 
 	@GetMapping("/orders/{ordersId}")
 	public String findByOrdersId(@PathVariable(name = "ordersId") Long ordersId) {
@@ -55,15 +54,18 @@ public class OrdersController {
 		Orders orders = orderService.findByOrdersId(ordersId);
 		if (orders != null) {
 			String orderDate = DatetimeConverter.toString(orders.getOrderDate(), "yyyy-MM-dd");
-			String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm:ss");
-			String endTime = DatetimeConverter.toString(orders.getEndTime(), "HH:mm:ss");
+			String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm");
+			String endTime = DatetimeConverter.toString(orders.getEndTime(), "HH:mm");
 			OrdersStatusHistory status = oshService.findNewHistory(orders.getOrderId());
 			Double subTotal = orderDetailsService.subTotal(ordersId);
 			JSONObject item = new JSONObject();
 			item.put("orderId", orders.getOrderId());
-			item.put("customerId", (orders.getCustomerId() != null ? String.format("%06d",orders.getCustomerId().getCustomerId()) : ""));
-			item.put("memberId", (orders.getMemberId() != null ? String.format("%06d", orders.getMemberId().getMemberId()) : ""));
-			item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "" );
+			item.put("customerId",
+					(orders.getCustomerId() != null ? String.format("%06d", orders.getCustomerId().getCustomerId())
+							: ""));
+			item.put("memberId",
+					(orders.getMemberId() != null ? String.format("%06d", orders.getMemberId().getMemberId()) : ""));
+			item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "");
 			item.put("numberOfPersons", orders.getNumberOfPersons());
 			item.put("hours", orders.getHours());
 			item.put("orderDate", orderDate);
@@ -74,11 +76,10 @@ public class OrdersController {
 			array.put(item);
 			responseBody.put("list", array);
 		}
-		 System.out.println("responseBody.toString() = " + responseBody.toString());
-		 return responseBody.toString();
+		System.out.println("responseBody.toString() = " + responseBody.toString());
+		return responseBody.toString();
 	}
-	
-	
+
 	@PostMapping("/orders/find")
 	public String findAllTesst(@RequestBody(required = false) String body) {
 		JSONObject responseBody = new JSONObject();
@@ -86,18 +87,16 @@ public class OrdersController {
 		long count = orderService.count(body);
 		long countNull = orderService.countOrderDate(body);
 		long countTotal = 0;
-		
+
 		if (count - countNull <= 0) {
 			countTotal = 0;
 		} else {
 			countTotal = count - countNull;
 		}
-		System.out.println("countTotal = " + countTotal);
-		System.out.println("result="+result);
 		JSONArray array = new JSONArray();
-		if ( result != null && !result.isEmpty() ) {
-			for ( Orders orders : result ) {
-				if ( orders.getOrderDate() != null ) {
+		if (result != null && !result.isEmpty()) {
+			for (Orders orders : result) {
+				if (orders.getOrderDate() != null && orders.getStartTime() != null) {
 					Long orderId = Long.valueOf(orders.getOrderId());
 					String orderDate = DatetimeConverter.toString(orders.getOrderDate(), "yyyy-MM-dd");
 					String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm");
@@ -106,15 +105,20 @@ public class OrdersController {
 					Double subTotal = orderDetailsService.subTotal(orders.getOrderId());
 					JSONObject item = new JSONObject();
 					item.put("orderId", orderId);
-					item.put("memberId", orders.getMemberId() != null ? String.format("%06d",orders.getMemberId().getMemberId()) : "");
-					item.put("customerId", orders.getCustomerId() != null ? String.format("%06d",orders.getCustomerId().getCustomerId()) : "" );
+					item.put("memberId",
+							orders.getMemberId() != null ? String.format("%06d", orders.getMemberId().getMemberId())
+									: "");
+					item.put("customerId",
+							orders.getCustomerId() != null
+									? String.format("%06d", orders.getCustomerId().getCustomerId())
+									: "");
 					item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "");
 					item.put("orderDate", orderDate);
 					item.put("hours", orders.getHours());
 					item.put("startTime", startTime);
 					item.put("endTime", endTime);
-					item.put("subTotal", subTotal != null ? subTotal : "" );
-					item.put("status", status != null ?  status.getStatus() : null );
+					item.put("subTotal", subTotal != null ? subTotal : "");
+					item.put("status", status != null ? status.getStatus() : null);
 					array.put(item);
 				}
 			}
@@ -123,7 +127,7 @@ public class OrdersController {
 		responseBody.put("list", array);
 		return responseBody.toString();
 	}
-	
+
 	@PostMapping("/orders/createOrderId")
 	public Orders newOrderId() {
 		String newOrderId = orderService.generateOrderId();
@@ -169,7 +173,7 @@ public class OrdersController {
 		}
 		return responseBody.toString();
 	}
-	
+
 	// 等待
 	@PutMapping("/orders/checkIn/{id}")
 	public String checkIn(@PathVariable Long id, @RequestBody String body) {
@@ -179,7 +183,7 @@ public class OrdersController {
 		Integer customerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
 		Integer memberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
 		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
-		if ( customerId == null && memberId == null ) {
+		if (customerId == null && memberId == null) {
 			JSONObject item = new JSONObject();
 			item.put("customerId", "");
 			item.put("memberId", "");
@@ -204,15 +208,14 @@ public class OrdersController {
 		}
 		return responseBody.toString();
 	}
-	
-	
+
 	// 等待
 	@PutMapping("/orders/inTheRoom/{id}")
 	public String inTheRoom(@PathVariable Long id, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 		JSONObject obj = new JSONObject(body);
 		Integer room = obj.isNull("room") ? null : obj.getInt("room");
-		if ( room == null ) {
+		if (room == null) {
 			responseBody.put("success", false);
 			responseBody.put("message", "請選擇包廂!!!");
 		} else {
@@ -227,7 +230,44 @@ public class OrdersController {
 		}
 		return responseBody.toString();
 	}
-	
-	
-	
+
+	@PostMapping("/orders/testNewOrder")
+	public String testNewOrder(@RequestBody String body) {
+		JSONObject responseBody = new JSONObject();
+		JSONObject obj = new JSONObject(body);
+		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
+		Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
+		String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
+		String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
+		if (numberOfPersons == null) {
+			responseBody.put("success", false);
+			responseBody.put("message", "請填寫人數");
+		} else {
+			if (orderDate == null) {
+				responseBody.put("success", false);
+				responseBody.put("message", "請填寫預約日期");
+			} else {
+				if (hours == null) {
+					responseBody.put("success", false);
+					responseBody.put("message", "請填寫歡唱時數");
+				} else {
+					if (startTime == null) {
+						responseBody.put("success", false);
+						responseBody.put("message", "請填寫開始時間");
+					} else {
+						Orders result = orderService.createNewOrder(body);
+						if (result == null) {
+							responseBody.put("success", false);
+							responseBody.put("message", "預定失敗");
+						} else {
+							responseBody.put("success", true);
+							responseBody.put("message", "預定成功");
+						}
+					}
+				}
+			}
+		}
+		return responseBody.toString();
+	}
+
 }

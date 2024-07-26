@@ -1,5 +1,6 @@
 package com.ispan.ktv.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,11 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Inte
 	@Query(value = " SELECT SUM(od.subTotal) FROM OrderDetails AS od WHERE orderId = :orderId ")
 	Optional<Double> subTotal(@Param(value = "orderId") Orders orders);
 	
-
+	
+	@Query(value = " FROM OrderDetails WHERE orderId = :orderId ")
+	List<OrderDetails> orderDetailsList(@Param(value="orderId") Orders orderId );
+	
+	
+	
+	
 }
