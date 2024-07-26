@@ -56,6 +56,10 @@ public class OrderDetailsController {
 				item.put("createTime", DatetimeConverter.toString(orderDetail.getCreateTime(), "HH:mm"));
 				array.put(item);
 			}
+			Double total = orderDetailsService.subTotal(orderId);
+			if ( total != null ) {
+				responseBody.put("total", total);
+			}
 			responseBody.put("list", array);
 		} else {
 			responseBody.put("message", "查詢失敗");

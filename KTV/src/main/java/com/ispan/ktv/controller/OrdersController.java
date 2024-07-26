@@ -113,6 +113,7 @@ public class OrdersController {
 									? String.format("%06d", orders.getCustomerId().getCustomerId())
 									: "");
 					item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "");
+					item.put("size", orders.getRoom() != null ? orders.getRoom().getSize() : "");
 					item.put("orderDate", orderDate);
 					item.put("hours", orders.getHours());
 					item.put("startTime", startTime);
