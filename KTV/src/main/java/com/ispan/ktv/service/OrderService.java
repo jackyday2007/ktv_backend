@@ -178,12 +178,18 @@ public class OrderService {
 				Integer customerId = body.getInt("customerId");
 				predicate.add(cb.equal(root.get("customerId").get("customerId"), customerId));
 			}
-
+			
+			if (!body.isNull("numberOfPersons")) {
+				Integer room = body.getInt("numberOfPersons");
+				predicate.add(cb.equal(root.get("numberOfPersons"), room));
+			}
+			
+			
 			if (!body.isNull("room")) {
 				Integer room = body.getInt("room");
 				predicate.add(cb.equal(root.get("room").get("roomId"), room));
 			}
-
+			
 			if (!body.isNull("orderDate")) {
 				String orderDate = body.getString("orderDate");
 				predicate.add(cb.equal(root.get("orderDate"), orderDate));
