@@ -1,6 +1,7 @@
 package com.ispan.ktv.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -16,4 +17,7 @@ public interface OrderMenusRepository extends JpaRepository<OrderMenus, Integer>
 
     @Query(value = "from OrderMenus where itemName like :name")
     List<OrderMenus> findByNameLike(@Param("name") String name);
+    
+    @Query( value = " FROM OrderMenus WHERE itemName = :name " )
+    Optional<OrderMenus> findItemByName(@Param("name") String name);
 }

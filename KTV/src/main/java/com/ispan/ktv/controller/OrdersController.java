@@ -97,7 +97,7 @@ public class OrdersController {
 		JSONArray array = new JSONArray();
 		if ( result != null && !result.isEmpty() ) {
 			for ( Orders orders : result ) {
-				if ( orders.getOrderDate() != null ) {
+				if ( orders.getOrderDate() != null && orders.getNumberOfPersons() != null ) {
 					Long orderId = Long.valueOf(orders.getOrderId());
 					String orderDate = DatetimeConverter.toString(orders.getOrderDate(), "yyyy-MM-dd");
 					String startTime = DatetimeConverter.toString(orders.getStartTime(), "HH:mm");

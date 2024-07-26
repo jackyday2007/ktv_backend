@@ -395,6 +395,8 @@ public class OrderService {
 	private long getTodayOrderCount() {
 		return ordersRepository.countByCreateTime(java.sql.Date.valueOf((LocalDate.now())));
 	}
+	
+	// 產生亂數編號
 	private static final String NUMBERS = "0123456789";
     
 	private static String randomNumber(int length) {
