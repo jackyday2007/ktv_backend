@@ -55,9 +55,13 @@ public class CheckoutService {
 				if ( result != null ) {
 					OrdersStatusHistory osh = new OrdersStatusHistory();
 					Optional<Rooms> room = roomsRepo.findById(roomId);
+					Rooms rooms = room.get();
 					osh.setOrderId(findOrderId.get());
 					osh.setStatus("已結帳");
-					
+					rooms.setStatus("開放中");
+					ordersStatusHistoryRepo.save(osh);
+					roomsRepo.save(rooms);
+					return result;
 				}
 			}
 		}
