@@ -1,6 +1,5 @@
 package com.ispan.ktv.controller;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,10 +19,10 @@ public class CheckoutController {
 	CheckoutService checkoutServicep;
 	
 	
-	@PostMapping("/checkout/")
+	@PostMapping("/checkout")
 	public String checkout(@RequestBody String body ) {
 		JSONObject responseBody = new JSONObject();
-		JSONObject obj = new JSONObject();
+		JSONObject obj = new JSONObject(body);
 		Double pay = obj.isNull("pay") ? null : obj.getDouble("pay");
 		if ( pay == null ) {
 			responseBody.put("message", "請輸入收取金額");

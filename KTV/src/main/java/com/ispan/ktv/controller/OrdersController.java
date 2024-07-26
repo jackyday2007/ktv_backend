@@ -112,6 +112,7 @@ public class OrdersController {
 							orders.getCustomerId() != null
 									? String.format("%06d", orders.getCustomerId().getCustomerId())
 									: "");
+					item.put("numberOfPersons", orders.getNumberOfPersons());
 					item.put("room", orders.getRoom() != null ? orders.getRoom().getRoomId() : "");
 					item.put("size", orders.getRoom() != null ? orders.getRoom().getSize() : "");
 					item.put("orderDate", orderDate);
