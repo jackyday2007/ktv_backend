@@ -43,7 +43,7 @@ public class MemberController {
     public ResponseEntity<String> register(@RequestBody Members member) {
         // 檢查 ID 是否已存在
         if (memberService.findByIdNumber(member.getIdNumber()) != null) {
-            return ResponseEntity.badRequest().body("ID Number已被使用");
+            return ResponseEntity.badRequest().body("身分證字號已被使用");
         }
 
         // 設定密碼和其他屬性
@@ -192,8 +192,10 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @PostMapping("/upload-profile-image/{idNumber}")
-    public ResponseEntity<String> uploadProfileImage(@PathVariable String idNumber, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadProfileImage(@PathVariable String idNumber,
+            @RequestParam("file") MultipartFile file) {
         Members member = memberService.findByIdNumber(idNumber);
         if (member == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("會員不存在");
