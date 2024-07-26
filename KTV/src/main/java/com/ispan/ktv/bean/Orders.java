@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,6 +46,7 @@ public class Orders {
 	private Customers customerId;
 	
 	//此為多方 與 Members 的 memberId 欄位
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "memberId")
 	private Members memberId;
@@ -125,10 +129,12 @@ public class Orders {
     }
 	
 	//與OrderDetails 的 orderId 欄位 
+ 
 	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<OrderDetails> orderDetails = new ArrayList<>();
 	
 	//與OrdersStatusHistory 的 orderId 欄位 
+	
 	@OneToMany(mappedBy = "orderId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<OrdersStatusHistory> ordersStatusHistory = new ArrayList<>();
 
