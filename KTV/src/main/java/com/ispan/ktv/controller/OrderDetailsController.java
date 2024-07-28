@@ -23,7 +23,6 @@ public class OrderDetailsController {
 	@Autowired
 	OrderDetailsService orderDetailsService;
 	
-
 	@PostMapping("/orderDetail/new")
 	public String newDetail(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
@@ -40,7 +39,6 @@ public class OrderDetailsController {
 	public String orderDetailsList(@PathVariable(name = "orderId") Long orderId) {
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
-		JSONArray checkoutArray = new JSONArray();
 		List<OrderDetails> orderDetails = orderDetailsService.orderDetailsList(orderId);
 		if (orderDetails != null && !orderDetails.isEmpty()) {
 			for (OrderDetails orderDetail : orderDetails) {

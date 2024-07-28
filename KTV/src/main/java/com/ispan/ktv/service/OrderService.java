@@ -4,18 +4,16 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ispan.ktv.bean.Customers;
@@ -23,6 +21,7 @@ import com.ispan.ktv.bean.Members;
 import com.ispan.ktv.bean.OrderDetails;
 import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.OrdersStatusHistory;
+import com.ispan.ktv.bean.RoomHistory;
 import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.repository.CustomersRepository;
 import com.ispan.ktv.repository.MembersRepository;
@@ -30,15 +29,10 @@ import com.ispan.ktv.repository.OrderDetailsRepository;
 import com.ispan.ktv.repository.OrderMenusRepository;
 import com.ispan.ktv.repository.OrdersRepository;
 import com.ispan.ktv.repository.OrdersStatusHistoryRepository;
+import com.ispan.ktv.repository.RoomHistoryRepository;
 import com.ispan.ktv.repository.RoomsRepository;
 import com.ispan.ktv.util.DatetimeConverter;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -65,7 +59,10 @@ public class OrderService {
 
 	@Autowired
 	OrderMenusRepository orderMenusRepository;
-
+	
+	@Autowired
+	RoomHistoryRepository roomHistoryRepository;
+	
 	public Orders findByOrdersId(Long ordersId) {
 		if (ordersId != null) {
 			Optional<Orders> optional = ordersRepository.findById(ordersId);
@@ -75,152 +72,119 @@ public class OrderService {
 		}
 		return null;
 	}
-
-	// 算總筆數
-	public Long count(String json) {
-		JSONObject body = new JSONObject(json);
-		System.out.println(body);
-		return ordersRepository.count((root, query, criteriaBuilder) -> {
-			List<Predicate> predicate = new ArrayList<>();
-
-			if (!body.isNull("orderId")) {
-				Long orderId = body.getLong("orderId");
-				predicate.add(criteriaBuilder.equal(root.get("orderId"), orderId));
-			}
-
-			if (!body.isNull("memberId")) {
-				Integer memberId = body.getInt("memberId");
-				predicate.add(criteriaBuilder.equal(root.get("memberId").get("memberId"), memberId));
-			}
-
-			if (!body.isNull("customerId")) {
-				Integer customerId = body.getInt("customerId");
-				predicate.add(criteriaBuilder.equal(root.get("customerId").get("customerId"), customerId));
-			}
-
-			if (!body.isNull("room")) {
-				Integer room = body.getInt("room");
-				predicate.add(criteriaBuilder.equal(root.get("room").get("roomId"), room));
-			}
-
-			if (!body.isNull("hours")) {
-				Integer hours = body.getInt("hours");
-				predicate.add(criteriaBuilder.equal(root.get("hours"), hours));
-			}
-
-			if (!body.isNull("startTime")) {
-				String startTime = body.getString("startTime");
-				predicate.add(criteriaBuilder.equal(root.get("startTime"), startTime));
-			}
-
-			if (!body.isNull("endTime")) {
-				String endTime = body.getString("endTime");
-				predicate.add(criteriaBuilder.equal(root.get("endTime"), endTime));
-			}
-
-			if (!body.isNull("subTotal")) {
-				String subTotal = body.getString("subTotal");
-				predicate.add(criteriaBuilder.equal(root.get("subTotal"), subTotal));
-			}
-
-			if (!body.isNull("status")) {
-				String orderStatus = body.getString("status");
-				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
-				predicate.add(criteriaBuilder.like(historyJoin.get("status"), "%" + orderStatus + "%"));
-			}
-			query.where(predicate.toArray(new Predicate[0]));
-
-			return criteriaBuilder.and(predicate.toArray(new Predicate[0]));
-		});
-	}
-
-	// null的總數
-	public Long countOrderDate(String json) {
-		JSONObject body = new JSONObject(json);
-		System.out.println(body);
-		return ordersRepository.count((root, query, criteriaBuilder) -> {
-			List<Predicate> predicate = new ArrayList<>();
-
-			if (!body.isNull("orderDate")) {
-				String orderDate = body.getString("orderDate");
-				predicate.add(criteriaBuilder.equal(root.get("orderDate"), orderDate));
-			} else {
-				predicate.add(criteriaBuilder.isNull(root.get("orderDate")));
-			}
-			query.where(predicate.toArray(new Predicate[0]));
-
-			return criteriaBuilder.and(predicate.toArray(new Predicate[0]));
-		});
-	}
-
+	
 	// 即時查詢
-	public List<Orders> find(String json) {
-		JSONObject body = new JSONObject(json);
-		System.out.println("body=" + body);
-		int start = body.isNull("start") ? 0 : body.getInt("start");
-		int max = body.isNull("max") ? 5 : body.getInt("max");
-		boolean dir = body.isNull("dir") ? false : body.getBoolean("dir");
-		String order = body.isNull("order") ? "orderId" : body.getString("order");
-		Sort sort = dir ? Sort.by(Sort.Direction.DESC, order) : Sort.by(Sort.Direction.ASC, order);
-		Pageable pgb = PageRequest.of(start, max, sort);
-		Specification<Orders> spec = (Root<Orders> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
-			List<Predicate> predicate = new ArrayList<>();
+    public Page<Orders> findTest(String json) {
+        JSONObject body = new JSONObject(json);
+        int start = body.isNull("start") ? 0 : body.getInt("start");
+        int max = body.isNull("max") ? 5 : body.getInt("max");
+        boolean dir = body.isNull("dir") ? false : body.getBoolean("dir");
+        String order = body.isNull("order") ? "orderId" : body.getString("order");
+        Sort sort = dir ? Sort.by(Sort.Direction.DESC, order) : Sort.by(Sort.Direction.ASC, order);
+        Pageable pageable = PageRequest.of(start, max, sort);
 
-			if (!body.isNull("orderId")) {
-				Long orderId = body.getLong("orderId");
-				predicate.add(cb.equal(root.get("orderId"), orderId));
-			}
+        String status = body.isNull("status") ? null : body.getString("status");
+        Long orderId = body.isNull("orderId") ? null : body.getLong("orderId");
+        Integer memberId = body.isNull("memberId") ? null : body.getInt("memberId");
+        Integer customerId = body.isNull("customerId") ? null : body.getInt("customerId");
+        Integer numberOfPersons = body.isNull("numberOfPersons") ? null : body.getInt("numberOfPersons");
+        Integer room = body.isNull("room") ? null : body.getInt("room");
+        Date orderDate = body.isNull("orderDate") ? null : DatetimeConverter.parse(body.getString("orderDate"), "yyyy-MM-dd");
+        Integer hours = body.isNull("hours") ? null : body.getInt("hours");
 
-			if (!body.isNull("memberId")) {
-				Integer memberId = body.getInt("memberId");
-				predicate.add(cb.equal(root.get("memberId").get("memberId"), memberId));
+        // 使用 Pageable 进行分页查询
+        if (status == null) {
+            // 如果 status 为 null，调用不带 status 参数的查询方法
+        	return ordersRepository.findByConditionsWithoutStatus(orderId, memberId, customerId, numberOfPersons, room, orderDate, hours, pageable);
+        } else {
+            // 否则，调用带 status 参数的查询方法
+            return ordersRepository.findByConditions(status, orderId, memberId, customerId, numberOfPersons, room, orderDate, hours, pageable);
+        }
+    }
+    
+    // 算總筆數
+    public Long countTest(String json) {
+        JSONObject body = new JSONObject(json);
+        String status = body.isNull("status") ? null : body.getString("status");
+        Long orderId = body.isNull("orderId") ? null : body.getLong("orderId");
+        Integer memberId = body.isNull("memberId") ? null : body.getInt("memberId");
+        Integer customerId = body.isNull("customerId") ? null : body.getInt("customerId");
+        Integer numberOfPersons = body.isNull("numberOfPersons") ? null : body.getInt("numberOfPersons");
+        Integer room = body.isNull("room") ? null : body.getInt("room");
+        Date orderDate = body.isNull("orderDate") ? null : DatetimeConverter.parse(body.getString("orderDate"), "yyyy-MM-dd");
+        Integer hours = body.isNull("hours") ? null : body.getInt("hours");
+        if (status == null) {
+            return ordersRepository.countByConditionsWithoutStatus(orderId, memberId, customerId, numberOfPersons, room, orderDate, hours);
+        } else {
+            return ordersRepository.countByConditions(status, orderId, memberId, customerId, numberOfPersons, room, orderDate, hours);
+        }
+    }
+    
+    // 新增訂單
+    public Orders createNewOrder(String body) {
+		Long orderId = Long.valueOf(generateOrderId());
+		Orders order = new Orders();
+		order.setOrderId(orderId);
+		Orders result = ordersRepository.save(order);
+		if (result != null) {
+			Optional<Orders> optional = ordersRepository.findById(orderId);
+			if (optional.isPresent()) {
+				JSONObject obj = new JSONObject(body);
+				Integer findCustomerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
+				Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
+				Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
+				String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
+				Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
+				String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
+				Customers customerId = null;
+				Members memberId = null;
+				Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId) : Optional.empty();
+				if (checkCustomerId.isPresent()) {
+					customerId = checkCustomerId.get();
+				} else {
+					customerId = null;
+				}
+				Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
+				if (checkMemberId.isPresent()) {
+					memberId = checkMemberId.get();
+				} else {
+					memberId = null;
+				}
+				Orders orders = optional.get();
+				orders.setCustomerId(customerId);
+				orders.setMemberId(memberId);
+				orders.setNumberOfPersons(numberOfPersons);
+				orders.setOrderDate(DatetimeConverter.parse(orderDate, "yyyy-MM-dd"));
+				orders.setHours(hours);
+				orders.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
+				if (startTime != null && hours != null) {
+					LocalTime start = LocalTime.parse(startTime);
+					LocalTime end = start.plusHours(hours);
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+					String endTimeString = end.format(formatter);
+					orders.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
+				}
+				if ( memberId != null ) {
+					orders.setCreateBy(String.valueOf(memberId.getMemberId()));
+				}
+				Orders answer = ordersRepository.save(orders);
+				OrdersStatusHistory history = new OrdersStatusHistory();
+				if (answer.getOrderId() != null) {
+					history.setOrderId(answer);
+					history.setStatus("預約");
+					ordersStatusHistoryRepo.save(history);
+				}
+				RoomHistory roomHistory = new RoomHistory();
+				roomHistory.setRoom(answer.getRoom());
+				roomHistory.setDate(answer.getOrderDate());
+				roomHistory.setStartTime(answer.getStartTime());
+				roomHistory.setEndTime(answer.getEndTime());
+				roomHistory.setStatus("預約");
+				roomHistoryRepository.save(roomHistory);
+				return result;
 			}
-
-			if (!body.isNull("customerId")) {
-				Integer customerId = body.getInt("customerId");
-				predicate.add(cb.equal(root.get("customerId").get("customerId"), customerId));
-			}
-			
-			if (!body.isNull("numberOfPersons")) {
-				Integer room = body.getInt("numberOfPersons");
-				predicate.add(cb.equal(root.get("numberOfPersons"), room));
-			}
-			
-			
-			if (!body.isNull("room")) {
-				Integer room = body.getInt("room");
-				predicate.add(cb.equal(root.get("room").get("roomId"), room));
-			}
-			
-			if (!body.isNull("orderDate")) {
-				String orderDate = body.getString("orderDate");
-				predicate.add(cb.equal(root.get("orderDate"), orderDate));
-			}
-
-			if (!body.isNull("hours")) {
-				Integer hours = body.getInt("hours");
-				predicate.add(cb.equal(root.get("hours"), hours));
-			}
-
-			if (!body.isNull("startTime")) {
-				String startTime = body.getString("startTime");
-				predicate.add(cb.equal(root.get("startTime"), (startTime)));
-			}
-
-			if (!body.isNull("endTime")) {
-				String endTime = body.getString("endTime");
-				predicate.add(cb.equal(root.get("endTime"), endTime));
-			}
-
-			if (!body.isNull("status")) {
-				String status = body.getString("status");
-				Join<Orders, OrdersStatusHistory> historyJoin = root.join("ordersStatusHistory", JoinType.LEFT);
-				predicate.add(cb.like(historyJoin.get("status"), "%" + status + "%"));
-			}
-			return cb.and(predicate.toArray(new Predicate[0]));
-		};
-
-		return ordersRepository.findAll(spec, pgb).getContent();
+		}
+		return null;
 	}
 
 	// 報到
@@ -375,67 +339,7 @@ public class OrderService {
 		return ordersRepository.save(order);
 	}
 
-	public Orders createNewOrder(String body) {
-		Long orderId = Long.valueOf(generateOrderId());
-		Orders order = new Orders();
-		order.setOrderId(orderId);
-		Orders result = ordersRepository.save(order);
-		if (result != null) {
-			Optional<Orders> optional = ordersRepository.findById(orderId);
-			if (optional.isPresent()) {
-				JSONObject obj = new JSONObject(body);
-				Integer findCustomerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
-				Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
-				Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
-				String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
-				Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
-				String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
-				Customers customerId = null;
-				Members memberId = null;
-				Optional<Customers> checkCustomerId = findCustomerId != null
-						? customersRepository.findById(findCustomerId)
-						: Optional.empty();
-				if (checkCustomerId.isPresent()) {
-					customerId = checkCustomerId.get();
-				} else {
-					customerId = null;
-				}
-				Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId)
-						: Optional.empty();
-				if (checkMemberId.isPresent()) {
-					memberId = checkMemberId.get();
-				} else {
-					memberId = null;
-				}
-				Orders orders = optional.get();
-				orders.setCustomerId(customerId);
-				orders.setMemberId(memberId);
-				orders.setNumberOfPersons(numberOfPersons);
-				orders.setOrderDate(DatetimeConverter.parse(orderDate, "yyyy-MM-dd"));
-				orders.setHours(hours);
-				orders.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
-				if (startTime != null && hours != null) {
-					LocalTime start = LocalTime.parse(startTime);
-					LocalTime end = start.plusHours(hours);
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-					String endTimeString = end.format(formatter);
-					orders.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
-				}
-				if ( memberId != null ) {
-					orders.setCreateBy(String.valueOf(memberId.getMemberId()));
-				}
-				Orders answer = ordersRepository.save(orders);
-				OrdersStatusHistory history = new OrdersStatusHistory();
-				if (answer.getOrderId() != null) {
-					history.setOrderId(result);
-					history.setStatus("預約");
-					ordersStatusHistoryRepo.save(history);
-					return result;
-				}
-			}
-		}
-		return null;
-	}
+	
 
 	// 產生訂單編號
 	public String generateOrderId() {
@@ -476,5 +380,9 @@ public class OrderService {
 		}
 		return stringBuilder.toString();
 	}
+	
+	
+    
+	
 
 }
