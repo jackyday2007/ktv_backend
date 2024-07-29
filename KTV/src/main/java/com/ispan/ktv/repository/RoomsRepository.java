@@ -20,9 +20,16 @@ public interface RoomsRepository extends JpaRepository<Rooms, Integer>, JpaSpeci
                         @Param("size") String size,
                         @Param("price") Double price,
                         @Param("status") String status);
-        
+
         boolean existsById(Integer roomId);
 
-        @Query("SELECT p FROM Rooms p WHERE p.status = :status")
-   	 	public List<Rooms> findRoomsByStatus(@Param("status") String status);
+        @Query("SELECT r FROM Rooms r WHERE r.status = :status")
+        public List<Rooms> findRoomsByStatus(@Param("status") String status);
+
+        @Query("SELECT r FROM Rooms r WHERE r.size = :size")
+        public List<Rooms> findRoomsBySize(@Param("size") String size);
+
+        @Query("FROM Rooms WHERE size = :size")
+        List<Rooms> findRoomSize(@Param("size") String size);
+
 }

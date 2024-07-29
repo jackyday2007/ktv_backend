@@ -35,11 +35,11 @@ public class RoomsController {
 
 			if (roomId == null) {
 				responseBody.put("success", false);
-				responseBody.put("message", "roomId是必要欄位");
+				responseBody.put("message", "包廂號碼是必要欄位");
 			} else {
 				if (roomService.exists(roomId)) {
 					responseBody.put("success", false);
-					responseBody.put("message", "roomId已存在");
+					responseBody.put("message", "包廂號碼已存在❌");
 				} else {
 					Rooms room = roomService.create(body);
 					if (room == null) {
@@ -47,7 +47,7 @@ public class RoomsController {
 						responseBody.put("message", "新增失敗");
 					} else {
 						responseBody.put("success", true);
-						responseBody.put("message", "新增成功");
+						responseBody.put("message", "新增成功✔");
 					}
 				}
 			}
@@ -65,6 +65,28 @@ public class RoomsController {
 		try {
 			Rooms room = roomService.findByRoomId(roomId);
 			if (room != null) {
+				JSONObject item = new JSONObject().put("roomId", room.getRoomId()).put("size", room.getSize())
+						.put("price", room.getPrice()).put("status", room.getStatus())
+						.put("photoFile", room.getPhotoFile()).put("createTime", room.getCreateTime())
+						.put("createBy", room.getCreateBy()).put("updateTime", room.getUpdateTime())
+						.put("updateBy", room.getUpdateBy());
+				array.put(item);
+			}
+			responseBody.put("list", array);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return responseBody.toString();
+	}
+
+	// status查詢
+	@GetMapping("/rooms/findByRoomStatus/{status}")
+	public String findByRoomStatus(@PathVariable(name = "status") String status) throws JSONException {
+		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
+		List<Rooms> rooms = roomService.findRoomsByStatus(status);
+		if (rooms != null) {
+			for (Rooms room : rooms) {
 				JSONObject item = new JSONObject()
 						.put("roomId", room.getRoomId())
 						.put("size", room.getSize())
@@ -77,12 +99,35 @@ public class RoomsController {
 						.put("updateBy", room.getUpdateBy());
 				array.put(item);
 			}
-			responseBody.put("list", array);
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
+		responseBody.put("list", array);
 		return responseBody.toString();
 	}
+	
+	// size查詢
+	@GetMapping("/rooms/findByRoomSize/{size}")
+	public String findByRoomSize(@PathVariable(name = "size") String size) throws JSONException {
+		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
+		List<Rooms> rooms = roomService.findRoomsBySize(size);
+		if (rooms != null) {
+			for (Rooms room : rooms) {
+				JSONObject item = new JSONObject()
+						.put("roomId", room.getRoomId())
+						.put("size", room.getSize())
+						.put("price", room.getPrice())
+						.put("status", room.getStatus())
+						.put("photoFile", room.getPhotoFile())
+						.put("createTime", room.getCreateTime())
+						.put("createBy", room.getCreateBy())
+						.put("updateTime", room.getUpdateTime())
+						.put("updateBy", room.getUpdateBy());
+				array.put(item);
+			}
+		}
+		responseBody.put("list", array);
+		return responseBody.toString();
+	}	
 
 	// 修改資料
 	@PutMapping("/rooms/modify/{roomId}")

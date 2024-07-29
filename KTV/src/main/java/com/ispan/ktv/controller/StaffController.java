@@ -92,11 +92,13 @@ public class StaffController {
 		return  responseBody.toString();
 	}
 
-	@GetMapping("/staff/findall")
-	public String findall() {
+	@PostMapping("/staff/findall")
+	public String findall(@RequestBody(required = false) String body) {
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
-		List<Staff> result = ss.find();
+		List<Staff> result = ss.find(body);
+		System.out.println("result"+result);
+		Long count = ss.count(body);
 		if (result != null && !result.isEmpty()) {
 			for (Staff bean : result) {
 				String createtime = DatetimeConverter.toString(bean.getCreateTime(), "yy-MM-dd");
@@ -110,13 +112,14 @@ public class StaffController {
 					.put("createtime", createtime).put("updateBy", bean.getUpdateBy())
 					.put("updateTime", updateTime);
 					array = array.put(item);
+					responseBody.put("count", count);
 					responseBody.put("list", array);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-
+		
 		return responseBody.toString();
 	}
 

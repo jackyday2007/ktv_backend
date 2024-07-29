@@ -160,6 +160,7 @@ public class MemberController {
         Members members = memberService.findMemberWithPhone(phone);
         if (members != null) {
             JSONObject item = new JSONObject();
+            item.put("customerId", "");
             item.put("memberId", String.format("%06d", members.getMemberId()));
             item.put("phone", phone);
             array.put(item);

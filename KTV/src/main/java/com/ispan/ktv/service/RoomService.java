@@ -114,8 +114,15 @@ public class RoomService {
 	    }
 	    return null;
 	}
-
 	
+	// size查詢
+	public List<Rooms> findRoomsBySize(String size) {
+	    if (size != null) {
+	        return roomsRepository.findRoomsBySize(size);
+	    }
+	    return null;
+	}
+
 	// 找尋全部
 	public List<Rooms> findAll(String json) throws JSONException {
 	    JSONObject body = new JSONObject(json);
@@ -247,7 +254,7 @@ public class RoomService {
 	}
 
 	 
-	 
+	// 刪除單筆包廂
 	public void deleteRoomsById(Integer roomId) {
 		roomsRepository.deleteById(roomId);
 	}

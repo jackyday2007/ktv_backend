@@ -41,11 +41,11 @@ public class ProblemsController {
 				responseBody.put("message", "包廂問題新增失敗");
 			} else {
 				responseBody.put("success", true);
-				responseBody.put("message", "包廂問題新增成功");
+				responseBody.put("message", "包廂問題新增成功✔");
 			}
 		} catch (IllegalArgumentException e) {
 			responseBody.put("success", false);
-			responseBody.put("message", "新增失敗!!!" + e.getMessage() + "的包廂號碼");
+			responseBody.put("message", "新增失敗❌" + e.getMessage() + "的包廂號碼");
 		}
 		return responseBody.toString();
 	}
