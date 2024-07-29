@@ -1,4 +1,4 @@
-//package com.ispan.ktv.controller;
+package com.ispan.ktv.controller;
 //
 //import java.awt.Color;
 //import java.awt.Font;
