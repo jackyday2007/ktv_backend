@@ -25,4 +25,8 @@ public interface RoomsRepository extends JpaRepository<Rooms, Integer>, JpaSpeci
 
         @Query("SELECT p FROM Rooms p WHERE p.status = :status")
    	 	public List<Rooms> findRoomsByStatus(@Param("status") String status);
+        
+        @Query("FROM Rooms WHERE size = :size")
+        List<Rooms> findRoomSize(@Param("size") String size);
+        
 }

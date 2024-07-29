@@ -1,10 +1,13 @@
 package com.ispan.ktv.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -134,10 +137,12 @@ public class OrderService {
 				Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
 				Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
 				String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
+				Date date = convertStringToDate(orderDate);
 				Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
 				String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
 				Customers customerId = null;
 				Members memberId = null;
+				Rooms room = null;
 				Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId) : Optional.empty();
 				if (checkCustomerId.isPresent()) {
 					customerId = checkCustomerId.get();
@@ -167,6 +172,26 @@ public class OrderService {
 				if ( memberId != null ) {
 					orders.setCreateBy(String.valueOf(memberId.getMemberId()));
 				}
+				if ( numberOfPersons > 0 && numberOfPersons <= 6 ) {
+					List<Rooms> rooms = roomsRepository.findRoomSize("小");
+					for ( Rooms roomId : rooms ) {
+						List<RoomHistory> histories = roomHistoryRepository.findRoomHistoryWhithDateAndRoom(date, room);
+						if ( histories.isEmpty() ) {
+							RoomHistory roomHistory = new RoomHistory();
+							roomHistory.setDate(date);
+							roomHistory.setRoom(roomId);
+							orders.setRoom(roomId);
+							roomHistory.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
+							LocalTime start = LocalTime.parse(startTime);
+							LocalTime end = start.plusHours(hours);
+							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+							String endTimeString = end.format(formatter);
+							roomHistory.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
+							roomHistory.setStatus("預約");
+							roomHistoryRepository.save(roomHistory);
+						}
+					}
+				}
 				Orders answer = ordersRepository.save(orders);
 				OrdersStatusHistory history = new OrdersStatusHistory();
 				if (answer.getOrderId() != null) {
@@ -174,13 +199,6 @@ public class OrderService {
 					history.setStatus("預約");
 					ordersStatusHistoryRepo.save(history);
 				}
-				RoomHistory roomHistory = new RoomHistory();
-				roomHistory.setRoom(answer.getRoom());
-				roomHistory.setDate(answer.getOrderDate());
-				roomHistory.setStartTime(answer.getStartTime());
-				roomHistory.setEndTime(answer.getEndTime());
-				roomHistory.setStatus("預約");
-				roomHistoryRepository.save(roomHistory);
 				return result;
 			}
 		}
@@ -381,7 +399,23 @@ public class OrderService {
 		return stringBuilder.toString();
 	}
 	
-	
+	private static Date convertStringToDate(String dateString) {
+        // 定义日期格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false); // 设置为严格解析模式
+
+        if (dateString == null || dateString.isEmpty()) {
+            return null;
+        }
+
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            // 处理解析异常
+            System.err.println("日期解析失败: " + e.getMessage());
+            return null;
+        }
+    }
     
 	
 
