@@ -26,12 +26,9 @@ public class OrdersStatusHistoryService {
 	
 	
 	public OrdersStatusHistory findNewHistory( Long ordersId ) {
-		System.out.println("ordersId="+ordersId);
 		Optional<Orders> check = ordersRepository.findById(ordersId);
-		System.out.println("check=" + check);
 		if ( check != null ) {
 			Optional<OrdersStatusHistory> optional = OrdersStatusHistoryRepo.history(check.get());
-			System.out.println("optional=" + optional);
 			if (optional.isPresent()) {
 				return optional.get();
 			}

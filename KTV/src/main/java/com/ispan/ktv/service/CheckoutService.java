@@ -41,10 +41,8 @@ public class CheckoutService {
 	public Checkout insertCheckout( String body ) {
 		JSONObject obj = new JSONObject(body);
 		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
-		System.out.println("orderId = " + orderId);
 		String pay = obj.isNull("pay") ? null : obj.getString("pay");
 		Integer roomId = obj.isNull("room") ? null : obj.getInt("room");
-		System.out.println("roomId = " + roomId);
 		Optional<Orders> findOrderId = ordersRepo.findById(orderId);
 		if ( findOrderId.isPresent() ) {
 			Optional<Double> total = orderDetailsRepo.subTotal(findOrderId.get());
@@ -74,7 +72,6 @@ public class CheckoutService {
 		Optional<Orders> orders = ordersRepo.findById(orderId);
 		if ( orders.isPresent() ) {
 			Optional<Checkout> result = checkoutRepo.findCheckout(orderId);
-			System.out.println("result = " + result);
 			if ( result.isPresent() ) {
 				return result.get();
 			}

@@ -31,7 +31,6 @@ public class OrderMenuService {
 	// 算總筆數
 	public Long count(String json) {
 		JSONObject body = new JSONObject(json);
-		System.out.println(body);
 		return OrderMenusRepo.count((root, query, criteriaBuilder) -> {
 			List<Predicate> predicate = new ArrayList<>();
 
@@ -74,7 +73,6 @@ public class OrderMenuService {
 	// 即時查詢
 	public List<OrderMenus> find(String json) {
 		JSONObject body = new JSONObject(json);
-		System.out.println("body=" + body);
 		int start = body.isNull("start") ? 0 : body.getInt("start");
 		int max = body.isNull("max") ? 5 : body.getInt("max");
 		boolean dir = body.isNull("dir") ? false : body.getBoolean("dir");

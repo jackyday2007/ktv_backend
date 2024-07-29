@@ -24,7 +24,6 @@ public class CheckoutController {
 	
 	@PostMapping("/checkout")
 	public String checkout(@RequestBody String body ) {
-		System.out.println(body);
 		JSONObject responseBody = new JSONObject();
 		JSONObject obj = new JSONObject(body);
 		String pay = obj.isNull("pay") ? null : obj.getString("pay");
