@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.ispan.ktv.bean.Staff;
 import com.ispan.ktv.repository.StaffRepository;
@@ -29,6 +29,9 @@ public class StaffService {
 
 	@Autowired
 	private StaffRepository sr;
+
+	// @Autowired
+    // private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	// 算總筆數
 	public Long count( String json ) {
@@ -168,10 +171,14 @@ public class StaffService {
 			Integer status = obj.isNull("status") ? null : obj.getInt("status");
 			String createBy = obj.isNull("createBy") ? null : obj.getString("createBy");
 			String createTime = obj.isNull("createTime") ? null : obj.getString("createTime");
+			// 加密密码
+			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+			String encryptedPassword = password != null ? bCryptPasswordEncoder.encode(password) : null;
+
 			Staff insert = new Staff();
 			insert.setAccountName(name);
 			insert.setAccount(account);
-			insert.setPassword(password);
+			insert.setPassword(encryptedPassword);
 			insert.setStatus(status);
 			insert.setCreateBy(createBy);
 			insert.setCreateTime(null);
@@ -183,9 +190,10 @@ public class StaffService {
 		return null;
 	}
 
-	public boolean exists(Integer id) {
-		if (id != null) {
-			return sr.existsById(id);
+	public boolean exists(Integer account) {
+		Optional<Staff> bean = sr.findByAccount(account);
+		if (account != null && bean.isPresent()) {
+			return true;
 		}
 		return false;
 	}
@@ -206,14 +214,15 @@ public class StaffService {
 			// String createTime = obj.isNull("createTime") ? null : obj.getString("createTime");
 			String updateBy = obj.isNull("updateBy") ? null : obj.getString("updateBy");
 			Date updateTime = new Date();
-
+			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+			String encryptedPassword = password != null ? bCryptPasswordEncoder.encode(password) : null;
 			Optional<Staff> optional = sr.findById(id);
 			if (optional.isPresent()) {
 				Staff update = new Staff();
 				update.setAccountId(id);
 				update.setAccountName(name);
 				update.setAccount(account);
-				update.setPassword(password);
+				update.setPassword(encryptedPassword);
 				update.setStatus(status);
 				update.setCreateBy(createBy);
 				update.setCreateTime(createTime);
@@ -235,10 +244,11 @@ public class StaffService {
 			if (optional.isPresent()) {
 				if (password != null && password.length() != 0) {
 					Staff bean = optional.get();
-
+					BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 					byte[] pass = bean.getPassword().getBytes();
 					byte[] temp = password.getBytes();
-					if (Arrays.equals(pass, temp)) {
+					boolean result = bCryptPasswordEncoder.matches(password, bean.getPassword());
+					if (Arrays.equals(pass, temp) || result) {
 						return bean;
 					}
 				}

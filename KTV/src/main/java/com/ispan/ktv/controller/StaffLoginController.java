@@ -20,6 +20,10 @@ public class StaffLoginController {
     // private JsonWebTokenUtility jsonWebTokenUtility;
     @Autowired
     private StaffService staffService;
+
+    // @Autowired
+    // private BCryptPasswordEncoder bCryptPasswordEncoder;
+
         @PostMapping("/staff/login")
         public String login(@RequestBody String body, HttpSession hs) {
             JSONObject responseBody = new JSONObject();
@@ -27,6 +31,8 @@ public class StaffLoginController {
             JSONObject obj = new JSONObject(body);
             Integer account = obj.isNull("account") ? null : obj.getInt("account");
             String password = obj.isNull("password") ? null : obj.getString("password");
+
+
 
             if (account == null  || password == null || password.length() == 0) {
                 responseBody.put("success", false);
