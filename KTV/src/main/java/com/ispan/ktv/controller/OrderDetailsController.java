@@ -22,7 +22,7 @@ public class OrderDetailsController {
 
 	@Autowired
 	OrderDetailsService orderDetailsService;
-
+	
 	@PostMapping("/orderDetail/new")
 	public String newDetail(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
@@ -55,6 +55,10 @@ public class OrderDetailsController {
 				item.put("subTotal", orderDetail.getSubTotal());
 				item.put("createTime", DatetimeConverter.toString(orderDetail.getCreateTime(), "HH:mm"));
 				array.put(item);
+			}
+			Double total = orderDetailsService.subTotal(orderId);
+			if ( total != null ) {
+				responseBody.put("total", total);
 			}
 			responseBody.put("list", array);
 		} else {

@@ -27,21 +27,22 @@ public class PhotosController {
 
     @Autowired
     private PhotoService photoService;
-    
+
     @GetMapping("/photos/upload")
     public String upload() {
         return "photos/uploadPage"; // 确保这个模板文件在你的项目中存在
     }
-    
+
     @PostMapping("/photos/uploadPost")
-    public ResponseEntity<String> uploadPost(@RequestParam String photoName, @RequestParam MultipartFile photoFile) throws IOException {
+    public ResponseEntity<String> uploadPost(@RequestParam String photoName, @RequestParam MultipartFile photoFile)
+            throws IOException {
         Photos newPhotos = new Photos();
         newPhotos.setPhotoName(photoName);
         newPhotos.setPhotoFile(photoFile.getBytes());
         photoService.insertPhoto(newPhotos);
         return ResponseEntity.ok("成功上傳");
     }
-    
+
     @GetMapping("/photos/findImage/{id}")
     public ResponseEntity<byte[]> findImage(@PathVariable(name = "id") Integer id) {
         Photos photos = photoService.findById(id);
@@ -53,34 +54,34 @@ public class PhotosController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    
+
     @GetMapping("/photos/findAll")
     public ResponseEntity<List<Photos>> findAllPhotos() {
         List<Photos> photosList = photoService.findAll();
         if (photosList != null && !photosList.isEmpty()) {
             List<Photos> responseList = photosList.stream()
-                .map(photo -> {
-                    Photos newPhoto = new Photos();
-                    newPhoto.setId(photo.getId());
-                    newPhoto.setPhotoName(photo.getPhotoName());
-                    // 直接使用 Base64 编码的图像数据
-                    newPhoto.setPhotoFile(photo.getPhotoFile()); // 假设 photoFile 是 Base64 编码字符串
-                    // 复制其他属性
-                    return newPhoto;
-                })
-                .collect(Collectors.toList());
+                    .map(photo -> {
+                        Photos newPhoto = new Photos();
+                        newPhoto.setId(photo.getId());
+                        newPhoto.setPhotoName(photo.getPhotoName());
+                        // 直接使用 Base64 编码的图像数据
+                        newPhoto.setPhotoFile(photo.getPhotoFile()); // 假设 photoFile 是 Base64 编码字符串
+                        // 复制其他属性
+                        return newPhoto;
+                    })
+                    .collect(Collectors.toList());
             return new ResponseEntity<>(responseList, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
     @DeleteMapping("/photos/delete/{id}")
     public String delete(@PathVariable(name = "id") Integer id) {
-    	if(id != null) {
-    		photoService.delete(id);
-    		return "刪除成功";
-    	}
-    	return null;
+        photoService.findById(id);
+        if (id == null) {
+            return "查無ID";
+        }
+        photoService.delete(id);
+        return "刪除成功";
     }
 }

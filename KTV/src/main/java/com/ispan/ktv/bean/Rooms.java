@@ -87,6 +87,10 @@ public class Rooms {
 	// 與Problems 的 room 欄位
 	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Problems> problems = new ArrayList<>();
+	
+	// 與RoomHistory 的 room 欄位
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<RoomHistory> roomHistory = new ArrayList<>();
 		
 	// 檢查房間是否處於維護中
     public boolean isUnderMaintenance() {

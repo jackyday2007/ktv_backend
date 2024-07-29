@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -93,6 +96,7 @@ public class Members {
         }
     }
     
+    @JsonIgnore
     @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
     private List<Orders> memberOrders = new ArrayList<>();  // 會員的訂單列表
 }
