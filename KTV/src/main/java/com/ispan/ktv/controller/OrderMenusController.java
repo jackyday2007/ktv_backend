@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,6 +59,14 @@ public class OrderMenusController {
 		return responseBody.toString();
 	}
 	
+	
+	@GetMapping("/orderMenu/categoryList")
+    public List<String> categoryList() {
+        return orderMenuService.categoryByList();
+    }
+	
+	
+	
 	@PostMapping("/orderMenu/creat")
 	public String creat(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
@@ -69,11 +78,7 @@ public class OrderMenusController {
 		} else {
 			responseBody.put("success", true);
 			responseBody.put("message", "新增成功");
-
-				
 			}
-		
-
 		return responseBody.toString();
 	}
 	

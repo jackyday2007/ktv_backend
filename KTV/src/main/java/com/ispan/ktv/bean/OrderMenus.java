@@ -1,19 +1,15 @@
 package com.ispan.ktv.bean;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -75,9 +71,5 @@ public class OrderMenus {
 			createTime = new Date();
 		}
 	}
-
-	// 與OrderDetails 的 item 欄位
-	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-	private List<OrderDetails> orderDetails = new ArrayList<>();
 
 }
