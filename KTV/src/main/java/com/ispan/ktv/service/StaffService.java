@@ -273,14 +273,15 @@ public class StaffService {
 			Date createTime = bean.getCreateTime();
 			String updateBy = bean.getAccountName();
 			Date updateTime = new Date();
-
+			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+			String encryptedPassword = password != null ? bCryptPasswordEncoder.encode(password) : null;
 			Optional<Staff> optional = sr.findById(id);
 			if (optional.isPresent()) {
 				Staff update = new Staff();
 				update.setAccountId(id);
 				update.setAccountName(name);
 				update.setAccount(account);
-				update.setPassword(password);
+				update.setPassword(encryptedPassword);
 				update.setStatus(status);
 				update.setCreateBy(createBy);
 				update.setCreateTime(createTime);
