@@ -198,6 +198,15 @@ public class StaffService {
 		return false;
 	}
 
+	public boolean existsId(Integer account) {
+		Optional<Staff> bean = sr.findById(account);
+		if (account != null && bean.isPresent()) {
+			return true;
+		}
+		return false;
+	}
+
+
 	public Staff Update(String json) {
 		// System.out.println("json"+json);
 		try {
@@ -216,13 +225,22 @@ public class StaffService {
 			Date updateTime = new Date();
 			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 			String encryptedPassword = password != null ? bCryptPasswordEncoder.encode(password) : null;
+			String pd ;
+			String pd1 = bean.getPassword();
+			if (pd1.equals(password)) {
+				pd = password;
+			} else {
+				pd = encryptedPassword;
+			}
+
+
 			Optional<Staff> optional = sr.findById(id);
 			if (optional.isPresent()) {
 				Staff update = new Staff();
 				update.setAccountId(id);
 				update.setAccountName(name);
 				update.setAccount(account);
-				update.setPassword(encryptedPassword);
+				update.setPassword(pd);
 				update.setStatus(status);
 				update.setCreateBy(createBy);
 				update.setCreateTime(createTime);
