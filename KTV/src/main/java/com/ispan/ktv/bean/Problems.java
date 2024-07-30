@@ -95,7 +95,7 @@ public class Problems {
 	        if ("處理中".equals(this.status)) {
 	            room.setStatus("維護中");
 	        } else if ("結案".equals(this.status)) {
-	            room.setStatus("可使用");
+	            room.setStatus("開放中");
 	        }
 	        // 確保房間狀態被更新
 	        room.setStatus(room.getStatus()); // Save the updated room status
@@ -109,7 +109,7 @@ public class Problems {
         if ("處理中".equals(this.status)) {
             room.setStatus("維護中");
         } else if ("結案".equals(this.status)) {
-            room.setStatus("可使用");
+            room.setStatus("開放中");
         }
     }
 	
