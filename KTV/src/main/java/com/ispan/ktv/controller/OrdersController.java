@@ -80,10 +80,8 @@ public class OrdersController {
 
 	@PostMapping("/orders/find")
 	public String findAll(@RequestBody(required = false) String body) {
-		System.out.println("body = "+body);
 		JSONObject responseBody = new JSONObject();
 		Page<Orders> result = orderService.findTest(body);
-		System.out.println("result = " + result);
 		long count = orderService.countTest(body);
 		JSONArray array = new JSONArray();
 		if (result != null && !result.isEmpty()) {

@@ -21,9 +21,10 @@ public class OrdersStatusHistoryController {
 	OrdersStatusHistoryService oshService;
 	
 	@PostMapping("/orders/noCheckIn/{id}")
-	public String checkIn(@PathVariable Long id, @RequestBody String body) {
+	public String checkIn(@PathVariable Long id) {
+		System.out.println("onCheckIn = " + id);
 		JSONObject responseBody = new JSONObject();
-		OrdersStatusHistory result = oshService.noCheckIn(body);
+		OrdersStatusHistory result = oshService.noCheckIn(id);
 		if (result != null) {
 			responseBody.put("success", true);
 			responseBody.put("message", "已取消");
