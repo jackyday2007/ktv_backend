@@ -14,6 +14,10 @@ public class SpringBootJavaConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
+<<<<<<< HEAD
+=======
+		System.out.println("registry = " + registry);
+>>>>>>> 54243b4dc8bfaa393c1f0828a1b0e33a84e9be75
 		registry.addInterceptor(jsonWebTokenInterceptor)
 		.addPathPatterns("/ktvbackend/**");
 	}
