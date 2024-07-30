@@ -21,6 +21,7 @@ public class JsonWebTokenInterceptor implements HandlerInterceptor {
 		String method = request.getMethod();
 		if(!"OPTIONS".equalsIgnoreCase(method)) {
 			String auth = request.getHeader("Authorization");
+			System.out.println("auth = " + auth);
 			JSONObject result = processAuthorizationHeader(auth);
 			if(result==null || result.length()==0) {
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);

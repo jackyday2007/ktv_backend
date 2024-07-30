@@ -22,19 +22,19 @@ import jakarta.transaction.Transactional;
 public class CheckoutService {
 	
 	@Autowired
-	CheckoutRepository checkoutRepo;
+	private CheckoutRepository checkoutRepo;
 	
 	@Autowired
-	OrdersRepository ordersRepo;
+	private OrdersRepository ordersRepo;
 	
 	@Autowired
-	OrderDetailsRepository orderDetailsRepo;
+	private OrderDetailsRepository orderDetailsRepo;
 	
 	@Autowired
-	OrdersStatusHistoryRepository ordersStatusHistoryRepo;
+	private OrdersStatusHistoryRepository ordersStatusHistoryRepo;
 	
 	@Autowired
-	RoomsRepository roomsRepo;
+	private RoomsRepository roomsRepo;
 	
 	
 	@Transactional

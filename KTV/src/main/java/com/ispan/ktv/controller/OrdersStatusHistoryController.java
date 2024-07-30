@@ -17,7 +17,7 @@ import com.ispan.ktv.service.OrdersStatusHistoryService;
 public class OrdersStatusHistoryController {
 	
 	@Autowired
-	OrdersStatusHistoryService oshService;
+	private OrdersStatusHistoryService oshService;
 	
 	@PostMapping("/orders/noCheckIn/{id}")
 	public String checkIn(@PathVariable Long id) {

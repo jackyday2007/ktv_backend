@@ -29,7 +29,6 @@ import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.repository.CustomersRepository;
 import com.ispan.ktv.repository.MembersRepository;
 import com.ispan.ktv.repository.OrderDetailsRepository;
-import com.ispan.ktv.repository.OrderMenusRepository;
 import com.ispan.ktv.repository.OrdersRepository;
 import com.ispan.ktv.repository.OrdersStatusHistoryRepository;
 import com.ispan.ktv.repository.RoomHistoryRepository;
@@ -43,28 +42,25 @@ import jakarta.transaction.Transactional;
 public class OrderService {
 
 	@Autowired
-	OrdersRepository ordersRepository;
+	private OrdersRepository ordersRepository;
 
 	@Autowired
-	RoomsRepository roomsRepository;
+	private RoomsRepository roomsRepository;
 
 	@Autowired
-	CustomersRepository customersRepository;
+	private CustomersRepository customersRepository;
 
 	@Autowired
-	MembersRepository membersRepository;
+	private MembersRepository membersRepository;
 
 	@Autowired
-	OrdersStatusHistoryRepository ordersStatusHistoryRepo;
+	private OrdersStatusHistoryRepository ordersStatusHistoryRepo;
 
 	@Autowired
-	OrderDetailsRepository orderDetailsRepo;
-
-	@Autowired
-	OrderMenusRepository orderMenusRepository;
+	private OrderDetailsRepository orderDetailsRepo;
 	
 	@Autowired
-	RoomHistoryRepository roomHistoryRepository;
+	private RoomHistoryRepository roomHistoryRepository;
 	
 	public Orders findByOrdersId(Long ordersId) {
 		if (ordersId != null) {
