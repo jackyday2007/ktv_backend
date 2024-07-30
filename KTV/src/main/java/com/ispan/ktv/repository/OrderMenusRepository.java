@@ -21,6 +21,4 @@ public interface OrderMenusRepository extends JpaRepository<OrderMenus, Integer>
     @Query(value = "from OrderMenus where itemName like :name")
     List<OrderMenus> findByNameLike(@Param("name") String name);
     
-    @Query( value = " FROM OrderMenus WHERE itemName = :name " )
-    Optional<OrderMenus> findItemByName(@Param("name") String name);
 }

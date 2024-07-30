@@ -19,7 +19,7 @@ import com.ispan.ktv.util.DatetimeConverter;
 public class CustomersController {
 	
 	@Autowired
-	CustomerService customerService;
+	private CustomerService customerService;
 	
 	
 	@GetMapping("/customer/{idNumber}")
@@ -68,9 +68,7 @@ public class CustomersController {
 	public String insertCustomer(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 		JSONObject obj = new JSONObject(body);
-		System.out.println("Customer.obj = " + obj);
 		String idNumber = obj.isNull("idNumber") ? null : obj.getString("idNumber");
-		System.out.println( "idNumber = " + idNumber );
 		String name = obj.isNull("name") ? null : obj.getString("name");
 		String birth = obj.isNull("birth") ? null : obj.getString("birth");
 		Integer phone = obj.isNull("phone") ? null : obj.getInt("phone");

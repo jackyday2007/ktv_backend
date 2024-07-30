@@ -24,7 +24,7 @@ import com.ispan.ktv.util.DatetimeConverter;
 public class OrderMenusController {
 	
 	@Autowired
-	OrderMenuService orderMenuService;
+	private OrderMenuService orderMenuService;
 	
 	
 	@PostMapping("/orderMenu/allMenu")
