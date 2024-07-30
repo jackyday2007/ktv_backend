@@ -19,7 +19,7 @@ public class CheckoutController {
 	
 	
 	@Autowired
-	CheckoutService checkoutService;
+	private CheckoutService checkoutService;
 	
 	
 	@PostMapping("/checkout")

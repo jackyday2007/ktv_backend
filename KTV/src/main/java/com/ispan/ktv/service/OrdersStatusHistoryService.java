@@ -18,10 +18,10 @@ import jakarta.transaction.Transactional;
 public class OrdersStatusHistoryService {
 	
 	@Autowired
-	OrdersStatusHistoryRepository OrdersStatusHistoryRepo;
+	private OrdersStatusHistoryRepository OrdersStatusHistoryRepo;
 	
 	@Autowired
-	OrdersRepository ordersRepository;
+	private OrdersRepository ordersRepository;
 	
 	
 	

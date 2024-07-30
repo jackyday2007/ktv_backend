@@ -17,7 +17,7 @@ import jakarta.transaction.Transactional;
 public class CustomerService {
 	
 	@Autowired
-	CustomersRepository customersRepository;
+	private CustomersRepository customersRepository;
 	
 	public Customers findCustomerId( Integer id ) {
 		if ( id != null ) {

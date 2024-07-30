@@ -26,7 +26,7 @@ import jakarta.persistence.criteria.Root;
 public class OrderMenuService {
 
 	@Autowired
-	OrderMenusRepository OrderMenusRepo;
+	private OrderMenusRepository OrderMenusRepo;
 
 	// 算總筆數
 	public Long count(String json) {
