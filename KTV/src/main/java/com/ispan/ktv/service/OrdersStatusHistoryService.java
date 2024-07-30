@@ -18,20 +18,17 @@ import jakarta.transaction.Transactional;
 public class OrdersStatusHistoryService {
 	
 	@Autowired
-	OrdersStatusHistoryRepository OrdersStatusHistoryRepo;
+	private OrdersStatusHistoryRepository OrdersStatusHistoryRepo;
 	
 	@Autowired
-	OrdersRepository ordersRepository;
+	private OrdersRepository ordersRepository;
 	
 	
 	
 	public OrdersStatusHistory findNewHistory( Long ordersId ) {
-		System.out.println("ordersId="+ordersId);
 		Optional<Orders> check = ordersRepository.findById(ordersId);
-		System.out.println("check=" + check);
 		if ( check != null ) {
 			Optional<OrdersStatusHistory> optional = OrdersStatusHistoryRepo.history(check.get());
-			System.out.println("optional=" + optional);
 			if (optional.isPresent()) {
 				return optional.get();
 			}
@@ -40,9 +37,9 @@ public class OrdersStatusHistoryService {
 	}
 	
 	// 取消預約
-	public OrdersStatusHistory noCheckIn(String body) {
-		JSONObject obj = new JSONObject(body);
-		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
+	public OrdersStatusHistory noCheckIn(Long orderId) {
+//		JSONObject obj = new JSONObject(body);
+//		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
 		Optional<Orders> optional = ordersRepository.findById(orderId);
 		if ( optional.isPresent() ) {
 			Orders update = optional.get();

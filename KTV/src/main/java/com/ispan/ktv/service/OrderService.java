@@ -29,7 +29,6 @@ import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.repository.CustomersRepository;
 import com.ispan.ktv.repository.MembersRepository;
 import com.ispan.ktv.repository.OrderDetailsRepository;
-import com.ispan.ktv.repository.OrderMenusRepository;
 import com.ispan.ktv.repository.OrdersRepository;
 import com.ispan.ktv.repository.OrdersStatusHistoryRepository;
 import com.ispan.ktv.repository.RoomHistoryRepository;
@@ -43,28 +42,25 @@ import jakarta.transaction.Transactional;
 public class OrderService {
 
 	@Autowired
-	OrdersRepository ordersRepository;
+	private OrdersRepository ordersRepository;
 
 	@Autowired
-	RoomsRepository roomsRepository;
+	private RoomsRepository roomsRepository;
 
 	@Autowired
-	CustomersRepository customersRepository;
+	private CustomersRepository customersRepository;
 
 	@Autowired
-	MembersRepository membersRepository;
+	private MembersRepository membersRepository;
 
 	@Autowired
-	OrdersStatusHistoryRepository ordersStatusHistoryRepo;
+	private OrdersStatusHistoryRepository ordersStatusHistoryRepo;
 
 	@Autowired
-	OrderDetailsRepository orderDetailsRepo;
-
-	@Autowired
-	OrderMenusRepository orderMenusRepository;
+	private OrderDetailsRepository orderDetailsRepo;
 	
 	@Autowired
-	RoomHistoryRepository roomHistoryRepository;
+	private RoomHistoryRepository roomHistoryRepository;
 	
 	public Orders findByOrdersId(Long ordersId) {
 		if (ordersId != null) {
@@ -85,7 +81,6 @@ public class OrderService {
         String order = body.isNull("order") ? "orderId" : body.getString("order");
         Sort sort = dir ? Sort.by(Sort.Direction.DESC, order) : Sort.by(Sort.Direction.ASC, order);
         Pageable pageable = PageRequest.of(start, max, sort);
-
         String status = body.isNull("status") ? null : body.getString("status");
         Long orderId = body.isNull("orderId") ? null : body.getLong("orderId");
         Integer memberId = body.isNull("memberId") ? null : body.getInt("memberId");
@@ -140,9 +135,15 @@ public class OrderService {
 				Date date = convertStringToDate(orderDate);
 				Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
 				String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
+				String endTimeString = null;
+				if (startTime != null && hours != null) {
+					LocalTime start = LocalTime.parse(startTime);
+					LocalTime end = start.plusHours(hours);
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+					endTimeString = end.format(formatter);
+				}
 				Customers customerId = null;
 				Members memberId = null;
-				Rooms room = null;
 				Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId) : Optional.empty();
 				if (checkCustomerId.isPresent()) {
 					customerId = checkCustomerId.get();
@@ -162,33 +163,31 @@ public class OrderService {
 				orders.setOrderDate(DatetimeConverter.parse(orderDate, "yyyy-MM-dd"));
 				orders.setHours(hours);
 				orders.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
-				if (startTime != null && hours != null) {
-					LocalTime start = LocalTime.parse(startTime);
-					LocalTime end = start.plusHours(hours);
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-					String endTimeString = end.format(formatter);
-					orders.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
-				}
+				orders.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
 				if ( memberId != null ) {
 					orders.setCreateBy(String.valueOf(memberId.getMemberId()));
 				}
+				List<Rooms> rooms = null;
 				if ( numberOfPersons > 0 && numberOfPersons <= 6 ) {
-					List<Rooms> rooms = roomsRepository.findRoomSize("小");
-					for ( Rooms roomId : rooms ) {
-						List<RoomHistory> histories = roomHistoryRepository.findRoomHistoryWhithDateAndRoom(date, room);
-						if ( histories.isEmpty() ) {
-							RoomHistory roomHistory = new RoomHistory();
-							roomHistory.setDate(date);
-							roomHistory.setRoom(roomId);
-							orders.setRoom(roomId);
-							roomHistory.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
-							LocalTime start = LocalTime.parse(startTime);
-							LocalTime end = start.plusHours(hours);
-							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-							String endTimeString = end.format(formatter);
-							roomHistory.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
-							roomHistory.setStatus("預約");
-							roomHistoryRepository.save(roomHistory);
+					rooms = roomsRepository.findRoomSize("小");
+				} else if ( numberOfPersons >= 7 && numberOfPersons <= 10 ) {
+					rooms = roomsRepository.findRoomSize("中");
+				} else {
+					rooms = roomsRepository.findRoomSize("大");
+				}
+				for ( Rooms roomId : rooms ) {
+					List<RoomHistory> histories = roomHistoryRepository.findRoomHistoryWhithDateAndRoom(date, roomId);
+					if ( isRoomAvailable(histories, startTime, endTimeString) ) {
+						RoomHistory roomHistory = new RoomHistory();
+						roomHistory.setDate(date);
+						roomHistory.setRoom(roomId);
+						orders.setRoom(roomId);
+						roomHistory.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
+						roomHistory.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
+						roomHistory.setStatus("預約");
+						RoomHistory rh = roomHistoryRepository.save(roomHistory);
+						if ( rh != null ) {
+							break;
 						}
 					}
 				}
@@ -204,7 +203,47 @@ public class OrderService {
 		}
 		return null;
 	}
+    
+    // 時間區段判斷 Start
+    private boolean isRoomAvailable(List<RoomHistory> histories, String startTime, String endTime) {
+        for (RoomHistory history : histories) {
+            // 獲取已存在的預訂的開始時間和結束時間
+            String existingStartTime = DatetimeConverter.toString(history.getStartTime(), "HH:mm");
+            String existingEndTime = DatetimeConverter.toString(history.getEndTime(), "HH:mm");
 
+            // 檢查時間區間是否重疊
+            if (isTimeOverlap(startTime, endTime, existingStartTime, existingEndTime)) {
+            	// 時間衝突，房間不可用
+                return false;
+            }
+        }
+        // 時間區間內沒有衝突，房間可用
+        return true; 
+    }
+
+    private boolean isTimeOverlap(String startTime1, String endTime1, String startTime2, String endTime2) {
+        // 轉換時間字符串為時間戳（可以選擇其他格式
+        long start1 = parseTimeToTimestamp(startTime1);
+        long end1 = parseTimeToTimestamp(endTime1);
+        long start2 = parseTimeToTimestamp(startTime2);
+        long end2 = parseTimeToTimestamp(endTime2);
+
+        // 檢查是否重疊
+        return start1 < end2 && end1 > start2;
+    }
+    
+    private long parseTimeToTimestamp(String time) {
+        // 示例：將時間字符串轉換為時間戳（毫秒）
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        try {
+            return dateFormat.parse(time).getTime();
+        } catch (ParseException e) {
+            throw new RuntimeException("时间格式错误: " + time, e);
+        }
+    }
+
+    // 時間區段判斷 End
+    
 	// 報到
 	public Orders watting(String body) {
 		JSONObject obj = new JSONObject(body);
@@ -411,8 +450,6 @@ public class OrderService {
         try {
             return dateFormat.parse(dateString);
         } catch (ParseException e) {
-            // 处理解析异常
-            System.err.println("日期解析失败: " + e.getMessage());
             return null;
         }
     }

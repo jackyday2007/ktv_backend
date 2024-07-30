@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.OrdersStatusHistory;
-import com.ispan.ktv.service.CustomerService;
-import com.ispan.ktv.service.MemberService;
 import com.ispan.ktv.service.OrderDetailsService;
 import com.ispan.ktv.service.OrderService;
 import com.ispan.ktv.service.OrdersStatusHistoryService;
-import com.ispan.ktv.service.RoomService;
 import com.ispan.ktv.util.DatetimeConverter;
 
 @RestController
@@ -29,22 +26,13 @@ import com.ispan.ktv.util.DatetimeConverter;
 public class OrdersController {
 
 	@Autowired
-	OrderService orderService;
+	private OrderService orderService;
 
 	@Autowired
-	RoomService roomService;
+	private OrdersStatusHistoryService oshService;
 
 	@Autowired
-	MemberService memberService;
-
-	@Autowired
-	CustomerService customerService;
-
-	@Autowired
-	OrdersStatusHistoryService oshService;
-
-	@Autowired
-	OrderDetailsService orderDetailsService;
+	private OrderDetailsService orderDetailsService;
 
 	@GetMapping("/orders/{ordersId}")
 	public String findByOrdersId(@PathVariable(name = "ordersId") Long ordersId) {
@@ -80,10 +68,8 @@ public class OrdersController {
 
 	@PostMapping("/orders/find")
 	public String findAll(@RequestBody(required = false) String body) {
-		System.out.println("body = "+body);
 		JSONObject responseBody = new JSONObject();
 		Page<Orders> result = orderService.findTest(body);
-		System.out.println("result = " + result);
 		long count = orderService.countTest(body);
 		JSONArray array = new JSONArray();
 		if (result != null && !result.isEmpty()) {

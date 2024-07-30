@@ -21,7 +21,7 @@ import com.ispan.ktv.util.DatetimeConverter;
 public class OrderDetailsController {
 
 	@Autowired
-	OrderDetailsService orderDetailsService;
+	private OrderDetailsService orderDetailsService;
 	
 	@PostMapping("/orderDetail/new")
 	public String newDetail(@RequestBody String body) {
