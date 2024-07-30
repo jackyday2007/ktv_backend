@@ -1,6 +1,5 @@
 package com.ispan.ktv.bean;
 
-import java.sql.Time;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;

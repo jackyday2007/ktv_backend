@@ -11,12 +11,17 @@ import com.ispan.ktv.bean.RoomHistory;
 import com.ispan.ktv.bean.Rooms;
 
 public interface RoomHistoryRepository extends JpaRepository<RoomHistory, Integer> {
-	
-	
+
 	@Query("FROM RoomHistory WHERE date = :date AND room = :room ")
 	List<RoomHistory> findRoomHistoryWhithDateAndRoom(@Param("date") Date date, @Param("room") Rooms room);
-	
-	
-	
-	
+
+	// 根據時間範圍查詢 RoomHistory
+	List<RoomHistory> findByDateBetween(Date startDate, Date endDate);
+	//
+	// @Query("SELECT h FROM RoomHistory h JOIN h.room r " +
+	// "WHERE h.date BETWEEN :startDate AND :endDate")
+	// List<RoomHistory> findRoomHistoryByTimeRange(@Param("startDate") Date
+	// startDate, @Param("endDate") Date endDate);
+	//
+
 }
