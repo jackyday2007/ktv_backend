@@ -239,6 +239,7 @@ public class StaffService {
 
 	public Staff login(Integer account, String password) {
 		if (account != null ) {
+			System.out.println("account = " + account);
 			Optional<Staff> optional = sr.findByAccount(account);
 
 			if (optional.isPresent()) {

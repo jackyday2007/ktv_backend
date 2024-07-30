@@ -24,13 +24,13 @@ import jakarta.transaction.Transactional;
 public class OrderDetailsService {
 
 	@Autowired
-	OrderDetailsRepository orderDetailsRepo;
+	private OrderDetailsRepository orderDetailsRepo;
 
 	@Autowired
-	OrdersRepository OrdersRepo;
+	private OrdersRepository OrdersRepo;
 
 	@Autowired
-	OrderMenusRepository orderMenusRepo;
+	private OrderMenusRepository orderMenusRepo;
 
 	public Double subTotal(Long orderId) {
 		if (orderId != null) {

@@ -9,15 +9,14 @@ import com.ispan.ktv.util.JsonWebTokenInterceptor;
 @Configuration
 public class SpringBootJavaConfig implements WebMvcConfigurer {
 	
-//	@Autowired
-//	private JsonWebTokenInterceptor jsonWebTokenInterceptor;
-//	
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(jsonWebTokenInterceptor)
-//		.addPathPatterns("/ajax/page/**")
-//		.excludePathPatterns("/ajax/page/detail/**");
-//	}
+	@Autowired
+	private JsonWebTokenInterceptor jsonWebTokenInterceptor;
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(jsonWebTokenInterceptor)
+		.addPathPatterns("/ktvbackend/**");
+	}
 	
 	
 

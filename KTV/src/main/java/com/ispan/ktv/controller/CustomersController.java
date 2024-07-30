@@ -19,7 +19,7 @@ import com.ispan.ktv.util.DatetimeConverter;
 public class CustomersController {
 	
 	@Autowired
-	CustomerService customerService;
+	private CustomerService customerService;
 	
 	
 	@GetMapping("/customer/{idNumber}")
