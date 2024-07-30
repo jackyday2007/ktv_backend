@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.Rooms;
@@ -104,30 +106,36 @@ public class RoomsController {
 		return responseBody.toString();
 	}
 	
+	
 	// size查詢
-	@GetMapping("/rooms/findByRoomSize/{size}")
-	public String findByRoomSize(@PathVariable(name = "size") String size) throws JSONException {
-		JSONObject responseBody = new JSONObject();
-		JSONArray array = new JSONArray();
-		List<Rooms> rooms = roomService.findRoomsBySize(size);
-		if (rooms != null) {
-			for (Rooms room : rooms) {
-				JSONObject item = new JSONObject()
-						.put("roomId", room.getRoomId())
-						.put("size", room.getSize())
-						.put("price", room.getPrice())
-						.put("status", room.getStatus())
-						.put("photoFile", room.getPhotoFile())
-						.put("createTime", room.getCreateTime())
-						.put("createBy", room.getCreateBy())
-						.put("updateTime", room.getUpdateTime())
-						.put("updateBy", room.getUpdateBy());
-				array.put(item);
-			}
-		}
-		responseBody.put("list", array);
-		return responseBody.toString();
-	}	
+	@GetMapping("/rooms/findByRoomSize/{roomSize}")
+	public String findByRoomSize(@PathVariable(name = "roomSize") String roomSize,
+	                             @RequestParam(defaultValue = "0") int pageNumber,
+	                             @RequestParam(defaultValue = "10") int pageSize) throws JSONException {
+	    JSONObject responseBody = new JSONObject();
+	    JSONArray array = new JSONArray();
+
+	    Page<Rooms> roomPage = roomService.findRoomsBySize(roomSize, pageNumber, pageSize);
+	    for (Rooms room : roomPage.getContent()) {
+	        JSONObject item = new JSONObject()
+	                .put("roomId", room.getRoomId())
+	                .put("size", room.getSize())
+	                .put("price", room.getPrice())
+	                .put("status", room.getStatus())
+	                .put("photoFile", room.getPhotoFile())
+	                .put("createTime", room.getCreateTime())
+	                .put("createBy", room.getCreateBy())
+	                .put("updateTime", room.getUpdateTime())
+	                .put("updateBy", room.getUpdateBy());
+	        array.put(item);
+	    }
+	    responseBody.put("list", array);
+	    responseBody.put("totalPages", roomPage.getTotalPages());
+	    responseBody.put("totalElements", roomPage.getTotalElements());
+	    responseBody.put("currentPage", roomPage.getNumber());
+	    responseBody.put("pageSize", roomPage.getSize());
+	    return responseBody.toString();
+	}
 
 	// 修改資料
 	@PutMapping("/rooms/modify/{roomId}")
@@ -139,7 +147,7 @@ public class RoomsController {
 				responseBody.put("message", "roomId是必要欄位");
 			} else if (!roomService.exists(roomId)) {
 				responseBody.put("success", false);
-				responseBody.put("message", "roomId不存在");
+				responseBody.put("message", "包廂號碼固定，無法修改❌");
 			} else {
 				boolean hasProblem = roomService.checkRoomProblems(roomId);
 				JSONObject obj = new JSONObject(body);
@@ -147,7 +155,7 @@ public class RoomsController {
 
 				if (hasProblem && !"處理中".equals(newStatus)) {
 					responseBody.put("success", false);
-					responseBody.put("message", "包廂有問題且狀態為處理中，無法修改");
+					responseBody.put("message", "包廂有問題且狀態為處理中，無法修改❌");
 				} else {
 					// 更新包廂信息
 					Rooms updatedRoom = roomService.modify(body);
@@ -160,7 +168,7 @@ public class RoomsController {
 						responseBody.put("message", "修改失敗");
 					} else {
 						responseBody.put("success", true);
-						responseBody.put("message", "修改成功");
+						responseBody.put("message", "修改成功✔");
 					}
 				}
 			}

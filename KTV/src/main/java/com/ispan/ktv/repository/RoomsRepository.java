@@ -2,6 +2,8 @@ package com.ispan.ktv.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -26,6 +28,6 @@ public interface RoomsRepository extends JpaRepository<Rooms, Integer>, JpaSpeci
         @Query("SELECT r FROM Rooms r WHERE r.status = :status")
    	 	public List<Rooms> findRoomsByStatus(@Param("status") String status);
         
-        @Query("SELECT r FROM Rooms r WHERE r.size = :size")
-   	 	public List<Rooms> findRoomsBySize(@Param("size") String size);
+        @Query("SELECT r FROM Rooms r WHERE r.size = :roomSize")
+        Page<Rooms> findRoomsBySize(@Param("roomSize") String roomSize, Pageable pageable);
 }
