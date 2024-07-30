@@ -28,8 +28,10 @@ import com.ispan.ktv.service.MemberService;
 import com.ispan.ktv.util.PasswordResetRequest;
 import com.ispan.ktv.util.ResetPasswordRequest;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api")
@@ -74,10 +76,16 @@ public class MemberController {
 
     @CrossOrigin
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
-        // 清除 session 或 token
-        // 具體實作根據您的需求
-        return ResponseEntity.ok("Logout successful");
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false); // 獲取當前 session
+        if (session != null) {
+            session.invalidate(); // 使 session 無效
+        }
+        Cookie cookie = new Cookie("JSESSIONID", null); // 清除 session cookie
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return ResponseEntity.ok("登出成功");
     }
 
     @CrossOrigin
@@ -101,21 +109,13 @@ public class MemberController {
 
     @CrossOrigin
     @PostMapping("/reset-password")
-
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
-
         boolean isSuccess = memberService.resetPassword(request.getToken(), request.getNewPassword());
-
         if (isSuccess) {
-
             return ResponseEntity.ok("密碼重設成功");
-
         } else {
-
             return ResponseEntity.badRequest().body("無效的 token");
-
         }
-
     }
 
     @CrossOrigin
@@ -152,16 +152,6 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
-    // // 查詢所有會員
-    // @GetMapping("/members")
-    // public ResponseEntity<List<Members>> getAllMembers() {
-    // List<Members> membersList = memberService.findAllMembers();
-    // if (membersList.isEmpty()) {
-    // return ResponseEntity.noContent().build();
-    // } else {
-    // return ResponseEntity.ok(membersList);
-    // }
-    // }
 
     @GetMapping("/members/findWithPhone/{phone}")
     public String findMemberWithPhone(@PathVariable(name = "phone") String phone) {
