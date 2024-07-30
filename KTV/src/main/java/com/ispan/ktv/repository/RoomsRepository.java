@@ -30,4 +30,7 @@ public interface RoomsRepository extends JpaRepository<Rooms, Integer>, JpaSpeci
         
         @Query("SELECT r FROM Rooms r WHERE r.size = :roomSize")
         Page<Rooms> findRoomsBySize(@Param("roomSize") String roomSize, Pageable pageable);
+        
+        
+        
 }

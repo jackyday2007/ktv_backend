@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ispan.ktv.bean.Problems;
+import com.ispan.ktv.bean.RoomHistory;
 import com.ispan.ktv.bean.Rooms;
+import com.ispan.ktv.repository.RoomHistoryRepository;
 import com.ispan.ktv.repository.RoomsRepository;
 
 import jakarta.persistence.criteria.Predicate;
@@ -26,6 +28,9 @@ public class RoomService {
 
 	@Autowired
 	private RoomsRepository roomsRepository;
+	
+	@Autowired
+	private RoomHistoryRepository roomHistoryRepository;
 
 	// 新增
 	public Rooms create(String json) {
@@ -122,7 +127,12 @@ public class RoomService {
 	    return roomsRepository.findRoomsBySize(roomSize, pageable);
 	}
 
-	// 找尋全部
+	// 找尋全部無分頁
+	public List<Rooms> findAllNoPage(String json) throws JSONException {
+		return roomsRepository.findAll();
+	}
+	
+	// 找尋全部有分頁
 	public List<Rooms> findAll(String json) throws JSONException {
 	    JSONObject body = new JSONObject(json);
 	    int start = body.optInt("start", 0);
@@ -258,4 +268,11 @@ public class RoomService {
 		roomsRepository.deleteById(roomId);
 	}
 
+	
+	// 查詢時間範圍內的 RoomHistory
+    public List<RoomHistory> findRoomHistoryByTimeRange(Date startDate, Date endDate) {
+        return roomHistoryRepository.findByDateBetween(startDate, endDate);
+    }
+    
+    
 }
