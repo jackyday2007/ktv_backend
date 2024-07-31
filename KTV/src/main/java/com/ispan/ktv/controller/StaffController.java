@@ -193,7 +193,7 @@ public class StaffController {
 				responseBody.put("success", false);
 				responseBody.put("message", "Id是必要欄位");
 			} else {
-				if (!ss.exists(id)) {
+				if (!ss.existsId(id)) {
 					responseBody.put("success", false);
 					responseBody.put("message", "Id不存在");
 				} else {

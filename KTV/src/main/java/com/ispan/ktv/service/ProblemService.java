@@ -146,7 +146,6 @@ public class ProblemService {
 	            if ("處理中".equals(status) && !"處理中".equals(oldStatus)) {
 	                room.setStatus("維護中");
 	            } else if ("結案".equals(status) && !"結案".equals(oldStatus)) {
-	                room.setStatus("可使用");
 	            }
 	            roomsRepository.save(room);
 	        }

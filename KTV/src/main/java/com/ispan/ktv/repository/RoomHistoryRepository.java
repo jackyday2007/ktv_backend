@@ -17,11 +17,5 @@ public interface RoomHistoryRepository extends JpaRepository<RoomHistory, Intege
 
 	// 根據時間範圍查詢 RoomHistory
 	List<RoomHistory> findByDateBetween(Date startDate, Date endDate);
-	//
-	// @Query("SELECT h FROM RoomHistory h JOIN h.room r " +
-	// "WHERE h.date BETWEEN :startDate AND :endDate")
-	// List<RoomHistory> findRoomHistoryByTimeRange(@Param("startDate") Date
-	// startDate, @Param("endDate") Date endDate);
-	//
 
 }
