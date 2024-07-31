@@ -18,19 +18,18 @@ public class JsonWebTokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		String method = request.getMethod();
-		if(!"OPTIONS".equalsIgnoreCase(method)) {
-			String auth = request.getHeader("Authorization");
-			System.out.println("auth = " + auth);
-			JSONObject result = processAuthorizationHeader(auth);
-			if(result==null || result.length()==0) {
-				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				response.setHeader("Access-Control-Allow-Credentials", "true");
-				response.setHeader("Access-Control-Allow-Origin", "*");
-				response.setHeader("Access-Control-Allow-Headers", "*");
-				return false;
-			}
-		}
+//		String method = request.getMethod();
+//		if(!"OPTIONS".equalsIgnoreCase(method)) {
+//			String auth = request.getHeader("Authorization");
+//			JSONObject result = processAuthorizationHeader(auth);
+//			if(result==null || result.length()==0) {
+//				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//				response.setHeader("Access-Control-Allow-Credentials", "true");
+//				response.setHeader("Access-Control-Allow-Origin", "*");
+//				response.setHeader("Access-Control-Allow-Headers", "*");
+//				return false;
+//			}
+//		}
 		return true;
 		
 	}
