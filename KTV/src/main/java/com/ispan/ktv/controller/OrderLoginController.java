@@ -15,8 +15,7 @@ import com.ispan.ktv.util.JwtUtil;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-
-@CrossOrigin(origins = "http://localhost:5173/secure/login")
+@CrossOrigin
 public class OrderLoginController {
 	
 	@Autowired

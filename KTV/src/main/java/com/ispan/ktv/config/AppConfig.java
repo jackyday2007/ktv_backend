@@ -17,15 +17,15 @@ public class AppConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		System.out.println("http=" + http);
-        http.authorizeHttpRequests(authorize -> authorize
-        		.anyRequest().permitAll()  // 設置對所有請求的權限
-            );
-        System.out.println("http2=" + http);
-        return http.build();
-    }
+//	@Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//		System.out.println("http=" + http);
+//        http.authorizeHttpRequests(authorize -> authorize
+//        		.anyRequest().permitAll()  // 設置對所有請求的權限
+//            );
+//        System.out.println("http2=" + http);
+//        return http.build();
+//    }
 
 
 
