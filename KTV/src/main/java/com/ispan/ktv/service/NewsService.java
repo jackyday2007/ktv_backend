@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import com.ispan.ktv.bean.News;
 import com.ispan.ktv.repository.NewsRepository;
 
 @Service
+@EnableScheduling
 public class NewsService {
 
     @Autowired
@@ -206,44 +208,46 @@ public class NewsService {
 
     // @Scheduled(cron = "0 0/30 * * * *") // 每30分鐘點執行一次
 
-    @Scheduled(cron = "0 * * * * *") // 每分钟执行一次
+    @Scheduled(cron = "0 * * * * *") // 每分鐘執行一次
     public void checkNewsExpiration() {
-        System.out.println("定时任务执行时间: " + new Date());
+        System.out.println("定時任務執行時間: " + new Date());
 
         List<News> allNews = newsRepo.findAll();
         Date currentDateTime = new Date();
 
         for (News news : allNews) {
-            System.out.println("处理新闻 ID: " + news.getNewsId());
+            System.out.println("處理新聞 ID: " + news.getNewsId());
 
             LocalDate currentLocalDate = currentDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate startDate = news.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate endDate = news.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            System.out.println("当前日期: " + currentLocalDate);
-            System.out.println("开始日期: " + startDate);
-            System.out.println("结束日期: " + endDate);
+            System.out.println("當前日期: " + currentLocalDate);
+            System.out.println("開始日期: " + startDate);
+            System.out.println("結束日期: " + endDate);
 
-            if (currentLocalDate.equals(startDate) || currentLocalDate.isAfter(startDate)) {
-                System.out.println("当前日期等于或晚于开始日期，将状态设置为 active");
-                news.setStatus("active");
-            }
-
-            if (currentLocalDate.equals(endDate) || currentLocalDate.isAfter(endDate)) {
-                System.out.println("当前日期等于或晚于结束日期，将状态设置为 notuse");
+            if (currentLocalDate.isBefore(startDate)) {
+                // 當前日期在開始日期之前，狀態設置為 notuse或其他適當狀態
+                System.out.println("當前日期在開始日期之前，狀態設置為 notuse");
                 news.setStatus("notuse");
+            } else if (currentLocalDate.isAfter(endDate)) {
+                // 當前日期在結束日期之後，狀態設置為 notuse
+                System.out.println("當前日期在結束日期之後，狀態設置為 notuse");
+                news.setStatus("notuse");
+            } else {
+                // 當前日期在開始日期和結束日期之間（包括兩者），狀態設置為 active
+                System.out.println("當前日期在開始日期和結束日期之間（包括兩者），狀態設置為 active");
+                news.setStatus("active");
             }
 
             news.setUpdateTime(currentDateTime);
             newsRepo.save(news);
 
-            System.out.println("处理完毕，更新后状态为: " + news.getStatus());
+            System.out.println("處理完畢，更新後狀態為: " + news.getStatus());
         }
     }
 
-    @Scheduled(cron = "0/10 * * * * *")
-    public void printHello() {
-        System.out.println("hello");
-    }
+
+
 
 }
