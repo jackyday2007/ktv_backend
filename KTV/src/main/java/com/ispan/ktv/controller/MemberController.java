@@ -1,8 +1,11 @@
 package com.ispan.ktv.controller;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ispan.ktv.bean.Members;
 import com.ispan.ktv.service.MemberService;
+import com.ispan.ktv.util.JwtUtil;
+import com.ispan.ktv.util.LoginRequest;
 import com.ispan.ktv.util.PasswordResetRequest;
 import com.ispan.ktv.util.ResetPasswordRequest;
 
@@ -39,6 +44,9 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService; // 注入 MemberService 以使用其方法
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @CrossOrigin
     @PostMapping("/register")
@@ -61,30 +69,53 @@ public class MemberController {
         return ResponseEntity.ok("註冊成功!");
     }
 
+//    @CrossOrigin
+//    @PostMapping("/login")
+//    public ResponseEntity<Members> login(@RequestBody Members member) {
+//        // 認證會員的 ID 和密碼
+//        boolean isAuthenticated = memberService.authenticate(member.getIdNumber(), member.getPassword());
+//        if (isAuthenticated) {
+//            Members authenticatedMember = memberService.findByIdNumber(member.getIdNumber());
+//            return ResponseEntity.ok(authenticatedMember);
+//        } else {
+//            return ResponseEntity.badRequest().body(null);
+//        }
+//    }
     @CrossOrigin
     @PostMapping("/login")
-    public ResponseEntity<Members> login(@RequestBody Members member) {
-        // 認證會員的 ID 和密碼
+    public ResponseEntity<?> login(@RequestBody Members member) {
+        // 认证会员的 ID 和密码
         boolean isAuthenticated = memberService.authenticate(member.getIdNumber(), member.getPassword());
         if (isAuthenticated) {
-            Members authenticatedMember = memberService.findByIdNumber(member.getIdNumber());
-            return ResponseEntity.ok(authenticatedMember);
+            // 生成 JWT Token
+            String token = jwtUtil.generateToken(member.getIdNumber());
+            return ResponseEntity.ok(Collections.singletonMap("token", token));
         } else {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
 
+//    @CrossOrigin
+//    @PostMapping("/logout")
+//    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+//        HttpSession session = request.getSession(false); // 獲取當前 session
+//        if (session != null) {
+//            session.invalidate(); // 使 session 無效
+//        }
+//        Cookie cookie = new Cookie("JSESSIONID", null); // 清除 session cookie
+//        cookie.setPath("/");
+//        cookie.setMaxAge(0);
+//        response.addCookie(cookie);
+//        return ResponseEntity.ok("登出成功");
+//    }
     @CrossOrigin
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false); // 獲取當前 session
         if (session != null) {
             session.invalidate(); // 使 session 無效
         }
-        Cookie cookie = new Cookie("JSESSIONID", null); // 清除 session cookie
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+        // 如果使用 JWT Token，需要通知客户端删除本地 Token
         return ResponseEntity.ok("登出成功");
     }
 
