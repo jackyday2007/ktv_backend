@@ -186,8 +186,8 @@ public class ProblemsController {
 						.put("eventCase", problem.getEventCase()).put("room", roomId) // 將 roomId 放入
 						.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
 						.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
-						.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy())
-						.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy());
+						.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy().getAccountName())//取得建立者Name
+						.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy().getAccountName());//取得修改者Name
 				array.put(item);
 			}
 			long count = problemService.count(body);

@@ -66,6 +66,7 @@ public class StaffController {
 			JSONObject obj = new JSONObject(name);
 			String accountName = obj.isNull("name") ? null : obj.getString("name");
 			List<Staff> result = ss.findByName(accountName);
+			
 			if (result != null && !result.isEmpty()) {
 				for (Staff bean : result) {
 					String createtime = DatetimeConverter.toString(bean.getCreateTime(), "yy-MM-dd");
@@ -83,7 +84,7 @@ public class StaffController {
 								.put("updateTime", updateTime);
 						array = array.put(item);
 						responseBody.put("list", array);
-						
+						// responseBody.put("count", count);
 				}
 			}
 		} catch (JSONException e) {
