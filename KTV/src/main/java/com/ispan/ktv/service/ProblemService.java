@@ -61,7 +61,7 @@ public class ProblemService {
 
 		// 檢查結束時間是否早於開始時間
 		if (parsedEventDate != null && parsedCloseDate != null && parsedCloseDate.before(parsedEventDate)) {
-			errors.append("❌結束不能早於開始時間。");
+			errors.append("⚠結案不能早於發生時間。");
 		}
 
 		// 若有錯誤訊息，拋出例外
@@ -147,7 +147,7 @@ public class ProblemService {
 
 		// 檢查結束時間是否早於開始時間
 		if (parsedEventDate != null && parsedCloseDate != null && parsedCloseDate.before(parsedEventDate)) {
-			errors.append("❌ 結束時間不能早於開始時間。\n");
+			errors.append("❌ 結案時間不能早於發生時間。");
 		}
 
 		// 若有錯誤訊息，拋出例外
