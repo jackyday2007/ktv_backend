@@ -76,6 +76,7 @@ public class NewsService {
             updateData.setEndDate(updatedNews.getEndDate());
             updateData.setStatus(updatedNews.getStatus());
             updateData.setImage(updatedNews.getImage());
+            updateData.setActivityStartDate(updatedNews.getActivityStartDate());
 
             // 更新更新時間
             updateData.setUpdateTime(new Date());
@@ -246,8 +247,5 @@ public class NewsService {
             System.out.println("處理完畢，更新後狀態為: " + news.getStatus());
         }
     }
-
-
-
 
 }
