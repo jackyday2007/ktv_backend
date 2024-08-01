@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,42 +35,53 @@ public class ProblemService {
 
 // 	新增
 	public Problems create(String json) throws ParseException {
-//		try {
-		if (json != null) {
-			JSONObject obj = new JSONObject(json);
-			String eventCase = obj.isNull("eventCase") ? null : obj.getString("eventCase");
-			Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
-			String content = obj.isNull("content") ? null : obj.getString("content");
-			String eventDate = obj.isNull("eventDate") ? null : obj.getString("eventDate");
-			String closeDate = obj.isNull("closeDate") ? null : obj.getString("closeDate");
-			String status = obj.isNull("status") ? null : obj.getString("status");
+	    if (json == null) {
+	        return null; // 或拋出例外
+	    }
+	    
+	    JSONObject obj = new JSONObject(json);
+	    String eventCase = obj.isNull("eventCase") ? null : obj.getString("eventCase");
+	    Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
+	    String content = obj.isNull("content") ? null : obj.getString("content");
+	    String eventDate = obj.isNull("eventDate") ? null : obj.getString("eventDate");
+	    String closeDate = obj.isNull("closeDate") ? null : obj.getString("closeDate");
+	    String status = obj.isNull("status") ? null : obj.getString("status");
 
-			Optional<Rooms> roomOptional = roomsRepository.findById(roomId);
-			if (roomOptional.isEmpty()) {
-				// 如果 roomId 無效，可以選擇拋出例外或傳回 null
-				throw new IllegalArgumentException("沒有" + roomId);
-			}
-			Rooms room = roomOptional.get();
+	    StringBuilder errors = new StringBuilder();
+	    
+	    // 檢查房間是否存在
+	    Optional<Rooms> roomOptional = roomsRepository.findById(roomId);
+	    if (roomOptional.isEmpty()) {
+	        errors.append("❌沒有包廂號碼為 ").append(roomId).append(" 的包廂。");
+	    }
+	    
+	    // 解析日期
+	    Date parsedEventDate = eventDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(eventDate) : null;
+	    Date parsedCloseDate = closeDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(closeDate) : null;
 
-			Problems insert = new Problems();
-			insert.setEventCase(eventCase);
-			insert.setRoom(room);
-			insert.setContent(content);
-			// 看有無需要 (時分秒)
-			insert.setEventDate(eventDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(eventDate) : null);
-			insert.setCloseDate(closeDate != null ? new SimpleDateFormat("yyyy-MM-dd").parse(closeDate) : null);
-			insert.setStatus(status);
+	    // 檢查結束時間是否早於開始時間
+	    if (parsedEventDate != null && parsedCloseDate != null && parsedCloseDate.before(parsedEventDate)) {
+	        errors.append("❌結束時間不能早於開始時間。");
+	    }
 
-			return problemsRepository.save(insert);
-		}
-			
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-		return null;
+	    // 若有錯誤訊息，拋出例外
+	    if (errors.length() > 0) {
+	        throw new IllegalArgumentException(errors.toString());
+	    }
+
+	    Rooms room = roomOptional.get(); // 如果沒有錯誤，則取得房間對象
+
+	    Problems insert = new Problems();
+	    insert.setEventCase(eventCase);
+	    insert.setRoom(room);
+	    insert.setContent(content);
+	    insert.setEventDate(parsedEventDate);
+	    insert.setCloseDate(parsedCloseDate);
+	    insert.setStatus(status);
+
+	    return problemsRepository.save(insert);
 	}
+
 
 //	判斷
 	public boolean exists(Integer problemId) {
@@ -160,16 +172,20 @@ public class ProblemService {
 	}
 
 //	找尋全部
-	public List<Problems> findAll(String json) throws JSONException {
+	public List<Problems> findAll(String json, String sortField, String sortDirection) throws JSONException {
 	    JSONObject body = new JSONObject(json);
 	    int start = body.optInt("start", 0);
 	    int max = body.optInt("max", 10);
 
-	    Pageable pageable = PageRequest.of(start / max, max);
+	    // 設置排序方向
+	    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+	    Sort sort = Sort.by(direction, sortField);
+	    Pageable pageable = PageRequest.of(start / max, max, sort);
 	    
 	    return problemsRepository.findAll((root, query, criteriaBuilder) -> {
 	        List<Predicate> predicate = new ArrayList<>();
 
+	        // 查詢條件
 	        if (!body.isNull("problemId")) {
 	            Integer problemId = body.optInt("problemId");
 	            predicate.add(criteriaBuilder.equal(root.get("problemId"), problemId));

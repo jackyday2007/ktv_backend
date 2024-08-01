@@ -21,10 +21,6 @@ import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.ProblemService;
 import com.ispan.ktv.service.RoomService;
 
-
-
-
-
 @RequestMapping("/ktvbackend/")
 @RestController
 @CrossOrigin
@@ -40,7 +36,7 @@ public class ProblemsController {
 	@PostMapping("/problems/create")
 	public String create(@RequestBody String body) throws ParseException {
 		JSONObject responseBody = new JSONObject();
-//		try {
+		try {
 			Problems problem = problemService.create(body);
 			if (problem == null) {
 				responseBody.put("success", false);
@@ -49,10 +45,10 @@ public class ProblemsController {
 				responseBody.put("success", true);
 				responseBody.put("message", "包廂問題新增成功✔");
 			}
-//		} catch (IllegalArgumentException e) {
-//			responseBody.put("success", false);
-//			responseBody.put("message", "新增失敗❌" + e.getMessage() + "的包廂號碼");
-//		}
+		} catch (IllegalArgumentException e) {
+			responseBody.put("success", false);
+			responseBody.put("message",e.getMessage());
+		}
 		return responseBody.toString();
 	}
 
@@ -133,7 +129,6 @@ public class ProblemsController {
 	@PutMapping("/problems/modify/{problemId}")
 	public String modify(@PathVariable Integer problemId, @RequestBody String body) throws JSONException, ParseException {
 	    JSONObject responseBody = new JSONObject();
-//	    try {
 	        JSONObject obj = new JSONObject(body);
 	        Integer bodyProblemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
 	        Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
@@ -164,45 +159,61 @@ public class ProblemsController {
 	                }
 	            }
 	        }
-//	    } catch (JSONException e) {
-//	    	 e.printStackTrace();
-//	    } catch (ParseException e) {
-//	    	 e.printStackTrace();
-//	    }
 	    return responseBody.toString();
 	}
 
 	// 查詢全部
 	@PostMapping("/problems/findAll")
 	public String findAll(@RequestBody String body) throws JSONException {
-		JSONObject responseBody = new JSONObject();
-		JSONArray array = new JSONArray();
-		// 檢查 body 是否為空，為空時設置為默認值或處理為空查詢
-		if (body == null || body.isEmpty()) {
-			body = "{}"; // 或者設置為其他合理的默認值
-		}
-		List<Problems> problems = problemService.findAll(body);
-		if (problems != null && !problems.isEmpty()) {
-			for (Problems problem : problems) {
-				Integer roomId = null;
-				if (problem.getRoom() != null) {
-					roomId = problem.getRoom().getRoomId();
-				}
-				JSONObject item = new JSONObject().put("problemId", problem.getProblemId())
-						.put("eventCase", problem.getEventCase()).put("room", roomId) // 將 roomId 放入
-						.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
-						.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
-						.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy())
-						.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy());
-				array.put(item);
-			}
-			long count = problemService.count(body);
-			responseBody.put("count", count);
-			responseBody.put("list", array);
-			return responseBody.toString();
-		}
-		responseBody.put("list", array); // 即使 problems 為空，也返回空的 list
-		return responseBody.toString();
+	    JSONObject responseBody = new JSONObject();
+	    JSONArray array = new JSONArray();
+
+	    // 設置默認的排序方向為升序
+	    String sortDirection = "asc";
+	    String sortField = "eventDate"; // 默認排序字段為事件時間
+
+	    // 將 JSON 字串轉為 JSONObject 以便讀取排序參數
+	    JSONObject requestObject = new JSONObject(body);
+	    if (requestObject.has("sortDirection")) {
+	        sortDirection = requestObject.getString("sortDirection");
+	    }
+	    if (requestObject.has("sortField")) {
+	        sortField = requestObject.getString("sortField");
+	    }
+
+	    // 檢查 body 是否為空，為空時設置為默認值或處理為空查詢
+	    if (body == null || body.isEmpty()) {
+	        body = "{}"; // 或者設置為其他合理的默認值
+	    }
+
+	    List<Problems> problems = problemService.findAll(body, sortField, sortDirection);
+	    if (problems != null && !problems.isEmpty()) {
+	        for (Problems problem : problems) {
+	            Integer roomId = null;
+	            if (problem.getRoom() != null) {
+	                roomId = problem.getRoom().getRoomId();
+	            }
+	            JSONObject item = new JSONObject()
+	                    .put("problemId", problem.getProblemId())
+	                    .put("eventCase", problem.getEventCase())
+	                    .put("room", roomId) // 將 roomId 放入
+	                    .put("content", problem.getContent())
+	                    .put("eventDate", problem.getEventDate())
+	                    .put("closeDate", problem.getCloseDate())
+	                    .put("status", problem.getStatus())
+	                    .put("createTime", problem.getCreateTime())
+	                    .put("createBy", problem.getCreateBy())
+	                    .put("updateTime", problem.getUpdateTime())
+	                    .put("updateBy", problem.getUpdateBy());
+	            array.put(item);
+	        }
+	        long count = problemService.count(body);
+	        responseBody.put("count", count);
+	        responseBody.put("list", array);
+	        return responseBody.toString();
+	    }
+	    responseBody.put("list", array); // 即使 problems 為空，也返回空的 list
+	    return responseBody.toString();
 	}
 
 }
