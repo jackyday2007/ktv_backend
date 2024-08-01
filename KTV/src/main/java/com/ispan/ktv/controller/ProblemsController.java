@@ -21,10 +21,6 @@ import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.ProblemService;
 import com.ispan.ktv.service.RoomService;
 
-
-
-
-
 @RequestMapping("/ktvbackend/")
 @RestController
 @CrossOrigin
@@ -40,7 +36,7 @@ public class ProblemsController {
 	@PostMapping("/problems/create")
 	public String create(@RequestBody String body) throws ParseException {
 		JSONObject responseBody = new JSONObject();
-//		try {
+		try {
 			Problems problem = problemService.create(body);
 			if (problem == null) {
 				responseBody.put("success", false);
@@ -49,10 +45,10 @@ public class ProblemsController {
 				responseBody.put("success", true);
 				responseBody.put("message", "包廂問題新增成功✔");
 			}
-//		} catch (IllegalArgumentException e) {
-//			responseBody.put("success", false);
-//			responseBody.put("message", "新增失敗❌" + e.getMessage() + "的包廂號碼");
-//		}
+		} catch (IllegalArgumentException e) {
+			responseBody.put("success", false);
+			responseBody.put("message", e.getMessage());
+		}
 		return responseBody.toString();
 	}
 
@@ -131,45 +127,40 @@ public class ProblemsController {
 
 	// 修改資料
 	@PutMapping("/problems/modify/{problemId}")
-	public String modify(@PathVariable Integer problemId, @RequestBody String body) throws JSONException, ParseException {
-	    JSONObject responseBody = new JSONObject();
-//	    try {
-	        JSONObject obj = new JSONObject(body);
-	        Integer bodyProblemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
-	        Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
+	public String modify(@PathVariable Integer problemId, @RequestBody String body)
+			throws JSONException, ParseException {
+		JSONObject responseBody = new JSONObject();
+		JSONObject obj = new JSONObject(body);
+		Integer bodyProblemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
+		Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
 
-	        // 檢查路徑中的 problemId 和請求體中的 problemId 是否一致
-	        if (problemId == null || !problemId.equals(bodyProblemId)) {
-	            responseBody.put("success", false);
-	            responseBody.put("message", "問題編號不一致");
-	        } else {
-	            if (!problemService.exists(problemId)) {
-	                responseBody.put("success", false);
-	                responseBody.put("message", "問題編號不存在");
-	            } else {
-	                // 檢查 roomId 是否存在
-	                if (roomId != null && !roomService.exists(roomId)) {
-	                    responseBody.put("success", false);
-	                    responseBody.put("message", "包廂編號不存在");
-	                } else {
-	                    // 修改問題並更新房間狀態
-	                    Problems problem = problemService.modifyAndUpdateRoomStatus(body);
-	                    if (problem == null) {
-	                        responseBody.put("success", false);
-	                        responseBody.put("message", "包廂問題修改失敗");
-	                    } else {
-	                        responseBody.put("success", true);
-	                        responseBody.put("message", "包廂問題修改成功");
-	                    }
-	                }
-	            }
-	        }
-//	    } catch (JSONException e) {
-//	    	 e.printStackTrace();
-//	    } catch (ParseException e) {
-//	    	 e.printStackTrace();
-//	    }
-	    return responseBody.toString();
+		// 檢查路徑中的 problemId 和請求體中的 problemId 是否一致
+		if (problemId == null || !problemId.equals(bodyProblemId)) {
+			responseBody.put("success", false);
+			responseBody.put("message", "問題編號不一致");
+		} else {
+			if (!problemService.exists(problemId)) {
+				responseBody.put("success", false);
+				responseBody.put("message", "問題編號不存在");
+			} else {
+				// 檢查 roomId 是否存在
+				if (roomId != null && !roomService.exists(roomId)) {
+					responseBody.put("success", false);
+					responseBody.put("message", "包廂編號不存在");
+				} else {
+					// 修改問題並更新房間狀態
+					Problems problem = problemService.modifyAndUpdateRoomStatus(body);
+					if (problem == null) {
+						responseBody.put("success", false);
+						responseBody.put("message", "包廂問題修改失敗");
+					} else {
+						responseBody.put("success", true);
+						responseBody.put("message", "包廂問題修改成功");
+					}
+				}
+			}
+		}
+		return responseBody.toString();
 	}
 
 	// 查詢全部
@@ -177,11 +168,26 @@ public class ProblemsController {
 	public String findAll(@RequestBody String body) throws JSONException {
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
+
+		// 設置默認的排序方向為升序
+		String sortDirection = "asc";
+		String sortField = "eventDate"; // 默認排序字段為事件時間
+
+		// 將 JSON 字串轉為 JSONObject 以便讀取排序參數
+		JSONObject requestObject = new JSONObject(body);
+		if (requestObject.has("sortDirection")) {
+			sortDirection = requestObject.getString("sortDirection");
+		}
+		if (requestObject.has("sortField")) {
+			sortField = requestObject.getString("sortField");
+		}
+
 		// 檢查 body 是否為空，為空時設置為默認值或處理為空查詢
 		if (body == null || body.isEmpty()) {
 			body = "{}"; // 或者設置為其他合理的默認值
 		}
-		List<Problems> problems = problemService.findAll(body);
+
+		List<Problems> problems = problemService.findAll(body, sortField, sortDirection);
 		if (problems != null && !problems.isEmpty()) {
 			for (Problems problem : problems) {
 				Integer roomId = null;
@@ -197,9 +203,9 @@ public class ProblemsController {
 						.put("closeDate", problem.getCloseDate())
 						.put("status", problem.getStatus())
 						.put("createTime", problem.getCreateTime())
-						.put("createBy", problem.getCreateBy().getAccountName())//取得建立者Name
+						.put("createBy", problem.getCreateBy().getAccountName())
 						.put("updateTime", problem.getUpdateTime())
-						.put("updateBy", problem.getUpdateBy() != null ? problem.getUpdateBy().getAccountName() : null);//取得修改者Name
+						.put("updateBy", problem.getUpdateBy() != null ? problem.getUpdateBy().getAccountName() : null);
 				array.put(item);
 			}
 			long count = problemService.count(body);
