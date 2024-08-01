@@ -203,7 +203,7 @@ public class ProblemsController {
 						.put("closeDate", problem.getCloseDate())
 						.put("status", problem.getStatus())
 						.put("createTime", problem.getCreateTime())
-						.put("createBy", problem.getCreateBy().getAccountName())
+						.put("createBy", problem.getCreateBy() != null ? problem.getCreateBy().getAccountName() : null)
 						.put("updateTime", problem.getUpdateTime())
 						.put("updateBy", problem.getUpdateBy() != null ? problem.getUpdateBy().getAccountName() : null);
 				array.put(item);
