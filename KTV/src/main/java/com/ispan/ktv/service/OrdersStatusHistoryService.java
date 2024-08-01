@@ -54,7 +54,32 @@ public class OrdersStatusHistoryService {
 		return null;
 	}
 	
-	
+	 // 取消預約
+//    public OrdersStatusHistory noCheckIn(Long orderId) {
+//        Optional<Orders> optional = ordersRepository.findById(orderId);
+//        if (optional.isPresent()) {
+//            Orders update = optional.get();
+//            
+//            // 查找是否已經有該訂單的取消記錄
+//            Optional<OrdersStatusHistory> existingHistory = OrdersStatusHistoryRepo.history(update);
+//            
+//            OrdersStatusHistory history;
+//            if (existingHistory.isPresent()) {
+//                history = existingHistory.get();
+//                // 更新已有記錄的狀態
+//                history.setStatus("取消預約");
+//            } else {
+//                // 創建新的取消記錄
+//                history = new OrdersStatusHistory();
+//                history.setOrderId(update);
+//                history.setStatus("取消預約");
+//            }
+//            
+//            OrdersStatusHistory result = OrdersStatusHistoryRepo.save(history);
+//            return result;
+//        }
+//        return null;
+//    }
 
 
 }

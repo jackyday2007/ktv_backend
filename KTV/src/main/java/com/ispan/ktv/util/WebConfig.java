@@ -17,6 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:5176",
                         "https://jason--goldpanda.netlify.app") // 確保包含 Netlify 的域名
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*");
+                .allowedHeaders("*")
+                .allowCredentials(true); // 正確的位置
     }
 }
