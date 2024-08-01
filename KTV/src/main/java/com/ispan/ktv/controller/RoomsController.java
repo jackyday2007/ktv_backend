@@ -66,7 +66,6 @@ public class RoomsController {
 	public String create(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 
-//		try {
 			JSONObject obj = new JSONObject(body);
 			Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
 
@@ -88,9 +87,6 @@ public class RoomsController {
 					}
 				}
 			}
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
 		return responseBody.toString();
 	}
 
@@ -99,7 +95,7 @@ public class RoomsController {
 	public String findByRoomId(@PathVariable(name = "pk") Integer roomId) {
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
-//		try {
+
 			Rooms room = roomService.findByRoomId(roomId);
 			if (room != null) {
 				JSONObject item = new JSONObject().put("roomId", room.getRoomId()).put("size", room.getSize())
@@ -110,9 +106,7 @@ public class RoomsController {
 				array.put(item);
 			}
 			responseBody.put("list", array);
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
+
 		return responseBody.toString();
 	}
 	
@@ -193,7 +187,7 @@ public class RoomsController {
 	@PutMapping("/rooms/modify/{roomId}")
 	public String modify(@PathVariable Integer roomId, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
-		try {
+
 			if (roomId == null) {
 				responseBody.put("success", false);
 				responseBody.put("message", "roomId是必要欄位");
@@ -224,9 +218,7 @@ public class RoomsController {
 					}
 				}
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+
 		return responseBody.toString();
 	}
 
