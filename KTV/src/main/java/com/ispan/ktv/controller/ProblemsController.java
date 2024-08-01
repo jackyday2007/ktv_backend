@@ -146,7 +146,7 @@ public class ProblemsController {
 				// 檢查 roomId 是否存在
 				if (roomId != null && !roomService.exists(roomId)) {
 					responseBody.put("success", false);
-					responseBody.put("message", "包廂編號不存在");
+					responseBody.put("message", "包廂號碼不存在");
 				} else {
 					// 修改問題並更新房間狀態
 					Problems problem = problemService.modifyAndUpdateRoomStatus(body);
