@@ -178,6 +178,9 @@ public class OrderService {
 				for ( Rooms roomId : rooms ) {
 					List<RoomHistory> histories = roomHistoryRepository.findRoomHistoryWhithDateAndRoom(date, roomId);
 					if ( isRoomAvailable(histories, startTime, endTimeString) ) {
+						if ( roomId.getStatus().equals("維護中") ) {
+							continue;
+						}
 						RoomHistory roomHistory = new RoomHistory();
 						roomHistory.setDate(date);
 						roomHistory.setRoom(roomId);
@@ -189,14 +192,14 @@ public class OrderService {
 						if ( rh != null ) {
 							break;
 						}
+						Orders answer = ordersRepository.save(orders);
+						OrdersStatusHistory history = new OrdersStatusHistory();
+						if (answer.getOrderId() != null) {
+							history.setOrderId(answer);
+							history.setStatus("預約");
+							ordersStatusHistoryRepo.save(history);
+						}
 					}
-				}
-				Orders answer = ordersRepository.save(orders);
-				OrdersStatusHistory history = new OrdersStatusHistory();
-				if (answer.getOrderId() != null) {
-					history.setOrderId(answer);
-					history.setStatus("預約");
-					ordersStatusHistoryRepo.save(history);
 				}
 				return result;
 			}

@@ -133,42 +133,36 @@ public class ProblemsController {
 	@PutMapping("/problems/modify/{problemId}")
 	public String modify(@PathVariable Integer problemId, @RequestBody String body) throws JSONException, ParseException {
 	    JSONObject responseBody = new JSONObject();
-//	    try {
-	        JSONObject obj = new JSONObject(body);
-	        Integer bodyProblemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
-	        Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
+        JSONObject obj = new JSONObject(body);
+        Integer bodyProblemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
+        Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
 
-	        // 檢查路徑中的 problemId 和請求體中的 problemId 是否一致
-	        if (problemId == null || !problemId.equals(bodyProblemId)) {
-	            responseBody.put("success", false);
-	            responseBody.put("message", "問題編號不一致");
-	        } else {
-	            if (!problemService.exists(problemId)) {
-	                responseBody.put("success", false);
-	                responseBody.put("message", "問題編號不存在");
-	            } else {
-	                // 檢查 roomId 是否存在
-	                if (roomId != null && !roomService.exists(roomId)) {
-	                    responseBody.put("success", false);
-	                    responseBody.put("message", "包廂編號不存在");
-	                } else {
-	                    // 修改問題並更新房間狀態
-	                    Problems problem = problemService.modifyAndUpdateRoomStatus(body);
-	                    if (problem == null) {
-	                        responseBody.put("success", false);
-	                        responseBody.put("message", "包廂問題修改失敗");
-	                    } else {
-	                        responseBody.put("success", true);
-	                        responseBody.put("message", "包廂問題修改成功");
-	                    }
-	                }
-	            }
-	        }
-//	    } catch (JSONException e) {
-//	    	 e.printStackTrace();
-//	    } catch (ParseException e) {
-//	    	 e.printStackTrace();
-//	    }
+        // 檢查路徑中的 problemId 和請求體中的 problemId 是否一致
+        if (problemId == null || !problemId.equals(bodyProblemId)) {
+            responseBody.put("success", false);
+            responseBody.put("message", "問題編號不一致");
+        } else {
+            if (!problemService.exists(problemId)) {
+                responseBody.put("success", false);
+                responseBody.put("message", "問題編號不存在");
+            } else {
+                // 檢查 roomId 是否存在
+                if (roomId != null && !roomService.exists(roomId)) {
+                    responseBody.put("success", false);
+                    responseBody.put("message", "包廂編號不存在");
+                } else {
+                    // 修改問題並更新房間狀態
+                    Problems problem = problemService.modifyAndUpdateRoomStatus(body);
+                    if (problem == null) {
+                        responseBody.put("success", false);
+                        responseBody.put("message", "包廂問題修改失敗");
+                    } else {
+                        responseBody.put("success", true);
+                        responseBody.put("message", "包廂問題修改成功");
+                    }
+                }
+            }
+        }
 	    return responseBody.toString();
 	}
 
@@ -197,7 +191,7 @@ public class ProblemsController {
 						.put("closeDate", problem.getCloseDate())
 						.put("status", problem.getStatus())
 						.put("createTime", problem.getCreateTime())
-						.put("createBy", problem.getCreateBy().getAccountName())//取得建立者Name
+						.put("createBy", problem.getCreateBy() != null ? problem.getCreateBy().getAccountName() : null)//取得建立者Name
 						.put("updateTime", problem.getUpdateTime())
 						.put("updateBy", problem.getUpdateBy() != null ? problem.getUpdateBy().getAccountName() : null);//取得修改者Name
 				array.put(item);

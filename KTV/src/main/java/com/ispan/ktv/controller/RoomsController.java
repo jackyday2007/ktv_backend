@@ -115,6 +115,24 @@ public class RoomsController {
 //		}
 		return responseBody.toString();
 	}
+	
+	
+	@GetMapping("/rooms/checkStatus/{roomId}")
+	public String checkStatus(@PathVariable(name="roomId") Integer roomId ) {
+		JSONObject responseBody = new JSONObject();
+		Rooms room = roomService.findByRoomId(roomId);
+		if ( room.getStatus().equals("維護中") ) {
+			responseBody.put("success", false);
+			responseBody.put("message", "包廂維護中，請派發其他包廂");
+		} else {
+			responseBody.put("success", true);
+			responseBody.put("message", "可使用");
+		}
+		return responseBody.toString();
+	}
+	
+	
+	
 
 	// status查詢
 	@GetMapping("/rooms/findByRoomStatus/{status}")
