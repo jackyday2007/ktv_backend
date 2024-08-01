@@ -1,5 +1,6 @@
 package com.ispan.ktv.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.json.JSONObject;
@@ -9,11 +10,13 @@ import org.springframework.stereotype.Service;
 import com.ispan.ktv.bean.Checkout;
 import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.OrdersStatusHistory;
+import com.ispan.ktv.bean.RoomHistory;
 import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.repository.CheckoutRepository;
 import com.ispan.ktv.repository.OrderDetailsRepository;
 import com.ispan.ktv.repository.OrdersRepository;
 import com.ispan.ktv.repository.OrdersStatusHistoryRepository;
+import com.ispan.ktv.repository.RoomHistoryRepository;
 import com.ispan.ktv.repository.RoomsRepository;
 
 import jakarta.transaction.Transactional;
@@ -36,6 +39,10 @@ public class CheckoutService {
 	@Autowired
 	private RoomsRepository roomsRepo;
 	
+	@Autowired
+	private RoomHistoryRepository roomHistoryRepo;
+	
+	
 	
 	@Transactional
 	public Checkout insertCheckout( String body ) {
@@ -54,11 +61,18 @@ public class CheckoutService {
 				Checkout result = checkoutRepo.save(checkout);
 				if ( result != null ) {
 					OrdersStatusHistory osh = new OrdersStatusHistory();
+					RoomHistory roomHistory = new RoomHistory();
 					Optional<Rooms> room = roomsRepo.findById(roomId);
 					Rooms rooms = room.get();
 					osh.setOrderId(findOrderId.get());
 					osh.setStatus("已結帳");
 					rooms.setStatus("開放中");
+					roomHistory.setRoom(rooms);
+					roomHistory.setStatus("已完成");
+					roomHistory.setDate(findOrderId.get().getOrderDate());
+					roomHistory.setStartTime(findOrderId.get().getStartTime());
+					roomHistory.setEndTime(findOrderId.get().getEndTime());
+					roomHistoryRepo.save(roomHistory);
 					ordersStatusHistoryRepo.save(osh);
 					roomsRepo.save(rooms);
 					return result;
