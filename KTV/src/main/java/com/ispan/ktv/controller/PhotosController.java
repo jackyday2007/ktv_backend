@@ -30,7 +30,7 @@ public class PhotosController {
 
     @GetMapping("/photos/upload")
     public String upload() {
-        return "photos/uploadPage"; // 确保这个模板文件在你的项目中存在
+        return "photos/uploadPage"; // 確保這個模板檔案在你的專案中存在
     }
 
     @PostMapping("/photos/uploadPost")
@@ -43,13 +43,14 @@ public class PhotosController {
         return ResponseEntity.ok("成功上傳");
     }
 
+    
     @GetMapping("/photos/findImage/{id}")
     public ResponseEntity<byte[]> findImage(@PathVariable(name = "id") Integer id) {
         Photos photos = photoService.findById(id);
         if (photos != null) {
             byte[] file = photos.getPhotoFile();
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG); // 如果有其他格式图片，需根据实际情况修改
+            headers.setContentType(MediaType.IMAGE_JPEG); // 若有其他格式圖片，需依實際情況修改
             return new ResponseEntity<>(file, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -64,9 +65,9 @@ public class PhotosController {
                         Photos newPhoto = new Photos();
                         newPhoto.setId(photo.getId());
                         newPhoto.setPhotoName(photo.getPhotoName());
-                        // 直接使用 Base64 编码的图像数据
-                        newPhoto.setPhotoFile(photo.getPhotoFile()); // 假设 photoFile 是 Base64 编码字符串
-                        // 复制其他属性
+                        // 直接使用 Base64 編碼的圖像數據
+                        newPhoto.setPhotoFile(photo.getPhotoFile()); // 假設 photoFile 是 Base64 編碼字串
+                        // 複製其他屬性
                         return newPhoto;
                     })
                     .collect(Collectors.toList());

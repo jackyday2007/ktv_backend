@@ -270,8 +270,8 @@ public class RoomService {
 
 	
 	// 查詢時間範圍內的 RoomHistory
-    public List<RoomHistory> findRoomHistoryByTimeRange(Date startDate, Date endDate) {
-        return roomHistoryRepository.findByDateBetween(startDate, endDate);
+    public List<RoomHistory> findRoomHistoryByTimeRange(Date startDate, Date endDate ) {
+        return roomHistoryRepository.findByDateBetween(startDate, endDate );
     }
     
     
