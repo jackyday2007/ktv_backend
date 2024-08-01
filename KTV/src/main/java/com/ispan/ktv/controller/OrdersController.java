@@ -188,7 +188,7 @@ public class OrdersController {
 		return responseBody.toString();
 	}
 
-	// 等待
+	// 進入包廂
 	@PutMapping("/orders/inTheRoom/{id}")
 	public String inTheRoom(@PathVariable Long id, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();

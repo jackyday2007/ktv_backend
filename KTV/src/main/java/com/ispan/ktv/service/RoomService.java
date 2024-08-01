@@ -5,9 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +34,7 @@ public class RoomService {
 
 	// 新增
 	public Rooms create(String json) {
-		try {
+//		try {
 			JSONObject obj = new JSONObject(json);
 			Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
 			String size = obj.isNull("size") ? null : obj.getString("size");
@@ -52,9 +52,9 @@ public class RoomService {
 
 				return roomsRepository.save(insert);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		return null;
 	}
 

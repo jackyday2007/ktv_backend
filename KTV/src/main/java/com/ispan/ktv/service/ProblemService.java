@@ -7,9 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,8 +33,9 @@ public class ProblemService {
 	private RoomsRepository roomsRepository;
 
 // 	新增
-	public Problems create(String json) {
-		try {
+	public Problems create(String json) throws ParseException {
+//		try {
+		if (json != null) {
 			JSONObject obj = new JSONObject(json);
 			String eventCase = obj.isNull("eventCase") ? null : obj.getString("eventCase");
 			Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
@@ -60,11 +61,13 @@ public class ProblemService {
 			insert.setStatus(status);
 
 			return problemsRepository.save(insert);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
 		}
+			
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
 		return null;
 	}
 

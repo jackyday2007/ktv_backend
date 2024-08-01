@@ -4,10 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -66,7 +66,7 @@ public class RoomsController {
 	public String create(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 
-		try {
+//		try {
 			JSONObject obj = new JSONObject(body);
 			Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
 
@@ -88,9 +88,9 @@ public class RoomsController {
 					}
 				}
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 		return responseBody.toString();
 	}
 
@@ -99,7 +99,7 @@ public class RoomsController {
 	public String findByRoomId(@PathVariable(name = "pk") Integer roomId) {
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
-		try {
+//		try {
 			Rooms room = roomService.findByRoomId(roomId);
 			if (room != null) {
 				JSONObject item = new JSONObject().put("roomId", room.getRoomId()).put("size", room.getSize())
@@ -110,9 +110,9 @@ public class RoomsController {
 				array.put(item);
 			}
 			responseBody.put("list", array);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 		return responseBody.toString();
 	}
 
