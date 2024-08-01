@@ -3,16 +3,17 @@ package com.ispan.ktv.controller;
 import java.text.ParseException;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.Problems;
@@ -20,6 +21,11 @@ import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.ProblemService;
 import com.ispan.ktv.service.RoomService;
 
+
+
+
+
+@RequestMapping("/ktvbackend/")
 @RestController
 @CrossOrigin
 public class ProblemsController {
@@ -32,9 +38,9 @@ public class ProblemsController {
 
 	// 新增
 	@PostMapping("/problems/create")
-	public String create(@RequestBody String body) throws JSONException {
+	public String create(@RequestBody String body) throws ParseException {
 		JSONObject responseBody = new JSONObject();
-		try {
+//		try {
 			Problems problem = problemService.create(body);
 			if (problem == null) {
 				responseBody.put("success", false);
@@ -43,10 +49,10 @@ public class ProblemsController {
 				responseBody.put("success", true);
 				responseBody.put("message", "包廂問題新增成功✔");
 			}
-		} catch (IllegalArgumentException e) {
-			responseBody.put("success", false);
-			responseBody.put("message", "新增失敗❌" + e.getMessage() + "的包廂號碼");
-		}
+//		} catch (IllegalArgumentException e) {
+//			responseBody.put("success", false);
+//			responseBody.put("message", "新增失敗❌" + e.getMessage() + "的包廂號碼");
+//		}
 		return responseBody.toString();
 	}
 
@@ -125,9 +131,9 @@ public class ProblemsController {
 
 	// 修改資料
 	@PutMapping("/problems/modify/{problemId}")
-	public String modify(@PathVariable Integer problemId, @RequestBody String body) {
+	public String modify(@PathVariable Integer problemId, @RequestBody String body) throws JSONException, ParseException {
 	    JSONObject responseBody = new JSONObject();
-	    try {
+//	    try {
 	        JSONObject obj = new JSONObject(body);
 	        Integer bodyProblemId = obj.isNull("problemId") ? null : obj.getInt("problemId");
 	        Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
@@ -158,11 +164,11 @@ public class ProblemsController {
 	                }
 	            }
 	        }
-	    } catch (JSONException e) {
-	    	 e.printStackTrace();
-	    } catch (ParseException e) {
-	    	 e.printStackTrace();
-	    }
+//	    } catch (JSONException e) {
+//	    	 e.printStackTrace();
+//	    } catch (ParseException e) {
+//	    	 e.printStackTrace();
+//	    }
 	    return responseBody.toString();
 	}
 

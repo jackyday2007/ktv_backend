@@ -5,11 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ispan.ktv.bean.Staff;
 import com.ispan.ktv.service.StaffService;
-import com.ispan.ktv.util.JsonWebTokenUtility;
+import com.ispan.ktv.util.JwtUtil;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,7 +22,7 @@ public class OrderLoginController {
 	StaffService staffService;
 	
 	 @Autowired
-	 private JsonWebTokenUtility jsonWebTokenUtility;
+	 private JwtUtil jwtUtil;
 	 
 	 @PostMapping("/orders/login")
 	 public String login(@RequestBody String body, HttpSession httpsession) {
@@ -42,8 +43,12 @@ public class OrderLoginController {
 			 httpsession.setAttribute("user", bean);
 			 responseBody.put("message", "登入成功，歡迎使用KTV櫃台系統");
 			 responseBody.put("success", true);
-			 JSONObject user = new JSONObject().put("account", bean.getAccount());
-			 String token = jsonWebTokenUtility.createEncryptedToken( user.toString() , 1L*60*1000);
+			 //JSONObject user = new JSONObject().put("account", bean.getAccount());
+			 // 使用 JwtUtil 的 generateToken 方法
+			  // 將 account 轉換為 String
+		        String accountStr = account.toString();
+		        // 使用 String 類型的 account
+		        String token = jwtUtil.generateToken(accountStr); // 使用帳號來生成 Token
 			 responseBody.put("token", token);
 			 responseBody.put("user", bean.getAccount());
 		 }

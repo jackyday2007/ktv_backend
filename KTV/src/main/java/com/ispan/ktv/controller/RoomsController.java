@@ -4,10 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,50 +24,49 @@ import com.ispan.ktv.bean.RoomHistory;
 import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.RoomService;
 
+@RequestMapping("/ktvbackend/")
 @RestController
 @CrossOrigin
 public class RoomsController {
 
 	@Autowired
 	private RoomService roomService;
-	
+
 	// 查詢時間範圍內的 RoomHistory
 	@GetMapping("/roomHistory/findByTimeRange")
 	public String findRoomHistoryByTimeRange(
-	        @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-	        @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) throws JSONException {
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        
-	    JSONObject responseBody = new JSONObject();
-	    JSONArray array = new JSONArray();
+			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) throws JSONException {
 
-	    List<RoomHistory> histories = roomService.findRoomHistoryByTimeRange(startDate, endDate);
-	    for (RoomHistory history : histories) {
-	        JSONObject item = new JSONObject()
-	                .put("id", history.getId())
-	                .put("roomId", history.getRoom().getRoomId())
-	                .put("size",history.getRoom().getSize())
-	                .put("date", dateFormat.format(history.getDate()))
-	                .put("startTime", timeFormat.format(history.getStartTime()))
-                    .put("endTime", timeFormat.format(history.getEndTime()))
-	                .put("status", history.getStatus());
-//	                .put("createTime", history.getCreateTime());
-	        array.put(item);
-	    }
-	    responseBody.put("list", array);
-	    return responseBody.toString();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
+
+		List<RoomHistory> histories = roomService.findRoomHistoryByTimeRange(startDate, endDate);
+		for (RoomHistory history : histories) {
+			JSONObject item = new JSONObject()
+					.put("id", history.getId())
+					.put("roomId", history.getRoom().getRoomId())
+					.put("size", history.getRoom().getSize())
+					.put("date", dateFormat.format(history.getDate()))
+					.put("startTime", timeFormat.format(history.getStartTime()))
+					.put("endTime", timeFormat.format(history.getEndTime()))
+					.put("status", history.getStatus());
+			// .put("createTime", history.getCreateTime());
+			array.put(item);
+		}
+		responseBody.put("list", array);
+		return responseBody.toString();
 	}
-	
-	
 
 	// 新增
 	@PostMapping("/rooms/create")
 	public String create(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 
-		try {
+//		try {
 			JSONObject obj = new JSONObject(body);
 			Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
 
@@ -88,9 +88,9 @@ public class RoomsController {
 					}
 				}
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 		return responseBody.toString();
 	}
 
@@ -99,7 +99,7 @@ public class RoomsController {
 	public String findByRoomId(@PathVariable(name = "pk") Integer roomId) {
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
-		try {
+//		try {
 			Rooms room = roomService.findByRoomId(roomId);
 			if (room != null) {
 				JSONObject item = new JSONObject().put("roomId", room.getRoomId()).put("size", room.getSize())
@@ -110,9 +110,9 @@ public class RoomsController {
 				array.put(item);
 			}
 			responseBody.put("list", array);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 		return responseBody.toString();
 	}
 
@@ -140,36 +140,35 @@ public class RoomsController {
 		responseBody.put("list", array);
 		return responseBody.toString();
 	}
-	
-	
+
 	// size查詢
 	@GetMapping("/rooms/findByRoomSize/{roomSize}")
 	public String findByRoomSize(@PathVariable(name = "roomSize") String roomSize,
-	                             @RequestParam(defaultValue = "0") int pageNumber,
-	                             @RequestParam(defaultValue = "10") int pageSize) throws JSONException {
-	    JSONObject responseBody = new JSONObject();
-	    JSONArray array = new JSONArray();
+			@RequestParam(defaultValue = "0") int pageNumber,
+			@RequestParam(defaultValue = "10") int pageSize) throws JSONException {
+		JSONObject responseBody = new JSONObject();
+		JSONArray array = new JSONArray();
 
-	    Page<Rooms> roomPage = roomService.findRoomsBySize(roomSize, pageNumber, pageSize);
-	    for (Rooms room : roomPage.getContent()) {
-	        JSONObject item = new JSONObject()
-	                .put("roomId", room.getRoomId())
-	                .put("size", room.getSize())
-	                .put("price", room.getPrice())
-	                .put("status", room.getStatus())
-	                .put("photoFile", room.getPhotoFile())
-	                .put("createTime", room.getCreateTime())
-	                .put("createBy", room.getCreateBy())
-	                .put("updateTime", room.getUpdateTime())
-	                .put("updateBy", room.getUpdateBy());
-	        array.put(item);
-	    }
-	    responseBody.put("list", array);
-	    responseBody.put("totalPages", roomPage.getTotalPages());
-	    responseBody.put("totalElements", roomPage.getTotalElements());
-	    responseBody.put("currentPage", roomPage.getNumber());
-	    responseBody.put("pageSize", roomPage.getSize());
-	    return responseBody.toString();
+		Page<Rooms> roomPage = roomService.findRoomsBySize(roomSize, pageNumber, pageSize);
+		for (Rooms room : roomPage.getContent()) {
+			JSONObject item = new JSONObject()
+					.put("roomId", room.getRoomId())
+					.put("size", room.getSize())
+					.put("price", room.getPrice())
+					.put("status", room.getStatus())
+					.put("photoFile", room.getPhotoFile())
+					.put("createTime", room.getCreateTime())
+					.put("createBy", room.getCreateBy())
+					.put("updateTime", room.getUpdateTime())
+					.put("updateBy", room.getUpdateBy());
+			array.put(item);
+		}
+		responseBody.put("list", array);
+		responseBody.put("totalPages", roomPage.getTotalPages());
+		responseBody.put("totalElements", roomPage.getTotalElements());
+		responseBody.put("currentPage", roomPage.getNumber());
+		responseBody.put("pageSize", roomPage.getSize());
+		return responseBody.toString();
 	}
 
 	// 修改資料
@@ -217,9 +216,9 @@ public class RoomsController {
 	@PostMapping("/rooms/findAllNoPage")
 	public String findAllNoPage(@RequestBody String body) throws JSONException {
 		JSONObject responseBody = new JSONObject();
-		JSONArray array = new JSONArray(); 
-	    List<Rooms> rooms = roomService.findAllNoPage(body); // 獲取所有資料
-	    if (rooms != null && !rooms.isEmpty()) {
+		JSONArray array = new JSONArray();
+		List<Rooms> rooms = roomService.findAllNoPage(body); // 獲取所有資料
+		if (rooms != null && !rooms.isEmpty()) {
 			for (Rooms room : rooms) {
 				JSONObject item = new JSONObject()
 						.put("roomId", room.getRoomId())
@@ -240,7 +239,7 @@ public class RoomsController {
 		}
 		return responseBody.toString();
 	}
-	
+
 	// 查詢全部有分頁
 	@PostMapping("/rooms/findAll")
 	public String findAll(@RequestBody String body) throws JSONException {

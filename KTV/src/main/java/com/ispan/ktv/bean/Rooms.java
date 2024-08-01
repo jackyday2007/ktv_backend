@@ -102,7 +102,7 @@ public class Rooms {
         if ("處理中".equals(status)) {
             this.status = "維護中";
         } else if ("結案".equals(status)) {
-            this.status = "可使用";
+            this.status = "開放中";
         } else {
             this.status = status;
         }
@@ -113,7 +113,7 @@ public class Rooms {
         if ("處理中".equals(problemStatus)) {
             this.status = "維護中";
         } else if ("結案".equals(problemStatus)) {
-            this.status = "可使用";
+            this.status = "開放中";
         }
     }
 
