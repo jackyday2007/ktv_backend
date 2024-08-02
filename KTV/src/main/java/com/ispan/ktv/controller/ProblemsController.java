@@ -64,8 +64,8 @@ public class ProblemsController {
 					.put("eventCase", problem.getEventCase()).put("roomId", room.getRoomId())
 					.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
 					.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
-					.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy())
-					.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy());
+					.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy().getAccountName())
+					.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy().getAccountName());
 			array.put(item);
 		}
 		responseBody.put("list", array);
@@ -86,8 +86,8 @@ public class ProblemsController {
 						.put("eventCase", problem.getEventCase()).put("roomId", problemRoom.getRoomId())
 						.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
 						.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
-						.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy())
-						.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy());
+						.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy().getAccountName())
+						.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy().getAccountName());
 				array.put(item);
 			}
 		}
