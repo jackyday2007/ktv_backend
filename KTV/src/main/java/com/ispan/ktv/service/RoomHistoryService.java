@@ -59,11 +59,6 @@ public class RoomHistoryService {
 		return false;
 	}
 	
-	
-	
-	
-	
-	
 	// 時間區段判斷 Start
     private boolean isRoomAvailable(List<RoomHistory> histories, String startTime, String endTime) {
         for (RoomHistory history : histories) {
@@ -73,13 +68,18 @@ public class RoomHistoryService {
 
             // 檢查時間區間是否重疊
             if (isTimeOverlap(startTime, endTime, existingStartTime, existingEndTime)) {
-            	// 時間衝突，房間不可用
-                return false;
+            	if ("取消預約".equals(history.getStatus())) {
+            		return true;
+            	} else {
+            		// 時間衝突，房間不可用
+                    return false;
+            	}
             }
         }
         // 時間區間內沒有衝突，房間可用
         return true; 
     }
+	
 
     private boolean isTimeOverlap(String startTime1, String endTime1, String startTime2, String endTime2) {
         // 轉換時間字符串為時間戳（可以選擇其他格式
@@ -103,7 +103,6 @@ public class RoomHistoryService {
     }
 
     // 時間區段判斷 End
-    
     
 	private static Date convertStringToDate(String dateString) {
         // 定义日期格式
