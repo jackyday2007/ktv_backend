@@ -43,7 +43,6 @@ public class PhotosController {
         return ResponseEntity.ok("成功上傳");
     }
 
-    
     @GetMapping("/photos/findImage/{id}")
     public ResponseEntity<byte[]> findImage(@PathVariable(name = "id") Integer id) {
         Photos photos = photoService.findById(id);
@@ -79,7 +78,7 @@ public class PhotosController {
     @DeleteMapping("/photos/delete/{id}")
     public String delete(@PathVariable(name = "id") Integer id) {
         photoService.findById(id);
-        if (id == null) {
+        if (id != null) {
             return "查無ID";
         }
         photoService.delete(id);

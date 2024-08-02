@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -121,13 +122,12 @@ public class RoomsController {
 
 		return responseBody.toString();
 	}
-	
-	
+
 	@GetMapping("/rooms/checkStatus/{roomId}")
-	public String checkStatus(@PathVariable(name="roomId") Integer roomId ) {
+	public String checkStatus(@PathVariable(name = "roomId") Integer roomId) {
 		JSONObject responseBody = new JSONObject();
 		Rooms room = roomService.findByRoomId(roomId);
-		if ( room.getStatus().equals("維護中") ) {
+		if (room.getStatus().equals("維護中")) {
 			responseBody.put("success", false);
 			responseBody.put("message", "包廂維護中，請派發其他包廂");
 		} else {
@@ -136,9 +136,6 @@ public class RoomsController {
 		}
 		return responseBody.toString();
 	}
-	
-	
-	
 
 	// status查詢
 	@GetMapping("/rooms/findByRoomStatus/{status}")
@@ -207,13 +204,19 @@ public class RoomsController {
 			responseBody.put("success", false);
 			responseBody.put("message", "包廂號碼固定，無法修改⚠");
 		} else {
-			boolean hasProblem = roomService.checkRoomProblems(roomId);
+			boolean hasProblem = roomService.checkRoomProblems(roomId); // 確認包廂是否有問題
+			boolean isUsing = roomService.checkRoomUsing(roomId); // 確認包廂是否在使用中
 			JSONObject obj = new JSONObject(body);
 			String newStatus = obj.getString("status");
 
-			if (hasProblem && !"處理中".equals(newStatus)) {
+			// 先檢查是否在使用中
+			if (isUsing) {
 				responseBody.put("success", false);
-				responseBody.put("message", "包廂有問題且狀態為處理中，無法修改❌");
+				responseBody.put("message", "包廂正在使用中，無法修改⚠");
+			} else if (hasProblem && !"處理中".equals(newStatus)) {
+				// 如果有問題且新狀態不是「處理中」，返回相應錯誤
+				responseBody.put("success", false);
+				responseBody.put("message", "包廂有問題處理中，無法修改⚠");
 			} else {
 				// 更新包廂信息
 				Rooms updatedRoom = roomService.modify(body);
@@ -285,4 +288,13 @@ public class RoomsController {
 		return responseBody.toString();
 	}
 
+	@DeleteMapping("/rooms/delete/{roomId}")
+	public String delete(@PathVariable(name = "roomId") Integer roomId) {
+		roomService.findByRoomId(roomId);
+		if (roomId != null) {
+			return "查無ID~~";
+		}
+		roomService.deleteRoomsById(roomId);
+		return "刪除成功";
+	}
 }

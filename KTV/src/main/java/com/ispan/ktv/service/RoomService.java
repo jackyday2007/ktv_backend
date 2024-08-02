@@ -99,11 +99,11 @@ public class RoomService {
 
 	// Id查詢
 	public Rooms findByRoomId(Integer roomId) {
-		if (roomId != null) {
-			Optional<Rooms> optional = roomsRepository.findById(roomId);
-			if (optional.isPresent()) {
-				return optional.get();
-			}
+		// if (roomId != null) {
+		Optional<Rooms> optional = roomsRepository.findById(roomId);
+		if (optional.isPresent()) {
+			return optional.get();
+			// }
 		}
 		return null;
 	}
@@ -256,9 +256,21 @@ public class RoomService {
 		return false;
 	}
 
+	// 判斷包廂是否正在使用
+	public boolean checkRoomUsing(Integer roomId) {
+		Rooms room = roomsRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
+
+		// 假設有一個方法或屬性來檢查包廂是否正在使用中
+		return "使用中".equals(room.getStatus()); // 或者其他能反映使用中的狀態
+	}
+
 	// 刪除單筆包廂
 	public void deleteRoomsById(Integer roomId) {
-		roomsRepository.deleteById(roomId);
+		roomsRepository.findById(roomId);
+		if (roomId != null) {
+			roomsRepository.deleteById(roomId);
+		}
+		// return null;
 	}
 
 	// 查詢時間範圍內的 RoomHistory
