@@ -78,14 +78,14 @@ public class NewsController {
     /**
      * PUT映射，處理更新News的請求。
      */
-    // @PutMapping("/updateNews/{id}")
-    // public String updateNews(@PathVariable Integer id, @RequestBody News news) {
+    @PutMapping("/updateNews/{id}")
+    public String updateNews(@PathVariable Integer id, @RequestBody News news) {
 
-    // news.setNewsId(id);
-    // newsService.updateNews(id,news);
+        news.setNewsId(id);
+        newsService.updateNews(id, news);
 
-    // return "更新成功！";
-    // }
+        return "更新成功！";
+    }
 
     /**
      * 根據ID查找News。
