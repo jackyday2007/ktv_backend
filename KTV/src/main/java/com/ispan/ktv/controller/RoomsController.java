@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.RoomHistory;
 import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.RoomService;
@@ -46,8 +47,14 @@ public class RoomsController {
 
 		List<RoomHistory> histories = roomService.findRoomHistoryByTimeRange(startDate, endDate);
 		for (RoomHistory history : histories) {
+			JSONArray ordersArray = new JSONArray();
+			for (Orders order : history.getRoom().getRoomOrders()) {
+				ordersArray.put(order.getOrderId());
+			}
 			JSONObject item = new JSONObject()
 					.put("id", history.getId())
+					.put("orderId", history.getRoom().getRoomOrders().get(0).getOrderId())
+					// .put("orderIds", ordersArray)
 					.put("roomId", history.getRoom().getRoomId())
 					.put("size", history.getRoom().getSize())
 					.put("date", dateFormat.format(history.getDate()))
@@ -66,27 +73,27 @@ public class RoomsController {
 	public String create(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 
-			JSONObject obj = new JSONObject(body);
-			Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
+		JSONObject obj = new JSONObject(body);
+		Integer roomId = obj.isNull("roomId") ? null : obj.getInt("roomId");
 
-			if (roomId == null) {
+		if (roomId == null) {
+			responseBody.put("success", false);
+			responseBody.put("message", "包廂號碼是必要欄位");
+		} else {
+			if (roomService.exists(roomId)) {
 				responseBody.put("success", false);
-				responseBody.put("message", "包廂號碼是必要欄位");
+				responseBody.put("message", "包廂號碼已存在❌");
 			} else {
-				if (roomService.exists(roomId)) {
+				Rooms room = roomService.create(body);
+				if (room == null) {
 					responseBody.put("success", false);
-					responseBody.put("message", "包廂號碼已存在❌");
+					responseBody.put("message", "新增失敗");
 				} else {
-					Rooms room = roomService.create(body);
-					if (room == null) {
-						responseBody.put("success", false);
-						responseBody.put("message", "新增失敗");
-					} else {
-						responseBody.put("success", true);
-						responseBody.put("message", "新增成功✔");
-					}
+					responseBody.put("success", true);
+					responseBody.put("message", "新增成功✔");
 				}
 			}
+		}
 		return responseBody.toString();
 	}
 
@@ -96,16 +103,21 @@ public class RoomsController {
 		JSONObject responseBody = new JSONObject();
 		JSONArray array = new JSONArray();
 
-			Rooms room = roomService.findByRoomId(roomId);
-			if (room != null) {
-				JSONObject item = new JSONObject().put("roomId", room.getRoomId()).put("size", room.getSize())
-						.put("price", room.getPrice()).put("status", room.getStatus())
-						.put("photoFile", room.getPhotoFile()).put("createTime", room.getCreateTime())
-						.put("createBy", room.getCreateBy()).put("updateTime", room.getUpdateTime())
-						.put("updateBy", room.getUpdateBy());
-				array.put(item);
-			}
-			responseBody.put("list", array);
+		Rooms room = roomService.findByRoomId(roomId);
+		if (room != null) {
+			JSONObject item = new JSONObject()
+					.put("roomId", room.getRoomId())
+					.put("size", room.getSize())
+					.put("price", room.getPrice())
+					.put("status", room.getStatus())
+					.put("photoFile", room.getPhotoFile())
+					.put("createTime", room.getCreateTime())
+					.put("createBy", room.getCreateBy())
+					.put("updateTime", room.getUpdateTime())
+					.put("updateBy", room.getUpdateBy());
+			array.put(item);
+		}
+		responseBody.put("list", array);
 
 		return responseBody.toString();
 	}
@@ -170,36 +182,36 @@ public class RoomsController {
 	public String modify(@PathVariable Integer roomId, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 
-			if (roomId == null) {
+		if (roomId == null) {
+			responseBody.put("success", false);
+			responseBody.put("message", "roomId是必要欄位");
+		} else if (!roomService.exists(roomId)) {
+			responseBody.put("success", false);
+			responseBody.put("message", "包廂號碼固定，無法修改❌");
+		} else {
+			boolean hasProblem = roomService.checkRoomProblems(roomId);
+			JSONObject obj = new JSONObject(body);
+			String newStatus = obj.getString("status");
+
+			if (hasProblem && !"處理中".equals(newStatus)) {
 				responseBody.put("success", false);
-				responseBody.put("message", "roomId是必要欄位");
-			} else if (!roomService.exists(roomId)) {
-				responseBody.put("success", false);
-				responseBody.put("message", "包廂號碼固定，無法修改❌");
+				responseBody.put("message", "包廂有問題且狀態為處理中，無法修改❌");
 			} else {
-				boolean hasProblem = roomService.checkRoomProblems(roomId);
-				JSONObject obj = new JSONObject(body);
-				String newStatus = obj.getString("status");
+				// 更新包廂信息
+				Rooms updatedRoom = roomService.modify(body);
 
-				if (hasProblem && !"處理中".equals(newStatus)) {
+				// 根據問題狀態更新包廂狀態
+				roomService.updateRoomStatus(roomId, newStatus);
+
+				if (updatedRoom == null) {
 					responseBody.put("success", false);
-					responseBody.put("message", "包廂有問題且狀態為處理中，無法修改❌");
+					responseBody.put("message", "修改失敗");
 				} else {
-					// 更新包廂信息
-					Rooms updatedRoom = roomService.modify(body);
-
-					// 根據問題狀態更新包廂狀態
-					roomService.updateRoomStatus(roomId, newStatus);
-
-					if (updatedRoom == null) {
-						responseBody.put("success", false);
-						responseBody.put("message", "修改失敗");
-					} else {
-						responseBody.put("success", true);
-						responseBody.put("message", "修改成功✔");
-					}
+					responseBody.put("success", true);
+					responseBody.put("message", "修改成功✔");
 				}
 			}
+		}
 
 		return responseBody.toString();
 	}
