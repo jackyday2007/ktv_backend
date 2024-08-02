@@ -105,13 +105,6 @@ public class OrdersController {
 		return responseBody.toString();
 	}
 
-	@PostMapping("/orders/createOrderId")
-	public Orders newOrderId() {
-		String newOrderId = orderService.generateOrderId();
-		Long orderId = Long.valueOf(newOrderId);
-		return orderService.createOrderId(orderId);
-	}
-	
 	@PostMapping("/orders/testNewOrder")
 	public String testNewOrder(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
@@ -144,47 +137,6 @@ public class OrdersController {
 						} else {
 							responseBody.put("success", true);
 							responseBody.put("message", "預定成功");
-						}
-					}
-				}
-			}
-		}
-		return responseBody.toString();
-	}
-	
-	
-	// 更新
-	@PutMapping("/orders/newOrder/{id}")
-	public String newOrders(@PathVariable Long id, @RequestBody String body) {
-		JSONObject responseBody = new JSONObject();
-		JSONObject obj = new JSONObject(body);
-		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
-		Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
-		String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
-		String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
-		if (numberOfPersons == null) {
-			responseBody.put("success", false);
-			responseBody.put("message", "請填寫人數");
-		} else {
-			if (orderDate == null) {
-				responseBody.put("success", false);
-				responseBody.put("message", "請填寫預約日期");
-			} else {
-				if (hours == null) {
-					responseBody.put("success", false);
-					responseBody.put("message", "請填寫歡唱時數");
-				} else {
-					if (startTime == null) {
-						responseBody.put("success", false);
-						responseBody.put("message", "請填寫開始時間");
-					} else {
-						Orders result = orderService.updateOrders(body);
-						if (result == null) {
-							responseBody.put("success", false);
-							responseBody.put("message", "修改訂單失敗");
-						} else {
-							responseBody.put("success", true);
-							responseBody.put("message", "修改訂單成功");
 						}
 					}
 				}
