@@ -18,8 +18,9 @@ public class RoomHistoryController {
 	
 	@PostMapping("/roomCheck")
 	public String checkRoom(@RequestBody String body ) {
-		System.out.println("roomCheck.body = " + body);
+		System.out.println("checkRoom = " + body);
 		JSONObject responseBody = new JSONObject();
+		JSONObject obj = new JSONObject();
 		boolean result = roomHistoryService.checkRoomAvailable(body);
 		if ( result== false ) {
 			responseBody.put("success", false);
