@@ -31,17 +31,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-
 //控制器類，處理與最新消息相關的請求。
 
 @CrossOrigin
 @RestController
 @RequestMapping("/news")
 public class NewsController {
-    
+
     @Autowired
     private NewsService newsService;
-    
 
     /**
      * 顯示News頁面。
@@ -50,29 +48,28 @@ public class NewsController {
     public String News() {
         return "News"; // 返回News頁面的視圖名稱
     }
-    
-    
+
     /**
      * 處理新增News的請求。
      */
     @PostMapping("/addNews")
-    	    public String insertNews(@RequestBody News news) {
-    	        newsService.insertNews(news);
-    	        return "新增成功！";
-    	    }
-    
+    public String insertNews(@RequestBody News news) {
+        newsService.insertNews(news);
+        return "新增成功！";
+    }
+
     /**
      * PUT映射，處理更新News的請求。
      */
-    @PutMapping("/updateNews/{id}")
-    public String updateNews(@PathVariable Integer id, @RequestBody News news) {
+    // @PutMapping("/updateNews/{id}")
+    // public String updateNews(@PathVariable Integer id, @RequestBody News news) {
 
-        news.setNewsId(id);
-        newsService.updateNews(id,news); 
-        
-        return "更新成功！";
-    }
-    
+    // news.setNewsId(id);
+    // newsService.updateNews(id,news);
+
+    // return "更新成功！";
+    // }
+
     /**
      * 根據ID查找News。
      */
@@ -81,14 +78,14 @@ public class NewsController {
         return newsService.findNewsById(id);
     }
 
-    
     /**
      * 顯示所有News。
      */
     @GetMapping("/news")
     public List<News> showAllNews() {
         return newsService.findAllNews();
-    }  
+    }
+
     /**
      * 根據頁碼顯示分頁News列表。
      */
@@ -96,7 +93,7 @@ public class NewsController {
     public Page<News> showPage(@RequestParam(defaultValue = "1") Integer pageNumber) {
         return newsService.findByPage(pageNumber);
     }
-    
+
     /**
      * 根據標題關鍵字進行模糊查詢News的映射。
      */
@@ -104,25 +101,29 @@ public class NewsController {
     public String searchByTitle(
             @RequestParam(value = "keyword", required = false) String keyword,
             Model model) {
-        
+
         if (keyword != null && !keyword.isEmpty()) {
             // 如果提供了關鍵字，則使用NewsService根據標題進行模糊查詢
             List<News> newsList = newsService.findNewsByTitle(keyword);
             model.addAttribute("searchResults", newsList); // 將查詢結果添加到模型中
         }
-        
+
         return "News/searchResults"; // 返回顯示模糊查詢結果的視圖名稱
     }
+
     @PutMapping("/news/remove/{id}")
     public String removeNews(@PathVariable Integer id) {
-        newsService.removeNews(id, "notuse");  // 調用 service 層的 removeNews 方法，將 status 設置為 "notuse"
+        newsService.removeNews(id, "notuse"); // 調用 service 層的 removeNews 方法，將 status 設置為 "notuse"
         return "下架成功！";
     }
+
     @PostMapping("/news/upload/{id}")
-    public String uploadImage(@PathVariable Integer id, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+    public String uploadImage(@PathVariable Integer id, @RequestParam("imageFile") MultipartFile imageFile)
+            throws IOException {
         newsService.uploadImage(id, imageFile);
         return "圖片上傳成功！";
     }
+
     /**
      * 根據 newsId 查詢圖片。
      */
@@ -137,6 +138,7 @@ public class NewsController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping("/news/{newsId}/smallImage")
     public ResponseEntity<byte[]> getNewsThumbnail(@PathVariable Integer newsId) {
         // 從資料庫中讀取 News 實體

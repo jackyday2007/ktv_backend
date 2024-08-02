@@ -34,7 +34,7 @@ public class NewsService {
     private StaffRepository staffRepo;
     @Autowired
     private StaffService staffService;
-    
+
     /**
      * 新增最新消息
      */
@@ -67,55 +67,57 @@ public class NewsService {
     /**
      * 更新消息。
      */
-    @Transactional
-    public void updateNews(Integer newsId, News updatedNews) {
+    // @Transactional
+    // public void updateNews(Integer newsId, News updatedNews) {
 
-        Optional<News> optionalNews = newsRepo.findById(newsId);
-        
+    // Optional<News> optionalNews = newsRepo.findById(newsId);
 
-        if (optionalNews.isPresent()) {
-            JSONObject updateData = new JSONObject();
-            JSON
-            
-            
-            // 更新需要修改的屬性
-            updateData.setTitle(updatedNews.getTitle());
-            updateData.setContent(updatedNews.getContent());
-            updateData.setUrl(updatedNews.getUrl());
-            updateData.setStartDate(updatedNews.getStartDate());
-            updateData.setEndDate(updatedNews.getEndDate());
-            updateData.setStatus(updatedNews.getStatus());
-            updateData.setImage(updatedNews.getImage());
-            updateData.setActivityStartDate(updatedNews.getActivityStartDate());
-            updateData.setUpdateBy(updatedNews.getUpdateBy().getAccountName());
-            // 更新 staff 信息
-            
+    // if (optionalNews.isPresent()) {
+    // JSONObject updateData = new JSONObject();
+    // JSON
 
-            // 更新更新時間
-            updateData.setUpdateTime(new Date());
-            Date currentDateTime = new Date();
-            // 檢查結束時間不能比當前時間早
-            LocalDate currentLocalDate = currentDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate endLocalDate = updatedNews.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            if (endLocalDate.isBefore(currentLocalDate) && !endLocalDate.equals(currentLocalDate)) {
-                throw new IllegalArgumentException("結束日期不能比當前日期早");
-            }
+    // // 更新需要修改的屬性
+    // updateData.setTitle(updatedNews.getTitle());
+    // updateData.setContent(updatedNews.getContent());
+    // updateData.setUrl(updatedNews.getUrl());
+    // updateData.setStartDate(updatedNews.getStartDate());
+    // updateData.setEndDate(updatedNews.getEndDate());
+    // updateData.setStatus(updatedNews.getStatus());
+    // updateData.setImage(updatedNews.getImage());
+    // updateData.setActivityStartDate(updatedNews.getActivityStartDate());
+    // updateData.setUpdateBy(updatedNews.getUpdateBy().getAccountName());
+    // // 更新 staff 信息
 
-            // 檢查結束時間不能比開始時間早
-            if (updatedNews.getStartDate() != null) {
-                LocalDate startLocalDate = updatedNews.getStartDate().toInstant().atZone(ZoneId.systemDefault())
-                        .toLocalDate();
-                if (endLocalDate.isBefore(startLocalDate) && !endLocalDate.equals(startLocalDate)) {
-                    throw new IllegalArgumentException("結束日期不能比開始日期早");
-                }
-            }
+    // // 更新更新時間
+    // updateData.setUpdateTime(new Date());
+    // Date currentDateTime = new Date();
+    // // 檢查結束時間不能比當前時間早
+    // LocalDate currentLocalDate =
+    // currentDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    // LocalDate endLocalDate =
+    // updatedNews.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    // if (endLocalDate.isBefore(currentLocalDate) &&
+    // !endLocalDate.equals(currentLocalDate)) {
+    // throw new IllegalArgumentException("結束日期不能比當前日期早");
+    // }
 
-            // 保存更新
-            newsRepo.save(updateData);
-        } else {
-            throw new RuntimeException("News with ID " + newsId + " not found");
-        }
-    }
+    // // 檢查結束時間不能比開始時間早
+    // if (updatedNews.getStartDate() != null) {
+    // LocalDate startLocalDate =
+    // updatedNews.getStartDate().toInstant().atZone(ZoneId.systemDefault())
+    // .toLocalDate();
+    // if (endLocalDate.isBefore(startLocalDate) &&
+    // !endLocalDate.equals(startLocalDate)) {
+    // throw new IllegalArgumentException("結束日期不能比開始日期早");
+    // }
+    // }
+
+    // // 保存更新
+    // newsRepo.save(updateData);
+    // } else {
+    // throw new RuntimeException("News with ID " + newsId + " not found");
+    // }
+    // }
 
     /**
      * 根據新聞ID查詢最新消息。
