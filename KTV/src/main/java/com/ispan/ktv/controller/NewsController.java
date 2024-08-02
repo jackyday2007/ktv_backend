@@ -1,11 +1,22 @@
 package com.ispan.ktv.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import net.coobird.thumbnailator.Thumbnails;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.expression.ParseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,8 +34,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ispan.ktv.bean.News;
+import com.ispan.ktv.bean.Problems;
+import com.ispan.ktv.bean.Staff;
 import com.ispan.ktv.repository.NewsRepository;
 import com.ispan.ktv.service.NewsService;
+import com.ispan.ktv.service.StaffService;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -40,6 +55,8 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
+    @Autowired
+    private StaffService staffService;
 
     /**
      * 顯示News頁面。
@@ -73,17 +90,60 @@ public class NewsController {
     /**
      * 根據ID查找News。
      */
-    @GetMapping("/news/find/{id}")
-    public News findNewsById(@PathVariable Integer id) {
-        return newsService.findNewsById(id);
+    @GetMapping("/find/{id}")
+    public ResponseEntity<String> findNewsById(@PathVariable Integer id) {
+        News news = newsService.findNewsById(id);
+        JSONObject responseBody = new JSONObject();
+        if (news != null) {
+            JSONObject item = new JSONObject()
+                    .put("title", news.getTitle())
+                    .put("content", news.getContent())
+                    .put("status", news.getStatus())
+                    .put("startDate", news.getStartDate())
+                    .put("endDate", news.getEndDate())
+                    .put("url", news.getUrl())
+                    .put("activityStartDate", news.getActivityStartDate())
+                    .put("image", news.getImage())
+                    .put("createTime", news.getCreateTime())
+                    .put("createBy", news.getCreateBy() != null ? news.getCreateBy().getAccountName() : null)
+                    .put("updateTime", news.getUpdateTime())
+                    .put("updateBy", news.getUpdateBy() != null ? news.getUpdateBy().getAccountName() : null);
+            responseBody.put("news", item);
+            return ResponseEntity.ok(responseBody.toString());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{}"); // 返回空的 JSON 对象表示未找到
     }
 
     /**
      * 顯示所有News。
      */
     @GetMapping("/news")
-    public List<News> showAllNews() {
-        return newsService.findAllNews();
+    public String showAllNews() {
+        List<News> allNews = newsService.findAllNews();
+        JSONObject responseBody = new JSONObject();
+        JSONArray array = new JSONArray();
+        if (allNews != null && !allNews.isEmpty()) {
+            for (News news : allNews) {
+                JSONObject item = new JSONObject()
+                        .put("newsId", news.getNewsId())
+                        .put("title", news.getTitle())
+                        .put("content", news.getContent())
+                        .put("status", news.getStatus())
+                        .put("startDate", news.getStartDate())
+                        .put("endDate", news.getEndDate())
+                        .put("url", news.getUrl())
+                        .put("activityStartDate", news.getActivityStartDate())
+                        .put("image", news.getImage())
+                        .put("createTime", news.getCreateTime())
+                        .put("createBy", news.getCreateBy() != null ? news.getCreateBy().getAccountId() : null)
+                        .put("updateTime", news.getUpdateTime())
+                        .put("updateBy", news.getUpdateBy() != null ? news.getUpdateBy().getAccountId() : null);
+                array.put(item);
+            }
+            responseBody.put("list", array);
+            return responseBody.toString();
+        }
+        return "[]"; // 返回一个空数组表示没有新闻
     }
 
     /**
@@ -112,9 +172,14 @@ public class NewsController {
     }
 
     @PutMapping("/news/remove/{id}")
-    public String removeNews(@PathVariable Integer id) {
-        newsService.removeNews(id, "notuse"); // 調用 service 層的 removeNews 方法，將 status 設置為 "notuse"
-        return "下架成功！";
+    public ResponseEntity<String> removeNews(@PathVariable Integer id) {
+        try {
+            newsService.removeNews(id, "notuse");
+            return ResponseEntity.ok("下架成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("下架失败！");
+        }
     }
 
     @PostMapping("/news/upload/{id}")
