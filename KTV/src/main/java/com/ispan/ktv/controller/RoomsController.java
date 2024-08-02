@@ -205,7 +205,7 @@ public class RoomsController {
 			responseBody.put("message", "roomId是必要欄位");
 		} else if (!roomService.exists(roomId)) {
 			responseBody.put("success", false);
-			responseBody.put("message", "包廂號碼固定，無法修改❌");
+			responseBody.put("message", "包廂號碼固定，無法修改⚠");
 		} else {
 			boolean hasProblem = roomService.checkRoomProblems(roomId);
 			JSONObject obj = new JSONObject(body);

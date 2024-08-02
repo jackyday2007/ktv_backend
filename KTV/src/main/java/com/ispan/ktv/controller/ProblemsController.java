@@ -60,12 +60,18 @@ public class ProblemsController {
 		Problems problem = problemService.findProblemById(problemId);
 		if (problemId != null) {
 			Rooms room = problem.getRoom();
-			JSONObject item = new JSONObject().put("problemId", problem.getProblemId())
-					.put("eventCase", problem.getEventCase()).put("roomId", room.getRoomId())
-					.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
-					.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
-					.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy().getAccountName())
-					.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy().getAccountName());
+			JSONObject item = new JSONObject()
+					.put("problemId", problem.getProblemId())
+					.put("eventCase", problem.getEventCase())
+					.put("roomId", room.getRoomId())
+					.put("content", problem.getContent())
+					.put("eventDate", problem.getEventDate())
+					.put("closeDate", problem.getCloseDate())
+					.put("status", problem.getStatus())
+					.put("createTime", problem.getCreateTime())
+					.put("createBy", problem.getCreateBy() != null ? problem.getCreateBy().getAccountName() : null)
+					.put("updateTime", problem.getUpdateTime())
+					.put("updateBy", problem.getUpdateBy() != null ? problem.getUpdateBy().getAccountName() : null);
 			array.put(item);
 		}
 		responseBody.put("list", array);
@@ -82,12 +88,18 @@ public class ProblemsController {
 		if (problems != null) {
 			for (Problems problem : problems) {
 				Rooms problemRoom = problem.getRoom();
-				JSONObject item = new JSONObject().put("problemId", problem.getProblemId())
-						.put("eventCase", problem.getEventCase()).put("roomId", problemRoom.getRoomId())
-						.put("content", problem.getContent()).put("eventDate", problem.getEventDate())
-						.put("closeDate", problem.getCloseDate()).put("status", problem.getStatus())
-						.put("createTime", problem.getCreateTime()).put("createBy", problem.getCreateBy().getAccountName())
-						.put("updateTime", problem.getUpdateTime()).put("updateBy", problem.getUpdateBy().getAccountName());
+				JSONObject item = new JSONObject()
+						.put("problemId", problem.getProblemId())
+						.put("eventCase", problem.getEventCase())
+						.put("roomId", problemRoom.getRoomId())
+						.put("content", problem.getContent())
+						.put("eventDate", problem.getEventDate())
+						.put("closeDate", problem.getCloseDate())
+						.put("status", problem.getStatus())
+						.put("createTime", problem.getCreateTime())
+						.put("createBy", problem.getCreateBy() != null ? problem.getCreateBy().getAccountName() : null)
+						.put("updateTime", problem.getUpdateTime())
+						.put("updateBy", problem.getUpdateBy() != null ? problem.getUpdateBy().getAccountName() : null);
 				array.put(item);
 			}
 		}
@@ -115,9 +127,9 @@ public class ProblemsController {
 						.put("closeDate", problem.getCloseDate())
 						.put("status", problem.getStatus())
 						.put("createTime", problem.getCreateTime())
-						.put("createBy", problem.getCreateBy())
+						.put("createBy", problem.getCreateBy() != null ? problem.getCreateBy().getAccountName() : null)
 						.put("updateTime", problem.getUpdateTime())
-						.put("updateBy", problem.getUpdateBy());
+						.put("updateBy", problem.getUpdateBy() != null ? problem.getUpdateBy().getAccountName() : null);
 				array.put(item);
 			}
 		}
