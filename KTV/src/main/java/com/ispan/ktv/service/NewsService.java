@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ispan.ktv.bean.News;
+import com.ispan.ktv.bean.Staff;
 import com.ispan.ktv.repository.NewsRepository;
+import com.ispan.ktv.repository.StaffRepository;
 
 @Service
 @EnableScheduling
@@ -27,7 +30,11 @@ public class NewsService {
 
     @Autowired
     private NewsRepository newsRepo;
-
+    @Autowired
+    private StaffRepository staffRepo;
+    @Autowired
+    private StaffService staffService;
+    
     /**
      * 新增最新消息
      */
@@ -64,10 +71,13 @@ public class NewsService {
     public void updateNews(Integer newsId, News updatedNews) {
 
         Optional<News> optionalNews = newsRepo.findById(newsId);
+        
 
         if (optionalNews.isPresent()) {
-            News updateData = optionalNews.get();
-
+            JSONObject updateData = new JSONObject();
+            JSON
+            
+            
             // 更新需要修改的屬性
             updateData.setTitle(updatedNews.getTitle());
             updateData.setContent(updatedNews.getContent());
@@ -77,6 +87,9 @@ public class NewsService {
             updateData.setStatus(updatedNews.getStatus());
             updateData.setImage(updatedNews.getImage());
             updateData.setActivityStartDate(updatedNews.getActivityStartDate());
+            updateData.setUpdateBy(updatedNews.getUpdateBy().getAccountName());
+            // 更新 staff 信息
+            
 
             // 更新更新時間
             updateData.setUpdateTime(new Date());
