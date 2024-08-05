@@ -61,8 +61,8 @@ public class RoomsController {
 					.put("date", dateFormat.format(history.getDate()))
 					.put("startTime", timeFormat.format(history.getStartTime()))
 					.put("endTime", timeFormat.format(history.getEndTime()))
-					.put("status", history.getStatus());
-			// .put("createTime", history.getCreateTime());
+					.put("status", history.getStatus())
+					.put("createTime", timeFormat.format(history.getCreateTime()));
 			array.put(item);
 		}
 		responseBody.put("list", array);

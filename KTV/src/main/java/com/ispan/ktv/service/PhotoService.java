@@ -14,33 +14,33 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class PhotoService {
-	
+
 	@Autowired
 	private PhotosRepository photosRepo;
-	
+
 	public Photos insertPhoto(Photos photos) {
 		return photosRepo.save(photos);
 	}
-	
+
 	public Photos findById(Integer id) {
 		Optional<Photos> optional = photosRepo.findById(id);
-		if(optional.isEmpty()) {
+		if (optional.isEmpty()) {
 			return null;
 		}
 		return optional.get();
 	}
-	
-	public List<Photos> findAll(){
+
+	public List<Photos> findAll() {
 		return photosRepo.findAll();
 	}
-	
+
 	public void delete(Integer id) {
-		photosRepo.findById(id);
-		if(id != null) {
-			photosRepo.deleteById(id);
-		}
+		// photosRepo.findById(id);
+		// if (id != null) {
+		photosRepo.deleteById(id);
+		// }
 	}
-	
+
 	public List<Photos> insertPhotos(List<Photos> photosList) {
 		return photosRepo.saveAll(photosList);
 	}
