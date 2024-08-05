@@ -178,7 +178,7 @@ public class NewsController {
             return ResponseEntity.ok("下架成功！");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("下架失败！");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("下架失敗！");
         }
     }
 
