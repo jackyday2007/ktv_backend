@@ -85,7 +85,6 @@ public class NewsService {
             updateData.setStartDate(updatedNews.getStartDate());
             updateData.setEndDate(updatedNews.getEndDate());
             updateData.setStatus(updatedNews.getStatus());
-            updateData.setImage(updatedNews.getImage());
             updateData.setActivityStartDate(updatedNews.getActivityStartDate());
             updateData.setUpdateBy(updatedNews.getUpdateBy());
             // 更新 staff 信息
@@ -241,15 +240,15 @@ public class NewsService {
             System.out.println("開始日期: " + startDate);
             System.out.println("結束日期: " + endDate);
 
-            if (currentLocalDate.isBefore(startDate)) {
-                // 當前日期在開始日期之前，狀態設置為 notuse或其他適當狀態
-                System.out.println("當前日期在開始日期之前，狀態設置為 notuse");
-                news.setStatus("notuse");
-            } else if (currentLocalDate.isAfter(endDate)) {
-                // 當前日期在結束日期之後，狀態設置為 notuse
-                System.out.println("當前日期在結束日期之後，狀態設置為 notuse");
-                news.setStatus("notuse");
-            } else {
+            if (currentLocalDate.isBefore(startDate) && !"notuse".equals(news.getStatus())) {
+                // 當前日期在開始日期之前，狀態設置為 stop或其他適當狀態
+                System.out.println("當前日期在開始日期之前，狀態設置為 stop");
+                news.setStatus("stop");
+            } else if (currentLocalDate.isAfter(endDate) && !"notuse".equals(news.getStatus())) {
+                // 當前日期在結束日期之後，狀態設置為 stop
+                System.out.println("當前日期在結束日期之後，狀態設置為 stop");
+                news.setStatus("stop");
+            } else if (!"notuse".equals(news.getStatus())) {
                 // 當前日期在開始日期和結束日期之間（包括兩者），狀態設置為 active
                 System.out.println("當前日期在開始日期和結束日期之間（包括兩者），狀態設置為 active");
                 news.setStatus("active");

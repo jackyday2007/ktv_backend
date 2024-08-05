@@ -77,8 +77,8 @@ public class PhotosController {
 
     @DeleteMapping("/photos/delete/{id}")
     public String delete(@PathVariable(name = "id") Integer id) {
-        photoService.findById(id);
-        if (id != null) {
+        Photos photos = photoService.findById(id);
+        if (photos == null) {
             return "查無ID";
         }
         photoService.delete(id);
