@@ -40,4 +40,8 @@ public class PhotoService {
 			photosRepo.deleteById(id);
 		}
 	}
+	
+	public List<Photos> insertPhotos(List<Photos> photosList) {
+		return photosRepo.saveAll(photosList);
+	}
 }

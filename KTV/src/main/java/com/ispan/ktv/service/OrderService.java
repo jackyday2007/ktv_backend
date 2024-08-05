@@ -2,7 +2,6 @@ package com.ispan.ktv.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -178,6 +177,9 @@ public class OrderService {
 				for ( Rooms roomId : rooms ) {
 					List<RoomHistory> histories = roomHistoryRepository.findRoomHistoryWhithDateAndRoom(date, roomId);
 					if ( isRoomAvailable(histories, startTime, endTimeString) ) {
+						if ( roomId.getStatus().equals("維護中") ) {
+							continue;
+						}
 						RoomHistory roomHistory = new RoomHistory();
 						roomHistory.setDate(date);
 						roomHistory.setRoom(roomId);
@@ -185,10 +187,8 @@ public class OrderService {
 						roomHistory.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
 						roomHistory.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
 						roomHistory.setStatus("預約");
-						RoomHistory rh = roomHistoryRepository.save(roomHistory);
-						if ( rh != null ) {
-							break;
-						}
+						roomHistoryRepository.save(roomHistory);
+						break;
 					}
 				}
 				Orders answer = ordersRepository.save(orders);
@@ -207,20 +207,25 @@ public class OrderService {
     // 時間區段判斷 Start
     private boolean isRoomAvailable(List<RoomHistory> histories, String startTime, String endTime) {
         for (RoomHistory history : histories) {
+        	System.out.println("history = " + history);
             // 獲取已存在的預訂的開始時間和結束時間
             String existingStartTime = DatetimeConverter.toString(history.getStartTime(), "HH:mm");
             String existingEndTime = DatetimeConverter.toString(history.getEndTime(), "HH:mm");
-
+            boolean check= isTimeOverlap(startTime, endTime, existingStartTime, existingEndTime);
             // 檢查時間區間是否重疊
-            if (isTimeOverlap(startTime, endTime, existingStartTime, existingEndTime)) {
-            	// 時間衝突，房間不可用
-                return false;
+            if (check) {
+            	// 如果存在取消预约的记录，则房间可用
+				if ("取消預約".equals(history.getStatus())) {
+					return true;
+				} else {
+					return false;
+				}
             }
         }
         // 時間區間內沒有衝突，房間可用
         return true; 
     }
-
+    
     private boolean isTimeOverlap(String startTime1, String endTime1, String startTime2, String endTime2) {
         // 轉換時間字符串為時間戳（可以選擇其他格式
         long start1 = parseTimeToTimestamp(startTime1);
@@ -294,57 +299,6 @@ public class OrderService {
 		return null;
 	}
 
-	// 修改預約
-	public Orders updateOrders(String body) {
-		JSONObject obj = new JSONObject(body);
-		Customers customerId = null;
-		Members memberId = null;
-		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
-		Integer findCustomerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
-		Optional<Customers> checkCustomerId = findCustomerId != null ? customersRepository.findById(findCustomerId)
-				: Optional.empty();
-		if (checkCustomerId.isPresent()) {
-			customerId = checkCustomerId.get();
-		} else {
-			customerId = null;
-		}
-		Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
-		Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId)
-				: Optional.empty();
-		if (checkMemberId.isPresent()) {
-			memberId = checkMemberId.get();
-		} else {
-			memberId = null;
-		}
-		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
-		String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
-		Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
-		String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
-		Optional<Orders> optional = ordersRepository.findById(orderId);
-		if (optional.isPresent()) {
-			Orders update = optional.get();
-			update.setCustomerId(customerId);
-			update.setMemberId(memberId);
-			update.setNumberOfPersons(numberOfPersons);
-			update.setOrderDate(DatetimeConverter.parse(orderDate, "yyyy-MM-dd"));
-			update.setHours(hours);
-			update.setStartTime(DatetimeConverter.parse(startTime, "HH:mm"));
-			if (startTime != null && hours != null) {
-				LocalTime start = LocalTime.parse(startTime);
-				LocalTime end = start.plusHours(hours);
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-				String endTimeString = end.format(formatter);
-				update.setEndTime(DatetimeConverter.parse(endTimeString, "HH:mm"));
-			}
-			if ( memberId != null ) {
-				update.setUpdateBy(String.valueOf(memberId.getMemberId()));
-				update.setUpdateTime(Date.from(Instant.now()));
-			}
-			return ordersRepository.save(update);
-		}
-		return null;
-	}
-
 	// 入場
 	public Orders inTheRoom(String body) {
 		JSONObject obj = new JSONObject(body);
@@ -352,8 +306,8 @@ public class OrderService {
 		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
 		Integer findMemberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
 		Integer findRoom = obj.isNull("room") ? null : obj.getInt("room");
-		Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId)
-				: Optional.empty();
+		Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
+		Optional<Members> checkMemberId = findMemberId != null ? membersRepository.findById(findMemberId) : Optional.empty();
 		Optional<Rooms> room = findRoom != null ? roomsRepository.findById(findRoom) : Optional.empty();
 		if (checkMemberId.isPresent()) {
 			memberId = checkMemberId.get();
@@ -367,36 +321,43 @@ public class OrderService {
 			update.setRoom(room.get());
 			Orders result = ordersRepository.save(update);
 			if (result.getOrderId() != null) {
-				String OrderDetailId = randomNumber(6);
 				OrdersStatusHistory history = new OrdersStatusHistory();
-				OrderDetails orderDetails = new OrderDetails();
-				Rooms roomStatus = room.get();
 				history.setOrderId(result);
 				history.setStatus("消費中");
+				ordersStatusHistoryRepo.save(history);
+				OrderDetails orderDetails = new OrderDetails();
+				String OrderDetailId = randomNumber(6);
 				orderDetails.setOrderDetailId(Integer.valueOf(OrderDetailId));
 				orderDetails.setOrderId(result);
 				orderDetails.setPrice(room.get().getPrice());
-				orderDetails.setItem("包廂費(" + room.get().getSize() + ")");
+				orderDetails.setItem("包廂費(" + room.get().getSize() + ") - " + hours + "小時");
 				orderDetails.setQuantity(1);
-				orderDetails.setSubTotal(room.get().getPrice());
-				roomStatus.setStatus("使用中");
-				ordersStatusHistoryRepo.save(history);
+				if (room.get().getSize().equals("大")) {
+					Integer overtime= hours - 3;
+					orderDetails.setSubTotal(room.get().getPrice() + (Double.valueOf(overtime)*2000));
+				} else if ( room.get().getSize().equals("中") ) {
+					Integer overtime= hours - 3;
+					orderDetails.setSubTotal(room.get().getPrice() + (Double.valueOf(overtime)*1500));
+				} else {
+					Integer overtime= hours - 3;
+					orderDetails.setSubTotal(room.get().getPrice() + (Double.valueOf(overtime)*1000));
+				}
 				orderDetailsRepo.save(orderDetails);
+				RoomHistory roomHistory = new RoomHistory();
+				roomHistory.setRoom(room.get());
+				roomHistory.setDate(update.getOrderDate());
+				roomHistory.setStartTime(update.getStartTime());
+				roomHistory.setEndTime(update.getEndTime());
+				roomHistory.setStatus("使用中");
+				roomHistoryRepository.save(roomHistory);
+				Rooms roomStatus = room.get();
+				roomStatus.setStatus("使用中");
 				roomsRepository.save(roomStatus);
 				return result;
 			}
 		}
 		return null;
 	}
-
-	@Transactional
-	public Orders createOrderId(Long id) {
-		Orders order = new Orders();
-		order.setOrderId(id);
-		return ordersRepository.save(order);
-	}
-
-	
 
 	// 產生訂單編號
 	public String generateOrderId() {

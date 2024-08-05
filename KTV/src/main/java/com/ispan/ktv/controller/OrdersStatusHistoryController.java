@@ -21,7 +21,6 @@ public class OrdersStatusHistoryController {
 	
 	@PostMapping("/orders/noCheckIn/{id}")
 	public String checkIn(@PathVariable Long id) {
-		System.out.println("onCheckIn = " + id);
 		JSONObject responseBody = new JSONObject();
 		OrdersStatusHistory result = oshService.noCheckIn(id);
 		if (result != null) {

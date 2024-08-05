@@ -2,14 +2,15 @@ package com.ispan.ktv.service;
 
 import java.util.Optional;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.OrdersStatusHistory;
+import com.ispan.ktv.bean.RoomHistory;
 import com.ispan.ktv.repository.OrdersRepository;
 import com.ispan.ktv.repository.OrdersStatusHistoryRepository;
+import com.ispan.ktv.repository.RoomHistoryRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -22,6 +23,9 @@ public class OrdersStatusHistoryService {
 	
 	@Autowired
 	private OrdersRepository ordersRepository;
+	
+	@Autowired
+	private RoomHistoryRepository roomHistoryRepository;
 	
 	
 	
@@ -38,17 +42,21 @@ public class OrdersStatusHistoryService {
 	
 	// 取消預約
 	public OrdersStatusHistory noCheckIn(Long orderId) {
-//		JSONObject obj = new JSONObject(body);
-//		Long orderId = obj.isNull("orderId") ? null : obj.getLong("orderId");
 		Optional<Orders> optional = ordersRepository.findById(orderId);
 		if ( optional.isPresent() ) {
 			Orders update = optional.get();
-			OrdersStatusHistory history = new OrdersStatusHistory();
 			if ( update != null ) {
+				RoomHistory roomHistory = new RoomHistory();
+				OrdersStatusHistory history = new OrdersStatusHistory();
 				history.setOrderId(update);
 				history.setStatus("取消預約");
-				OrdersStatusHistory result = OrdersStatusHistoryRepo.save(history);
-				return result;
+				roomHistory.setRoom(update.getRoom());
+				roomHistory.setDate(update.getOrderDate());
+				roomHistory.setStartTime(update.getStartTime());
+				roomHistory.setEndTime(update.getEndTime());
+				roomHistory.setStatus("取消預約");
+				roomHistoryRepository.save(roomHistory);
+				return OrdersStatusHistoryRepo.save(history);
 			}
 		}
 		return null;

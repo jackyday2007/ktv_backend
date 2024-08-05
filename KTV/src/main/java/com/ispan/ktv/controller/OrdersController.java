@@ -33,7 +33,7 @@ public class OrdersController {
 
 	@Autowired
 	private OrderDetailsService orderDetailsService;
-
+	
 	@GetMapping("/orders/{ordersId}")
 	public String findByOrdersId(@PathVariable(name = "ordersId") Long ordersId) {
 		JSONObject responseBody = new JSONObject();
@@ -105,49 +105,29 @@ public class OrdersController {
 		return responseBody.toString();
 	}
 
-	@PostMapping("/orders/createOrderId")
-	public Orders newOrderId() {
-		String newOrderId = orderService.generateOrderId();
-		Long orderId = Long.valueOf(newOrderId);
-		return orderService.createOrderId(orderId);
-	}
-	
-	
-	// 更新
-	@PutMapping("/orders/newOrder/{id}")
-	public String newOrders(@PathVariable Long id, @RequestBody String body) {
+	@PostMapping("/orders/testNewOrder")
+	public String testNewOrder(@RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
 		JSONObject obj = new JSONObject(body);
-		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
-		Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
-		String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
-		String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
-		if (numberOfPersons == null) {
+		JSONArray array = new JSONArray();
+		Integer customerId = obj.isNull("customerId") ? null : obj.getInt("customerId");
+		Integer memberId = obj.isNull("memberId") ? null : obj.getInt("memberId");
+		if (customerId == null && memberId == null ) {
+			JSONObject item = new JSONObject();
+			item.put("customerId", "");
+			item.put("memberId", "");
+			array.put(item);
 			responseBody.put("success", false);
-			responseBody.put("message", "請填寫人數");
+			responseBody.put("message", "請填寫客戶資料或是會員編號");
+			responseBody.put("list", array);
 		} else {
-			if (orderDate == null) {
+			Orders result = orderService.createNewOrder(body);
+			if (result == null) {
 				responseBody.put("success", false);
-				responseBody.put("message", "請填寫預約日期");
+				responseBody.put("message", "預定失敗");
 			} else {
-				if (hours == null) {
-					responseBody.put("success", false);
-					responseBody.put("message", "請填寫歡唱時數");
-				} else {
-					if (startTime == null) {
-						responseBody.put("success", false);
-						responseBody.put("message", "請填寫開始時間");
-					} else {
-						Orders result = orderService.updateOrders(body);
-						if (result == null) {
-							responseBody.put("success", false);
-							responseBody.put("message", "修改訂單失敗");
-						} else {
-							responseBody.put("success", true);
-							responseBody.put("message", "修改訂單成功");
-						}
-					}
-				}
+				responseBody.put("success", true);
+				responseBody.put("message", "預定成功");
 			}
 		}
 		return responseBody.toString();
@@ -188,7 +168,7 @@ public class OrdersController {
 		return responseBody.toString();
 	}
 
-	// 等待
+	// 進入包廂
 	@PutMapping("/orders/inTheRoom/{id}")
 	public String inTheRoom(@PathVariable Long id, @RequestBody String body) {
 		JSONObject responseBody = new JSONObject();
@@ -210,43 +190,6 @@ public class OrdersController {
 		return responseBody.toString();
 	}
 
-	@PostMapping("/orders/testNewOrder")
-	public String testNewOrder(@RequestBody String body) {
-		JSONObject responseBody = new JSONObject();
-		JSONObject obj = new JSONObject(body);
-		Integer numberOfPersons = obj.isNull("numberOfPersons") ? null : obj.getInt("numberOfPersons");
-		Integer hours = obj.isNull("hours") ? null : obj.getInt("hours");
-		String orderDate = obj.isNull("orderDate") ? null : obj.getString("orderDate");
-		String startTime = obj.isNull("startTime") ? null : obj.getString("startTime");
-		if (numberOfPersons == null) {
-			responseBody.put("success", false);
-			responseBody.put("message", "請填寫人數");
-		} else {
-			if (orderDate == null) {
-				responseBody.put("success", false);
-				responseBody.put("message", "請填寫預約日期");
-			} else {
-				if (hours == null) {
-					responseBody.put("success", false);
-					responseBody.put("message", "請填寫歡唱時數");
-				} else {
-					if (startTime == null) {
-						responseBody.put("success", false);
-						responseBody.put("message", "請填寫開始時間");
-					} else {
-						Orders result = orderService.createNewOrder(body);
-						if (result == null) {
-							responseBody.put("success", false);
-							responseBody.put("message", "預定失敗");
-						} else {
-							responseBody.put("success", true);
-							responseBody.put("message", "預定成功");
-						}
-					}
-				}
-			}
-		}
-		return responseBody.toString();
-	}
+	
 
 }
