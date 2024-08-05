@@ -75,6 +75,7 @@ public class NewsController {
      */
     @GetMapping("/news/find/{id}")
     public News findNewsById(@PathVariable Integer id) {
+    	System.out.println("id = " + id);
         return newsService.findNewsById(id);
     }
 

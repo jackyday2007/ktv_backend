@@ -91,7 +91,7 @@ public class MemberController {
             String token = jwtUtil.generateToken(member.getIdNumber());
             return ResponseEntity.ok(Collections.singletonMap("token", token));
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("無效證件");
         }
     }
 
@@ -130,7 +130,7 @@ public class MemberController {
 
         // 生成重設密碼的 token 和連結
         String token = memberService.createPasswordResetToken(member);
-        String resetLink = "http://localhost:5173/reset-password?token=" + token;
+        String resetLink = "http://192.168.23.87:6173/reset-password?token=" + token;
 
         // 發送包含重設密碼連結的郵件
         memberService.sendPasswordResetEmail(member.getEmail(), resetLink);
