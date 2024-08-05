@@ -29,7 +29,7 @@ public class MemberService {
         Members member = memberRepository.findByIdNumber(idNumber);
         return member != null && passwordEncoder.matches(password, member.getPassword());
     }
-
+    
     public Members findByIdNumber(String idNumber) {
         return memberRepository.findByIdNumber(idNumber);
     }

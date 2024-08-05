@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ispan.ktv.bean.Members;
 import com.ispan.ktv.service.MemberService;
+import com.ispan.ktv.util.ChangePasswordRequest;
 import com.ispan.ktv.util.JwtUtil;
 import com.ispan.ktv.util.LoginRequest;
 import com.ispan.ktv.util.PasswordResetRequest;
@@ -91,7 +92,7 @@ public class MemberController {
             String token = jwtUtil.generateToken(member.getIdNumber());
             return ResponseEntity.ok(Collections.singletonMap("token", token));
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("密碼錯誤");
         }
     }
 
@@ -251,6 +252,27 @@ public class MemberController {
         headers.setContentType(MediaType.IMAGE_JPEG); // 根據實際圖片格式修改
 
         return new ResponseEntity<>(member.getImage(), headers, HttpStatus.OK);
+    }
+    
+    @CrossOrigin
+    @PutMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
+        Members member = memberService.findByIdNumber(request.getIdNumber());
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("會員不存在");
+        }
+
+        // 驗證舊密碼
+        if (!memberService.authenticate(request.getIdNumber(), request.getOldPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("舊密碼錯誤");
+        }
+
+        // 更新密碼
+        member.setPassword(memberService.encryptPassword(request.getNewPassword()));
+        member.setUpdateTime(new Date()); // 更新時間
+        memberService.save(member);
+
+        return ResponseEntity.ok("密碼更新成功");
     }
 
 }
