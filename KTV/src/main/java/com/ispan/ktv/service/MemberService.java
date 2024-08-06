@@ -41,7 +41,7 @@ public class MemberService {
     public String createPasswordResetToken(Members member) {
         String token = UUID.randomUUID().toString();
         member.setResetPasswordToken(token);
-        member.setResetPasswordTokenExpiry(new Date(System.currentTimeMillis() + 3600000));  // 1 小時過期
+        member.setResetPasswordTokenExpiry(new Date(System.currentTimeMillis() + 3600000)); // 1 小時過期
         memberRepository.save(member);
         return token;
     }
@@ -69,21 +69,16 @@ public class MemberService {
     public List<Members> findAllMembers() {
         return memberRepository.findAll();
     }
-    
-    
-    public Members findMemberWithPhone( String phone ) {
-    	if ( phone != null ) {
-    		Optional<Members> result = memberRepository.findMember(phone);
-    		if ( result.isPresent() ) {
-    			return result.get();
-    		}
-    	}
-    	return null;
+
+    public Members findMemberWithPhone(String phone) {
+        if (phone != null) {
+            Optional<Members> result = memberRepository.findMember(phone);
+            if (result.isPresent()) {
+                return result.get();
+            }
+        }
+        return null;
     }
-    
-    
-    
-    
 
     public void delete(Members member) {
         memberRepository.delete(member);
