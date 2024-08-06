@@ -46,7 +46,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-//控制器類，處理與最新消息相關的請求。
+// 控制器類，處理與最新消息相關的請求。
 
 @CrossOrigin
 @RestController
@@ -111,7 +111,7 @@ public class NewsController {
             responseBody.put("news", item);
             return ResponseEntity.ok(responseBody.toString());
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{}"); // 返回空的 JSON 对象表示未找到
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{}"); // 返回空的 JSON 對象表示未找到
     }
 
     /**
@@ -143,7 +143,7 @@ public class NewsController {
             responseBody.put("list", array);
             return responseBody.toString();
         }
-        return "[]"; // 返回一个空数组表示没有新闻
+        return "[]"; // 返回一個空數組表示沒有新聞
     }
 
     /**
@@ -203,7 +203,12 @@ public class NewsController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+    
+    
+    
+    /**
+     * 根據 newsId 查詢小圖。
+     */
     @GetMapping("/news/{newsId}/smallImage")
     public ResponseEntity<byte[]> getNewsThumbnail(@PathVariable Integer newsId) {
         // 從資料庫中讀取 News 實體
@@ -214,7 +219,7 @@ public class NewsController {
         }
 
         try {
-            // 將二進制數據轉換為 BufferedImage
+            // 將二進位數據轉換為 BufferedImage
             ByteArrayInputStream bis = new ByteArrayInputStream(news.getImage());
             BufferedImage originalImage = ImageIO.read(bis);
 
