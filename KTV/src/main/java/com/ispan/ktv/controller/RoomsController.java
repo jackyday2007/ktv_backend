@@ -3,6 +3,7 @@ package com.ispan.ktv.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ispan.ktv.bean.Orders;
 import com.ispan.ktv.bean.RoomHistory;
 import com.ispan.ktv.bean.Rooms;
 import com.ispan.ktv.service.RoomService;
@@ -37,37 +37,41 @@ public class RoomsController {
 	// 查詢時間範圍內的 RoomHistory
 	@GetMapping("/roomHistory/findByTimeRange")
 	public String findRoomHistoryByTimeRange(
-			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) throws JSONException {
+	        @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+	        @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) throws JSONException {
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
-		JSONObject responseBody = new JSONObject();
-		JSONArray array = new JSONArray();
+	    JSONObject responseBody = new JSONObject();
+	    JSONArray array = new JSONArray();
 
-		List<RoomHistory> histories = roomService.findRoomHistoryByTimeRange(startDate, endDate);
-		for (RoomHistory history : histories) {
-			JSONArray ordersArray = new JSONArray();
-			for (Orders order : history.getRoom().getRoomOrders()) {
-				ordersArray.put(order.getOrderId());
-			}
-			JSONObject item = new JSONObject()
-					.put("id", history.getId())
-					.put("orderId", history.getRoom().getRoomOrders().get(0).getOrderId())
-					// .put("orderIds", ordersArray)
-					.put("roomId", history.getRoom().getRoomId())
-					.put("size", history.getRoom().getSize())
-					.put("date", dateFormat.format(history.getDate()))
-					.put("startTime", timeFormat.format(history.getStartTime()))
-					.put("endTime", timeFormat.format(history.getEndTime()))
-					.put("status", history.getStatus())
-					.put("createTime", timeFormat.format(history.getCreateTime()));
-			array.put(item);
-		}
-		responseBody.put("list", array);
-		return responseBody.toString();
+	    List<RoomHistory> histories = roomService.findRoomHistoryByTimeRange(startDate, endDate);
+	    for (RoomHistory history : histories) {
+	        // 使用 Stream API 來將 List<Long> 轉換為 List<String>
+	        List<String> orderIds = history.getRoom().getRoomOrders().stream()
+	                .map(order -> String.valueOf(order.getOrderId())) // 轉換 Long 為 String
+	                .collect(Collectors.toList());
+
+	        // 確保 orderIds 不為空，並取最後一個 orderId
+	        String lastOrderId = orderIds.isEmpty() ? null : orderIds.get(orderIds.size() - 1);
+
+	        JSONObject item = new JSONObject()
+	                .put("id", history.getId())
+	                .put("orderId", lastOrderId) // 使用最後一個 orderId
+	                .put("roomId", history.getRoom().getRoomId())
+	                .put("size", history.getRoom().getSize())
+	                .put("date", dateFormat.format(history.getDate()))
+	                .put("startTime", timeFormat.format(history.getStartTime()))
+	                .put("endTime", timeFormat.format(history.getEndTime()))
+	                .put("status", history.getStatus())
+	                .put("createTime", timeFormat.format(history.getCreateTime()));
+	        array.put(item);
+	    }
+	    responseBody.put("list", array);
+	    return responseBody.toString();
 	}
+
 
 	// 新增
 	@PostMapping("/rooms/create")
