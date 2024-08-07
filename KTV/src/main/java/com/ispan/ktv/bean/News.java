@@ -46,7 +46,7 @@ public class News {
 	@Column(name = "image")
 	private byte[] image;
 
-	@Column(name = "content", columnDefinition = "nvarchar(255)")
+	@Column(name = "content", columnDefinition = "nvarchar(max)")
 	private String content;
 
 	@Column(name = "activityStartDate", columnDefinition = "date")

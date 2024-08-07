@@ -3,9 +3,7 @@ package com.ispan.ktv.controller;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,14 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ispan.ktv.bean.Members;
 import com.ispan.ktv.service.MemberService;
+import com.ispan.ktv.util.ChangePasswordRequest;
 import com.ispan.ktv.util.JwtUtil;
-import com.ispan.ktv.util.LoginRequest;
 import com.ispan.ktv.util.PasswordResetRequest;
 import com.ispan.ktv.util.ResetPasswordRequest;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -252,5 +248,29 @@ public class MemberController {
 
         return new ResponseEntity<>(member.getImage(), headers, HttpStatus.OK);
     }
+    
+    @CrossOrigin
+    @PutMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
+        Members member = memberService.findByIdNumber(request.getIdNumber());
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("會員不存在");
+        }
 
+        // 驗證舊密碼
+        if (!memberService.authenticate(request.getIdNumber(), request.getOldPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("舊密碼錯誤");
+        }
+
+        // 更新密碼
+        member.setPassword(memberService.encryptPassword(request.getNewPassword()));
+        member.setUpdateTime(new Date()); // 更新時間
+        memberService.save(member);
+
+        return ResponseEntity.ok("密碼更新成功");
+    }
+
+    
+    
+    
 }
