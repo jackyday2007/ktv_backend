@@ -65,18 +65,20 @@ public class MemberController {
         return ResponseEntity.ok("註冊成功!");
     }
 
-//    @CrossOrigin
-//    @PostMapping("/login")
-//    public ResponseEntity<Members> login(@RequestBody Members member) {
-//        // 認證會員的 ID 和密碼
-//        boolean isAuthenticated = memberService.authenticate(member.getIdNumber(), member.getPassword());
-//        if (isAuthenticated) {
-//            Members authenticatedMember = memberService.findByIdNumber(member.getIdNumber());
-//            return ResponseEntity.ok(authenticatedMember);
-//        } else {
-//            return ResponseEntity.badRequest().body(null);
-//        }
-//    }
+    // @CrossOrigin
+    // @PostMapping("/login")
+    // public ResponseEntity<Members> login(@RequestBody Members member) {
+    // // 認證會員的 ID 和密碼
+    // boolean isAuthenticated = memberService.authenticate(member.getIdNumber(),
+    // member.getPassword());
+    // if (isAuthenticated) {
+    // Members authenticatedMember =
+    // memberService.findByIdNumber(member.getIdNumber());
+    // return ResponseEntity.ok(authenticatedMember);
+    // } else {
+    // return ResponseEntity.badRequest().body(null);
+    // }
+    // }
     @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Members member) {
@@ -91,19 +93,20 @@ public class MemberController {
         }
     }
 
-//    @CrossOrigin
-//    @PostMapping("/logout")
-//    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
-//        HttpSession session = request.getSession(false); // 獲取當前 session
-//        if (session != null) {
-//            session.invalidate(); // 使 session 無效
-//        }
-//        Cookie cookie = new Cookie("JSESSIONID", null); // 清除 session cookie
-//        cookie.setPath("/");
-//        cookie.setMaxAge(0);
-//        response.addCookie(cookie);
-//        return ResponseEntity.ok("登出成功");
-//    }
+    // @CrossOrigin
+    // @PostMapping("/logout")
+    // public ResponseEntity<String> logout(HttpServletRequest request,
+    // HttpServletResponse response) {
+    // HttpSession session = request.getSession(false); // 獲取當前 session
+    // if (session != null) {
+    // session.invalidate(); // 使 session 無效
+    // }
+    // Cookie cookie = new Cookie("JSESSIONID", null); // 清除 session cookie
+    // cookie.setPath("/");
+    // cookie.setMaxAge(0);
+    // response.addCookie(cookie);
+    // return ResponseEntity.ok("登出成功");
+    // }
     @CrossOrigin
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
@@ -191,6 +194,7 @@ public class MemberController {
             item.put("memberId", String.format("%06d", members.getMemberId()));
             item.put("phone", phone);
             array.put(item);
+            responseBody.put("success", true);
             responseBody.put("message", "查詢完成");
             responseBody.put("list", array);
         } else {
@@ -248,7 +252,7 @@ public class MemberController {
 
         return new ResponseEntity<>(member.getImage(), headers, HttpStatus.OK);
     }
-    
+
     @CrossOrigin
     @PutMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
@@ -270,7 +274,4 @@ public class MemberController {
         return ResponseEntity.ok("密碼更新成功");
     }
 
-    
-    
-    
 }
